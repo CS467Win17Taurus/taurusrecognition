@@ -37,14 +37,14 @@ This documentation describes the endpoints and provides examples of an expected 
 ## Divisions
 
 ### GET
-- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/divisions/getList.md): Returns list of details for all divisions
-- [/divisions?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/divisions/getDivision.md): Returns details for specified division
+- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getList.md): Returns list of details for all divisions
+- [/divisions?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getDivision.md): Returns details for specified division
 
 ### POST
-- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/divisions/post.md): Adds new division to database
+- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/post.md): Adds new division to database
 
 ### DELETE
-- [/divisions?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/divisions/delete.md): Remove division from database.
+- [/divisions?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/delete.md): Remove division from database.
 
 
 ## Awards
@@ -77,7 +77,7 @@ This documentation describes the endpoints and provides examples of an expected 
 
 ### GET
 - [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getList.md): Returns list of details for all userAwards
-- [/userAwards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getBonus.md): Returns details for specified user award
+- [/userAwards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getUserAward.md): Returns details for specified user award
 
 ### POST
 - [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/post.md): Adds new user award to database

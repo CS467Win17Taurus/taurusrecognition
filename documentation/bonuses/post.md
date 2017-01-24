@@ -14,7 +14,7 @@ http://{hostname}/api/bonuses
 
 ## Request Body
 
-- **title** *(required)*: Type of bonus
+- **amount** *(required)*: Level of bonus
 
 ---
 
