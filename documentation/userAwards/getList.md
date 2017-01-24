@@ -9,8 +9,12 @@ Returns list of details for all user awards
 ## URL Query Example
 
 ```
-http://{hostname}/api/userAwards
+http://{hostname}/api/userAwards?awardId=#&bonusId=#&deptId=#
 ```
+
+- **awardId** *(optional)*: Database id of award type
+- **bonusId** *(optional)*: Database id of bonus level
+- **deptId** *(optional)*: Database id of department
 
 ---
 
