@@ -18,7 +18,7 @@ http://{hostname}/api/users?id=12345
 
 ## Response
 
-The response will include a JSON object of the place specified
+The response will include a JSON object of the user specified
 
 - User Object:
  - **id**: Id number from database
@@ -34,7 +34,7 @@ The response will include a JSON object of the place specified
 
 ```
 {
-  "id": 12345,
+	"id": 12345,
     "fName": "Joe",
     "lName": "Black",
 	"email": "jblack@oregonstate.edu",

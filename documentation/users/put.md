@@ -14,6 +14,7 @@ http://{hostname}/api/users
 
 ## Request Body
 
+- **id** *(required)*: Long for id of user to modify
 - **fName** *(required)*: String for user's first name
 - **lName** *(required)*: String for user's last name
 - **email** *(required)*: String for user's email
