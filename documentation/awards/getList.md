@@ -19,7 +19,7 @@ http://{hostname}/api/awards
 The response will include a JSON object with an array of all award objects
 
 - Award Object:
- - **id**: Id number from database
+ - **aid**: Id number from database
  - **title**: Type of award
 
 ### JSON Object
@@ -28,11 +28,11 @@ The response will include a JSON object with an array of all award objects
 [
   {
     "id": 23490,
-    "type": "Employee of the Month"
+    "title": "Employee of the Month"
   },
   {
     "id": 76512,
-	"type": "Highest Sales"
+	"title": "Highest Sales"
   }
 ]
 ```
