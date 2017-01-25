@@ -12,7 +12,7 @@ Returns details for specified bonus
 http://{hostname}/api/bonuses?id=36990
 ```
 
-- **id** *(required)*: Database id of bonus
+- **bid** *(required)*: Database id of bonus
 
 ---
 
@@ -21,14 +21,14 @@ http://{hostname}/api/bonuses?id=36990
 The response will include a JSON object of the bonus specified
 
 - Bonus Object:
- - **id**: Id number from database
+ - **bid**: Id number from database
  - **amount**: Level of bonus
 
 ### JSON Object
 
 ```
 {
-	"id": 36990,
+	"bid": 36990,
     "amount": "$25"
 }
 
