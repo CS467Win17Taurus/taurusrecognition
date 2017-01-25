@@ -23,14 +23,14 @@ http://{hostname}/api/awards
 The response will include a JSON object of the newly created award
 
 - Award Object:
- - **id**: Id number from database
+ - **aid**: Id number from database
  - **title**: Type of award
 
 ### JSON Object
 
 ```
 {
-	"id": 23490,
-    "type": "Employee of the Month"
+	"aid": 23490,
+    "title": "Employee of the Month"
 }
 ```
