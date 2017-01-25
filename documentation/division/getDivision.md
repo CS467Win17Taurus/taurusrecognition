@@ -12,7 +12,7 @@ Returns details for specified division
 http://{hostname}/api/divisions?id=23490
 ```
 
-- **id** *(required)*: Database id of division
+- **did** *(required)*: Database id of division
 
 ---
 
@@ -21,14 +21,14 @@ http://{hostname}/api/divisions?id=23490
 The response will include a JSON object of the division specified
 
 - Division Object:
- - **id**: Id number from database
+ - **id**: did number from database
  - **name**: Name of division/department
 
 ### JSON Object
 
 ```
 {
-	"id": 23490,
+	"did": 23490,
     "name": "Finance"
 }
 
