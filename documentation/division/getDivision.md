@@ -12,7 +12,7 @@ Returns details for specified division
 http://{hostname}/api/divisions?id=23490
 ```
 
-- **did** *(required)*: Database id of division
+- **id** *(required)*: Database id of division
 
 ---
 
