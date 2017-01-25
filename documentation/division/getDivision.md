@@ -21,7 +21,7 @@ http://{hostname}/api/divisions?id=23490
 The response will include a JSON object of the division specified
 
 - Division Object:
- - **id**: did number from database
+ - **did**: did number from database
  - **name**: Name of division/department
 
 ### JSON Object
