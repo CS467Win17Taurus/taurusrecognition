@@ -27,11 +27,11 @@ The response will include a JSON object with an array of all division objects
 ```
 [
   {
-    "id": 23490,
+    "did": 23490,
     "name": "Finance"
   },
   {
-    "id": 76512,
+    "did": 76512,
 	"name": "Engineering"
   }
 ]
