@@ -21,7 +21,7 @@ http://{hostname}/api/awards?id=23490
 The response will include a JSON object of the award specified
 
 - Award Object:
- - **id**: Id number from database
+ - **aid**: Id number from database
  - **title**: Type of award
 
 ### JSON Object
@@ -29,7 +29,7 @@ The response will include a JSON object of the award specified
 ```
 {
 	"id": 23490,
-    "type": "Employee of the Month"
+    "title": "Employee of the Month"
 }
 
 ```
