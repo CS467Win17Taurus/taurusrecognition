@@ -23,14 +23,14 @@ http://{hostname}/api/divisions
 The response will include a JSON object of the newly created division
 
 - Division Object:
- - **id**: Id number from database
+ - **did**: Id number from database
  - **name**: Name of division/department
 
 ### JSON Object
 
 ```
 {
-	"id": 23490,
+	"did": 23490,
     "name": "Finance"
 }
 ```
