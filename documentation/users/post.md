@@ -17,9 +17,8 @@ http://{hostname}/api/users
 - **fName** *(required)*: String for user's first name
 - **lName** *(required)*: String for user's last name
 - **email** *(required)*: String for user's email
-- **password** *(required)*: String for user's password
-- **timeCreated** *(required)*: Date and time for when the account is created
-- **signature** *(required)*: ??? for user's signature
+- **password** *(required)*: String for user's password- 
+- **signature** *(required)*: jpg file
 - **dept** *(required)*: Long number for the division the user is in (foreign key) 
 
 ---
