@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taurus Employee Recognition</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/taurusStyle.css" rel="stylesheet">
+  </head>
+  <body>
+
+	<div class="container">
+		<div class="jumbotron">
+		  <div class="row">
+			<div class="col-sm-4">
+				<img id="coverLogo" src="fonts/Logo.png">
+			</div>
+			<div class="col-sm-8">
+				<h1 id="coverHeader">Taurus<br>Employee Recognition</h1>
+			</div>
+		  </div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<form class="form-horizontal">
+		  <div class="form-group">
+			<label for="inputEmail" class="col-sm-offset-6 col-sm-2 control-label">Email</label>
+			<div class="col-sm-4">
+			  <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="inputPassword" class="col-sm-offset-6 col-sm-2 control-label">Password</label>
+			<div class="col-sm-4">
+			  <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+			  <a id="forgotPw" href=#>Forgot Password?</a>
+			</div>
+		  </div>
+		  <div class="form-group">
+			<div class="col-sm-offset-8 col-sm-2">
+			  <button type="submit" class="btn btn-primary" id="signInBtn">Sign in</button>
+			</div>
+		  </div>
+		</form>
+	</div>
+	
+	<div class="container">
+		<a id="adminLink" href="adminTemplate.html">Admin Portal</a>
+	</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/userHome.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

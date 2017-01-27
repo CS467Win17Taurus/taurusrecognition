@@ -1,0 +1,29 @@
+.jumbotron{
+	background-color: #21618C;
+	height: 300px;
+	padding-bottom: 300px;
+}
+
+#coverHeader{
+	color: white;
+	text-align: right;
+	margin-top: 100px;
+}
+
+#coverLogo{
+	height: 196px;
+	width: 200px;
+}
+
+#forgotPw{
+	padding-top: 10px;
+}
+
+.navLogo{
+	height: 30px;
+	width: 30px;
+}
+
+.navbar{
+	height: 60px;
+}
