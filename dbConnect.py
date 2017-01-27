@@ -1,5 +1,6 @@
 import MySQLdb
 
+#creates connection to the database
 def connection():
     conn = MySQLdb.connect(host="localhost", user= "root", passwd = "467password", db = "467project")
     
