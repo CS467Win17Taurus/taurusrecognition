@@ -27,3 +27,19 @@
 .navbar{
 	height: 60px;
 }
+
+#pwordForm{
+	padding-top:30px;
+}
+
+.goodStatus{
+	font-style: italic;
+	color: green;
+	padding-top:10px;
+}
+
+.badStatus{
+	font-style: italic;
+	color: maroon;
+	padding-top:10px;
+}
