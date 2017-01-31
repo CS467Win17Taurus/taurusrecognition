@@ -28,7 +28,7 @@ The response will include a JSON object of the award specified
 
 ```
 {
-	"id": 23490,
+	"aid": 23490,
     "title": "Employee of the Month"
 }
 

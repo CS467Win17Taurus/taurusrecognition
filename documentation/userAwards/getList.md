@@ -23,11 +23,11 @@ http://{hostname}/api/userAwards?awardId=#&bonusId=#&deptId=#
 The response will include a JSON object with an array of all user award objects
 
 - User award Object:
- - **id**: Id number from database
+ - **uaid**: Id number from database
  - **recipient**: Id number of user receiving award (foreign key)
  - **giver**: Id number of user creating award (foreign key)
- - **awardId**: Id number of award type (foreign key)
- - **bonusId**: Id number of bonus level (foreign key)
+ - **awardID**: Id number of award type (foreign key)
+ - **bonusID**: Id number of bonus level (foreign key)
  - **awardDate**: Date of when the award is created
 
 ### JSON Object
@@ -35,11 +35,11 @@ The response will include a JSON object with an array of all user award objects
 ```
 [
   {
-    "id": 45600,
+    "auid": 45600,
 	"recipient": 12345,
 	"giver": 24680,
-	"awardId": 76512,
-	"bonusId": 36990,
+	"awardID": 76512,
+	"bonusID": 36990,
     "awardDate": "Oct 22, 2016 12:24:09 AM"
   },
   {

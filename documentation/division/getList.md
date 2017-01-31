@@ -19,7 +19,7 @@ http://{hostname}/api/divisions
 The response will include a JSON object with an array of all division objects
 
 - Division Object:
- - **id**: Id number from database
+ - **did**: Id number from database
  - **name**: Name of division/department
 
 ### JSON Object

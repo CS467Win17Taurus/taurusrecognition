@@ -19,7 +19,7 @@ http://{hostname}/api/bonuses
 The response will include a JSON object with an array of all bonus objects
 
 - Bonus Object:
- - **id**: Id number from database
+ - **bid**: Id number from database
  - **amount**: Level of bonus
 
 ### JSON Object
@@ -27,11 +27,11 @@ The response will include a JSON object with an array of all bonus objects
 ```
 [
   {
-    "id": 36990,
+    "bid": 36990,
     "amount": "$25"
   },
   {
-    "id": 75211,
+    "bid": 75211,
 	"amount": "$35"
   }
 ]

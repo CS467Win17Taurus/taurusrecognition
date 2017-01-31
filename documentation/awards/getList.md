@@ -27,11 +27,11 @@ The response will include a JSON object with an array of all award objects
 ```
 [
   {
-    "id": 23490,
+    "aid": 23490,
     "title": "Employee of the Month"
   },
   {
-    "id": 76512,
+    "aid": 76512,
 	"title": "Highest Sales"
   }
 ]
