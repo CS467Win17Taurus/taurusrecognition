@@ -18,7 +18,7 @@ function login()
 {
 	//Create and send request
 	var req = new XMLHttpRequest();
-	var data = {"email": null, "password": null};
+	var data = {};
 	data.email = document.getElementById("inputEmail").value;
 	data.password = document.getElementById("inputPassword").value;
 	req.open('POST', "http://httpbin.org/post", true);
