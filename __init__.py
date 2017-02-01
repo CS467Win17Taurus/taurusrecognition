@@ -3,8 +3,8 @@ from dbConnect import connection
 from readImage import read_image
 import datetime
 import time
-from shutil import copyfile
 import re
+import os
 
 app = Flask(__name__)
 
@@ -26,36 +26,53 @@ def errorByDesign():
         flash("showing error logic in header")
         return render_template("500.html", error=e)
 
-@app.route("/testIN/", methods = ["GET", "POST"])
-def testIN():
+@app.route("/api/users/", methods = ["GET", "POST", "DELETE", "PUT"])
+def getUsers():
     try:
         c, conn = connection()
     except Exception as e:
         flash(str(e))
         return render_template("500.html", error=e)     
-     
-    if request.method == "POST":        
-        # data = request.stream.read()
+    
+    app.config['UPLOAD_FOLDER'] = '/tmp/'    
+    
+    if request.method == "POST":                
         data = request.form
-        user = data["email"]
-        # user = request.form.get('email', 'nothing')
-        # user = re.sub('[@.]', '', user)
-        # ts = time.time()                
-        # filepath = "var/www/FlaskApp/FlaskApp/static/images/"
-        # complete_path= filepath + user
-        # timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
-        # with open('var/www/FlaskApp/FlaskApp/mjb.jpg', 'wb') as temp:
-            # temp.write(buff) 
-        # copyfile('var/www/FlaskApp/FlaskApp/mjb.jpg', complete_path)
-        # copyfile(file, complete_path)
-        # c.execute("INSERT INTO users (fName, lName, email, password, timeCreated) VALUES \
-        # (%s, %s, %s, %s, %s)", ('mike', 'bon', 'mbon', 'mbon', timestamp)) 
-        # c.execute("DELETE FROM users WHERE lName='bon'")
-        # conn.commit()
+        last = data["lName"]
+        email = data["email"] 
+        with conn:            
+            c.execute("SELECT * FROM users WHERE lName=%s AND email=%s", (last, email))          
+            rows = c.rowcount                    
+            if rows != 0:
+                return "User already exists"  
+                
+        user = re.sub('["@.]', '', email)
+        first = data['fName']
+        password = data['password']
+        did = data['dept']
+        file = request.files['sig']
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))        
+        ts = time.time()             
+        timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')  
+        with conn:
+            c.execute("INSERT INTO users (fName, lName, email, password, timeCreated, signature, dept) VALUES \
+            (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, user, did)) 
+        return "user successfully added"
         
-        return user
-    else:
-        return "not a post"
+    elif request.method == "DELETE":
+        id = request.args.get("id")
+        with conn:
+            c.execute("SELECT * FROM users WHERE id=%s", (id,))
+            if c.rowcount != 1:
+                return "no such user"
+            row = c.fetchone()                                  #delete signature file
+            user = row["email"]
+            user = re.sub('["@.]', '', user)
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
+            c.execute("DELETE FROM users WHERE id=%s", (id,))
+            return "User successfully deleted"
+            
+                
     
             
 @app.route("/api/admins/", methods = ["GET", "POST", "DELETE", "PUT"])    
@@ -243,6 +260,3 @@ def getAwards():
                 
 if __name__ == "__main__":
     app.run()
-
- 
-    
