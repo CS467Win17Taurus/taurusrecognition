@@ -15,12 +15,13 @@ CREATE TABLE users (id INT(11) AUTO_INCREMENT PRIMARY KEY,
                     email VARCHAR(70) NOT NULL,
                     password VARCHAR(70) NOT NULL,
                     timeCreated TIMESTAMP, 
-                    signature BLOB, 
-                    dept INT(11),    
-                    FOREIGN KEY (dept) REFERENCES division(did));
+                    signature VARCHAR(100) NOT NULL, 
+                    dept INT(11) NOT NULL,    
+                    FOREIGN KEY (dept) REFERENCES division(did),
+                    UNIQUE(lName, email));
                     
-INSERT INTO users (fName, lName, email, password, timeCreated, dept) VALUES 
-                  ("mike", "smith", "msmith@yahoo.com", "msmith", current_timestamp, 1);
+/* INSERT INTO users (fName, lName, email, password, timeCreated, dept) VALUES 
+                  ("mike", "smith", "msmith@yahoo.com", "msmith", current_timestamp, 1); */
 
 
  
@@ -59,10 +60,3 @@ CREATE TABLE userAwards ( uaid INT(11) AUTO_INCREMENT PRIMARY KEY ,
                           FOREIGN KEY (giver) REFERENCES users(id),
                           FOREIGN KEY (awardID) REFERENCES awards(aid),
                           FOREIGN KEY (bonusID) REFERENCES bonus(bid));
-
-
-
-
-
-
-                    
