@@ -157,9 +157,9 @@ def getAdmins():
                 return json_string
         
     elif request.method == "POST":
-        dict = request.get_json(force=True)
-        name = dict["adminName"]
-        pwd = dict["password"]
+        query = request.get_json(force=True)
+        name = query["adminName"]
+        pwd = query["password"]
         with conn:
             c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
             if c.rowcount == 1:
@@ -182,10 +182,10 @@ def getAdmins():
                 return "problem deleting"
     
     elif request.method == "PUT":
-        dict = request.get_json(force=True)
-        id = dict["id"]
-        name = dict["adminName"]
-        pwd = dict["password"]
+        query = request.get_json(force=True)
+        id = query["id"]
+        name = query["adminName"]
+        pwd = query["password"]
         with conn:
             c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
             if c.rowcount == 1:
@@ -218,8 +218,8 @@ def getBonus():
                 return jsonify(DICT)
                 
     elif request.method == "POST":
-        dict = request.get_json(force=True)
-        amt = dict["amount"]        
+        query = request.get_json(force=True)
+        amt = query["amount"]        
         with conn:
             c.execute("INSERT INTO bonus (amount) VALUES (%s)", (amt,))
             if c.rowcount == 1:
@@ -264,8 +264,8 @@ def getDivision():
                 return jsonify(DICT)
                 
     elif request.method == "POST":
-        dict = request.get_json(force=True)
-        name = dict["name"]        
+        query = request.get_json(force=True)
+        name = query["name"]        
         with conn:
             c.execute("INSERT INTO division (name) VALUES (%s)", (name,))
             if c.rowcount == 1:
@@ -310,8 +310,8 @@ def getAwards():
                 return jsonify(DICT)
                 
     elif request.method == "POST":
-        dict = request.get_json(force=True)
-        title = dict["title"]        
+        query = request.get_json(force=True)
+        title = query["title"]        
         with conn:
             c.execute("INSERT INTO awards (title) VALUES (%s)", (title,))
             if c.rowcount == 1:
