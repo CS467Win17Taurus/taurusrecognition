@@ -5,26 +5,41 @@ import datetime
 import time
 import re
 import os
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
-
+app.config.update(
+	DEBUG=True,
+	#EMAIL SETTINGS
+	MAIL_SERVER='smtp.gmail.com',
+	MAIL_PORT=465,
+	MAIL_USE_SSL=True,
+	MAIL_USERNAME = 'taurusrecognition',
+	MAIL_PASSWORD = 'TaurusRecognition1'
+	)
+mail = Mail(app)
 
 @app.route("/", methods = ['GET', 'POST'])
 def hello():
     return render_template("main.html")
+
+@app.route("/sendmail/", methods = ['GET', 'POST'])
+def send_mail():
+    try:
+        msg = Message("This is a test", sender="taurusrecognition@gmail.com", 
+        recipients=["mjbonney78@gmail.com"])
+        msg.body = "This is the body"
+        mail.send(msg)
+        return "ok"
+    except Exception as e:  
+        flash(e)        
+        return render_template("500.html", error=e)
+
     
 @app.errorhandler(404)
 def page_not_found(e):
     return("404 error!")
     
-@app.route("/errorByDesign/")
-def errorByDesign():
-    try:
-        render_template("errorByDesign.html", word = Dict['noSuchDict'])
-    except Exception as e:  
-        flash("testing a flash!")
-        flash("showing error logic in header")
-        return render_template("500.html", error=e)
 
 @app.route("/api/users/", methods = ["GET", "POST", "DELETE", "PUT"])
 def getUsers():
