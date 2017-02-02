@@ -49,9 +49,25 @@ def getUsers():
         flash(str(e))
         return render_template("500.html", error=e)     
     
-    app.config['UPLOAD_FOLDER'] = '/tmp/'    
+    app.config['UPLOAD_FOLDER'] = '/tmp/' 
+
+    if request.method == "GET":
+        email , action = request.args.getlist('email'), request.args.getlist('action')
+        if action[0] == 'retrieve':
+            with conn:
+                c.execute("SELECT password FROM users WHERE email=%s", (email[0],))
+                if c.rowcount == 0:
+                    return "That email is not in the system, please try again"
+                row = c.fetchone()
+                password = row["password"]                
+                msg = Message("Account Information", sender="taurusrecognition@gmail.com", 
+                              recipients=[email[0]])
+                msg.body = "Your password is " + password
+                mail.send(msg)
+                return "Password has been sent"
+        
     
-    if request.method == "POST":                
+    elif request.method == "POST":                
         data = request.form
         last = data["lName"]
         email = data["email"] 
