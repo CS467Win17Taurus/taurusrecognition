@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, url_for, redirect, json
+from flask import Flask, render_template, flash, request, url_for, redirect, json, jsonify
 from dbConnect import connection
 from readImage import read_image
 import datetime
@@ -19,22 +19,43 @@ app.config.update(
 	)
 mail = Mail(app)
 
+DICT = {
+  "status": 200,
+  "statusText": "OK",
+  "httpVersion": "HTTP/1.1",
+  "headers": [
+    {
+      "name": "Access-Control-Allow-Origin",
+      "value": "*"
+    }
+  ],
+  "cookies": [],
+  "content": {
+    "mimeType": "application/jsonp",
+    "text": "",
+    "size": 0
+  },
+  "redirectURL": "",
+  "bodySize": 0,
+  "headersSize": 0
+}
+
+
 @app.route("/", methods = ['GET', 'POST'])
 def hello():
     return render_template("main.html")
 
-@app.route("/sendmail/", methods = ['GET', 'POST'])
-def send_mail():
-    try:
-        msg = Message("This is a test", sender="taurusrecognition@gmail.com", 
-        recipients=["mjbonney78@gmail.com"])
-        msg.body = "This is the body"
-        mail.send(msg)
-        return "ok"
-    except Exception as e:  
-        flash(e)        
-        return render_template("500.html", error=e)
-
+# @app.route("/sendmail/", methods = ['GET', 'POST'])
+# def send_mail():
+    # try:
+        # msg = Message("This is a test", sender="taurusrecognition@gmail.com", 
+        # recipients=["mjbonney78@gmail.com"])
+        # msg.body = "This is the body"
+        # mail.send(msg)
+        # return "ok"
+    # except Exception as e:  
+        # flash(e)        
+        # return render_template("500.html", error=e)
     
 @app.errorhandler(404)
 def page_not_found(e):
@@ -57,14 +78,16 @@ def getUsers():
             with conn:
                 c.execute("SELECT password FROM users WHERE email=%s", (email[0],))
                 if c.rowcount == 0:
-                    return "That email is not in the system, please try again"
+                    DICT["content"]["text"] = "That email is not in the system, please try again"
+                    return jsonify(DICT)
                 row = c.fetchone()
                 password = row["password"]                
                 msg = Message("Account Information", sender="taurusrecognition@gmail.com", 
                               recipients=[email[0]])
                 msg.body = "Your password is " + password
                 mail.send(msg)
-                return "Password has been sent"
+                DICT["content"]["text"] = "Password has been sent to your email"
+                return jsonify(DICT)
         
     
     elif request.method == "POST":                
@@ -75,20 +98,24 @@ def getUsers():
             c.execute("SELECT * FROM users WHERE lName=%s AND email=%s", (last, email))          
             rows = c.rowcount                    
             if rows != 0:
-                return "User already exists"  
+                DICT["content"]["text"] = "User already exists" 
+                return jsonify(DICT)  
                 
         user = re.sub('["@.]', '', email)
         first = data['fName']
         password = data['password']
-        did = data['dept']
-        file = request.files['sig']
+        did = data['dept']        
+        file = request.files['sig']        
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))        
-        ts = time.time()             
+        ts = time.time()        
         timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')  
         with conn:
             c.execute("INSERT INTO users (fName, lName, email, password, timeCreated, signature, dept) VALUES \
             (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, user, did)) 
-        return "user successfully added"
+            c.execute("SELECT * FROM users WHERE email=%s", (email,))
+            DICT["content"]["text"] = c.fetchone() 
+            return jsonify(DICT)
+           
         
     elif request.method == "DELETE":
         id = request.args.get("id")
@@ -101,7 +128,8 @@ def getUsers():
             user = re.sub('["@.]', '', user)
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
             c.execute("DELETE FROM users WHERE id=%s", (id,))
-            return "User successfully deleted"
+            DICT["content"]["text"] = "User successfully deleted" 
+            return jsonify(DICT)
             
                 
     
@@ -119,8 +147,8 @@ def getAdmins():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM admins WHERE id=%s", (ids[0],))
-                json_string = json.dumps(c.fetchone())
-                return json_string
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             
         else:
             with conn:
@@ -136,9 +164,11 @@ def getAdmins():
             c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
-                return json.dumps(c.fetchone())
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             else:
-                return "there was an error inserting into table"
+                DICT["content"]["text"] = "There was an error inserting into table"
+                return jsonify(DICT)
     
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -146,7 +176,8 @@ def getAdmins():
         with conn:
             c.execute("DELETE FROM admins WHERE id=%s", (id,))
             if c.rowcount == 1:
-                return json.dumps("Admin successfully deleted")
+                DICT["content"]["text"] = "Admin successfully deleted"
+                return jsonify(DICT)
             else:
                 return "problem deleting"
     
@@ -158,9 +189,12 @@ def getAdmins():
         with conn:
             c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
             if c.rowcount == 1:
-                return "Admin successfully updated"
+                c.execute("SELECT * FROM admins WHERE id=%s", (id,))
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             else:
-                return "problem updating"
+                DICT["content"]["text"] = "There was an error with PUT"
+                return jsonify(DICT)
                 
 @app.route("/api/bonuses/", methods = ["GET", "POST", "DELETE", "PUT"])    
 def getBonus():
@@ -174,14 +208,14 @@ def getBonus():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM bonus WHERE bid=%s", (ids[0],))
-                json_string = json.dumps(c.fetchone())
-                return json_string
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             
         else:
             with conn:
                 c.execute("SELECT * FROM bonus")
-                json_string = json.dumps(c.fetchall())
-                return json_string
+                DICT["content"]["text"] = c.fetchall()
+                return jsonify(DICT)
                 
     elif request.method == "POST":
         dict = request.get_json(force=True)
@@ -189,10 +223,12 @@ def getBonus():
         with conn:
             c.execute("INSERT INTO bonus (amount) VALUES (%s)", (amt,))
             if c.rowcount == 1:
-                c.execute("SELECT * FROM bonus WHERE amount=%s", (amt,))
-                return json.dumps(c.fetchone())
+                c.execute("SELECT * FROM bonus WHERE amount=%s", (amt,))                
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             else:
-                return "there was an error inserting into table"
+                DICT["content"]["text"] = "Error inserting bonus"
+                return jsonify(DICT)                
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -200,9 +236,11 @@ def getBonus():
         with conn:
             c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
             if c.rowcount == 1:
-                return json.dumps("Bonus successfully deleted")
+                DICT["content"]["text"] = "Bonus successfully deleted"
+                return jsonify(DICT)
             else:
-                return "problem deleting"
+                DICT["content"]["text"] = "Error deleting bonus"
+                return jsonify(DICT)
 
 @app.route("/api/divisions/", methods = ["GET", "POST", "DELETE", "PUT"])    
 def getDivision():                
@@ -216,14 +254,14 @@ def getDivision():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM division WHERE did=%s", (ids[0],))
-                json_string = json.dumps(c.fetchone())
-                return json_string
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             
         else:
             with conn:
                 c.execute("SELECT * FROM division")
-                json_string = json.dumps(c.fetchall())
-                return json_string
+                DICT["content"]["text"] = c.fetchall()
+                return jsonify(DICT)
                 
     elif request.method == "POST":
         dict = request.get_json(force=True)
@@ -232,9 +270,11 @@ def getDivision():
             c.execute("INSERT INTO division (name) VALUES (%s)", (name,))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM division WHERE name=%s", (name,))
-                return json.dumps(c.fetchone())
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             else:
-                return "there was an error inserting into table"
+                DICT["content"]["text"] = "there was an error inserting into table"
+                return jsonify(DICT)
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -242,9 +282,11 @@ def getDivision():
         with conn:
             c.execute("DELETE FROM division WHERE did=%s", (id,))
             if c.rowcount == 1:
-                return json.dumps("Division successfully deleted")
+                DICT["content"]["text"] = "Division successfully deleted"
+                return jsonify(DICT)
             else:
-                return "problem deleting"
+                DICT["content"]["text"] = "problem deleting"
+                return jsonify(DICT)
  
 @app.route("/api/awards/", methods = ["GET", "POST", "DELETE", "PUT"])  
 def getAwards():                
@@ -258,14 +300,14 @@ def getAwards():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM awards WHERE aid=%s", (ids[0],))
-                json_string = json.dumps(c.fetchone())
-                return json_string
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             
         else:
             with conn:
                 c.execute("SELECT * FROM awards")
-                json_string = json.dumps(c.fetchall())
-                return json_string
+                DICT["content"]["text"] = c.fetchall()
+                return jsonify(DICT)
                 
     elif request.method == "POST":
         dict = request.get_json(force=True)
@@ -274,7 +316,8 @@ def getAwards():
             c.execute("INSERT INTO awards (title) VALUES (%s)", (title,))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM awards WHERE title=%s", (title,))
-                return json.dumps(c.fetchone())
+                DICT["content"]["text"] = c.fetchone()
+                return jsonify(DICT)
             else:
                 return "there was an error inserting into table"
           
@@ -284,9 +327,11 @@ def getAwards():
         with conn:
             c.execute("DELETE FROM awards WHERE aid=%s", (id,))
             if c.rowcount == 1:
-                return json.dumps("awards successfully deleted")
+                DICT["content"]["text"] = "Award successfully deleted"
+                return jsonify(DICT)
             else:
-                return "problem deleting"
+                DICT["content"]["text"] = "problem deleting"
+                return jsonify(DICT)
 
                 
 if __name__ == "__main__":
