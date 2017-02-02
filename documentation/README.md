@@ -7,6 +7,8 @@ This documentation describes the endpoints and provides examples of an expected 
 ### GET
 - [/users](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/getList.md): Returns list of details for all users
 - [/users?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/getUser.md): Returns details for specified user
+- [/users?email=&action=retrieve](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/getPword.md): Sends password to user of email and returns status message
+- [/users?email=&password=&action=login](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/getLogin.md): Returns details for specified user
 
 ### POST
 - [/users](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/post.md): Adds new user to database

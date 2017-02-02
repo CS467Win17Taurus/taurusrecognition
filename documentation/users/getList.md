@@ -24,8 +24,8 @@ The response will include a JSON object with an array of all user objects
  - **lName**: Last name of user
  - **email**: Email for user
  - **password**: Password for user
- - **timeCreated**: Date and time the user account is created
- - **signature**: Image of user's signature
+ - **timeCreated**: Date and time the user account was created
+ - **signature**: File location of user's signature
  - **dept**: Id number of department corresponding to division (foreign key)
 
 ### JSON Object
@@ -39,7 +39,7 @@ The response will include a JSON object with an array of all user objects
 	"email": "jblack@oregonstate.edu",
 	"password": "pword123",
     "timeCreated": "Oct 22, 2016 12:24:09 AM",
-    "signature": "???",
+    "signature": "http://hostname/img/blackSig.jpg",
     "dept": 3
   },
   {
@@ -49,7 +49,7 @@ The response will include a JSON object with an array of all user objects
 	"email": "jsmith@oregonstate.edu",
 	"password": "mypass1",
     "timeCreated": "Oct 22, 2016 12:26:09 AM",
-    "signature": "???",
+    "signature": "http://hostname/img/smithSig.jpg",
     "dept": 2
   }
 ]
