@@ -3,10 +3,8 @@ General functions to support front end
 User Home Page/Login
 */
 
-var USER_ID = -1;
-
 function initializePage(){
-	USER_ID = -1;
+	
 }
 
 //login
@@ -18,23 +16,33 @@ function login()
 {
 	//Create and send request
 	var req = new XMLHttpRequest();
-	var data = {};
-	data.email = document.getElementById("inputEmail").value;
-	data.password = document.getElementById("inputPassword").value;
-	req.open('POST', "http://httpbin.org/post", true);
-	req.setRequestHeader('Content-Type', 'application/json');
+
+	email = document.getElementById("inputEmail").value;
+	password = document.getElementById("inputPassword").value;
+	req.open('GET', "http://mockbin.org/bin/6f8d5595-cbb2-4ad6-97ee-4f2f46cf46e8?email=" + email + "&password=" + password, true); //Good
+	//req.open('GET', "http://mockbin.org/bin/98c424e3-1bd0-4be5-9835-45d68e073164?email=" + email + "&password=" + password, true); //Bad
 	req.addEventListener('load', function(){
 		//Check for error message
 		if (req.status >= 200 && req.status < 400)
 		{
 			var response = JSON.parse(req.responseText);
 			console.log(response);
-			window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/userTemplate.html';
+			//Update depending on actual response ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			if (response.id != -1){
+				//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/userTemplate.html';
+				window.location.href = 'userTemplate.html'; //local testing
+				logIn('user', response.id);
+			}
+			else{
+				document.getElementById("loginStatus").textContent = "Login failed, email and/or password incorrect";
+				document.getElementById("loginStatus").className = "badStatus";
+				document.getElementById("inputPassword").value = "";
+			}
 		}
 		else
 			console.log("Error in network request: " + req.StatusText);
 	});
-	req.send(JSON.stringify(data));
+	req.send();
 	event.preventDefault();
 }
 

@@ -5,9 +5,17 @@ Create Award
 
 //Initialize page by filling in select options
 function initializePage(){
-	addUserOptions();
-	addTypeOptions();
-	addAmountOptions();
+	//Check user is logged in
+	if (!checkLogIn('user_id')){
+		//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/index.html';
+		window.location.href = 'index.html'; //local testing
+	}
+	else{
+		console.log("Logged in = true");
+		addUserOptions();
+		addTypeOptions();
+		addAmountOptions();
+	}
 }
 
 //Add options to recipients based on values in db
@@ -102,7 +110,10 @@ function submitAward(){
 	
 	var data = {};
 	data.recipient = document.getElementById("user").value;
-	data.giver = "121";  //hardcoded, replace with actual user id ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	data.giver = getId('user_id');
+	//data.giver = "121";  //hardcoded, replace with actual user id ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
 	data.awardId = document.getElementById("type").value;
 	data.bonusId = document.getElementById("amount").value;
 	data.awardDate = new Date();

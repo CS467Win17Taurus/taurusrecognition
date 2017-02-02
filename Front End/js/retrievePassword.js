@@ -12,11 +12,9 @@ function cancel(){
 function submitEmail(){
 	//Create and send request
 	var req = new XMLHttpRequest();
-	
-	var data = {};
-	data.email = document.getElementById("inputEmail").value;
-
-	req.open('POST', "http://mockbin.org/bin/fb1bd010-c776-4f35-8558-7060a0c98341", true);
+	email = document.getElementById("inputEmail").value;
+	//req.open('GET', "http://138.197.7.194/api/users/?email=" + email + "&action=retrieve", true);
+	req.open('GET', "http://mockbin.org/bin/fb1bd010-c776-4f35-8558-7060a0c98341?email=" + email + "&action=retrieve", true);
 	req.addEventListener('load', function(){
 		//Check for error message
 		if (req.status >= 200 && req.status < 400)
@@ -33,7 +31,7 @@ function submitEmail(){
 		else
 			console.log("Error in network request: " + req.StatusText);
 	});
-	req.send(JSON.stringify(data));
+	req.send();
 }
 
 //Event Listeners
