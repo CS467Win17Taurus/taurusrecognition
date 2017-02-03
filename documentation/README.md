@@ -79,7 +79,9 @@ This documentation describes the endpoints and provides examples of an expected 
 
 ### GET
 - [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getList.md): Returns list of details for all userAwards
-- [/userAwards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getUserAward.md): Returns details for specified user award
+- [/userAwards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getUserAward.md): Returns details for specified user 
+award
+- [/userAwards?userId=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getListbyUser.md): Returns list of awards created by specified user
 
 ### POST
 - [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/post.md): Adds new user award to database
