@@ -3,9 +3,6 @@ General functions to support front end
 Modify User Account by User
 */
 
-var userPw = "";
-var userId = -1;
-
 //Initialize page by getting info
 function initializePage(){
 	//Check user is logged in
@@ -86,25 +83,25 @@ function validateForm(){
 	
 	//Check that fields are not empty
 	if (document.getElementById('fName').value == ""){
-		errorHTML += "Please inlcude a first name.";
+		errorHTML += "***Please inlcude a first name.";
 		numErrors++;
 	}
 	if (document.getElementById('lName').value == ""){
 		if (numErrors > 0)
 			errorHTML += "<br>";
-		errorHTML += "Please inlcude a last name.";
+		errorHTML += "***Please inlcude a last name.";
 		numErrors++;
 	}
 	if (document.getElementById('email').value == ""){
 		if (numErrors > 0)
 			errorHTML += "<br>";
-		errorHTML += "Please inlcude an email.";
+		errorHTML += "***Please inlcude an email.";
 		numErrors++;
 	}
 	if (document.getElementById('dept').value == ""){
 		if (numErrors > 0)
 			errorHTML += "<br>";
-		errorHTML += "Please select a department.";
+		errorHTML += "***Please select a department.";
 		numErrors++;
 	}
 	
@@ -124,7 +121,7 @@ function validatePassword(){
 	
 	//Check old password is correct
 	if (document.getElementById("oldPw").value != userPw){
-		errorHTML += "Current password is incorrect.";
+		errorHTML += "***Current password is incorrect.";
 		numErrors++;
 	}
 	
@@ -132,7 +129,7 @@ function validatePassword(){
 	if (document.getElementById("newPw").value != document.getElementById("newPw2").value){
 		if (numErrors > 0)
 			errorHTML += "<br>";
-		errorHTML += "New passwords do not match.";
+		errorHTML += "***New passwords do not match.";
 		numErrors++;
 	}
 	
@@ -164,17 +161,23 @@ function save(){
 function sendData(){
 	//Create and send request
 	var req = new XMLHttpRequest();
-	var data = {};
-	data.id = userId;
-	data.fName = document.getElementById("fName").value;
-	data.lName = document.getElementById("lName").value;
-	data.email = document.getElementById("email").value;
-	data.dept = document.getElementById("dept").value;
+	var data = new FormData();
+	data.append("id", userId);
+	data.append("fName", document.getElementById("fName").value);
+	data.append("lName", document.getElementById("lName").value);
+	data.append("email", document.getElementById("email").value);
+	data.append("dept", document.getElementById("dept").value);
 	
-	if (document.getElementById("sig").value != "")
-		data.signature = document.getElementById("sig").value;
+	var file = document.getElementById("sig");
+	if (file.files.length > 0){
+		//Ref: http://www.w3schools.com/jsref/prop_fileupload_files.asp
+		var thisFile = file.files[0];
+		console.log("Num files: " + file.files.length);
+		console.log("Filename: " + thisFile.name + ", Size: " + thisFile.size + ", Type: " + thisFile.type);
+		data.append("signature", thisFile);
+	}
 	if (document.getElementById("newPw").value != "")
-		data.password = document.getElementById("newPw").value;
+		data.append("password", document.getElementById("newPw").value);
 	
 	req.open('PUT', "http://mockbin.org/bin/fbca1ddd-dc5d-4a4d-9640-bc4c0e4514e5", true); 
 	req.addEventListener('load', function(){
@@ -189,9 +192,8 @@ function sendData(){
 		else
 			console.log("Error in network request: " + req.StatusText);
 	});
-	req.send(JSON.stringify(data));
+	req.send(data);
 }
-
 
 //Cancel
 function cancel(){
