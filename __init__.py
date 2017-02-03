@@ -149,14 +149,11 @@ def getAdmins():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM admins WHERE id=%s", (ids[0],))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
-            
+                text = json.dumps(c.fetchone())            
         else:
             with conn:
                 c.execute("SELECT * FROM admins")
-                json_string = json.dumps(c.fetchall())
-                return json_string
+                text = json.dumps(c.fetchall())
         
     elif request.method == "POST":
         query = request.get_json(force=True)
@@ -166,11 +163,9 @@ def getAdmins():
             c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchone())
             else:
-                DICT["content"]["text"] = "There was an error inserting into table"
-                return jsonify(DICT)
+                text = "There was an error inserting into table"                
     
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -178,10 +173,9 @@ def getAdmins():
         with conn:
             c.execute("DELETE FROM admins WHERE id=%s", (id,))
             if c.rowcount == 1:
-                DICT["content"]["text"] = "Admin successfully deleted"
-                return jsonify(DICT)
+                text = "Admin successfully deleted"                
             else:
-                return "problem deleting"
+                text = "problem deleting"
     
     elif request.method == "PUT":
         query = request.get_json(force=True)
@@ -192,11 +186,13 @@ def getAdmins():
             c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM admins WHERE id=%s", (id,))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchone())
             else:
-                DICT["content"]["text"] = "There was an error with PUT"
-                return jsonify(DICT)
+                text = "There was an error with PUT"                
+                
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp
                 
 @app.route("/api/bonuses/", methods = ["GET", "POST", "DELETE", "PUT"])    
 def getBonus():
