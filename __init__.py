@@ -210,14 +210,11 @@ def getBonus():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM bonus WHERE bid=%s", (ids[0],))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
-            
+                text = json.dumps(c.fetchone())            
         else:
             with conn:
                 c.execute("SELECT * FROM bonus")
-                DICT["content"]["text"] = c.fetchall()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
@@ -226,11 +223,9 @@ def getBonus():
             c.execute("INSERT INTO bonus (amount) VALUES (%s)", (amt,))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM bonus WHERE amount=%s", (amt,))                
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchone())
             else:
-                DICT["content"]["text"] = "Error inserting bonus"
-                return jsonify(DICT)                
+                text = "Error inserting bonus"                                
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -238,11 +233,13 @@ def getBonus():
         with conn:
             c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
             if c.rowcount == 1:
-                DICT["content"]["text"] = "Bonus successfully deleted"
-                return jsonify(DICT)
+                text = "Bonus successfully deleted"                
             else:
-                DICT["content"]["text"] = "Error deleting bonus"
-                return jsonify(DICT)
+                text = "Error deleting bonus"                
+                
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp
 
 @app.route("/api/divisions/", methods = ["GET", "POST", "DELETE", "PUT"])    
 def getDivision():                
