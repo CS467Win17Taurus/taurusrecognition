@@ -256,14 +256,11 @@ def getDivision():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM division WHERE did=%s", (ids[0],))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
-            
+                text = json.dumps(c.fetchone())            
         else:
             with conn:
                 c.execute("SELECT * FROM division")
-                DICT["content"]["text"] = c.fetchall()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
@@ -272,11 +269,9 @@ def getDivision():
             c.execute("INSERT INTO division (name) VALUES (%s)", (name,))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM division WHERE name=%s", (name,))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchone()) 
             else:
-                DICT["content"]["text"] = "there was an error inserting into table"
-                return jsonify(DICT)
+                text = "there was an error inserting into table"                
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -284,11 +279,13 @@ def getDivision():
         with conn:
             c.execute("DELETE FROM division WHERE did=%s", (id,))
             if c.rowcount == 1:
-                DICT["content"]["text"] = "Division successfully deleted"
-                return jsonify(DICT)
+                text = "Division successfully deleted"                
             else:
-                DICT["content"]["text"] = "problem deleting"
-                return jsonify(DICT)
+                text = "problem deleting"                
+                
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp
  
 @app.route("/api/awards/", methods = ["GET", "POST", "DELETE", "PUT"])  
 def getAwards():                
