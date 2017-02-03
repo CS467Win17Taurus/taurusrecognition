@@ -19,27 +19,6 @@ app.config.update(
 	)
 mail = Mail(app)
 
-DICT = {
-  "status": 200,
-  "statusText": "OK",
-  "httpVersion": "HTTP/1.1",
-  "headers": [
-    {
-      "name": "Access-Control-Allow-Origin",
-      "value": "*"
-    }
-  ],
-  "cookies": [],
-  "content": {
-    "mimeType": "application/jsonp",
-    "text": "",
-    "size": 0
-  },
-  "redirectURL": "",
-  "bodySize": 0,
-  "headersSize": 0
-}
-
 HEAD = {"Access-Control-Allow-Origin" : "*"}
 text = ""
 
