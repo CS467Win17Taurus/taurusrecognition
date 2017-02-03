@@ -80,18 +80,18 @@ def getUsers():
             with conn:
                 c.execute("SELECT password FROM users WHERE email=%s", (email[0],))
                 if c.rowcount == 0:
-                    DICT["content"]["text"] = "That email is not in the system, please try again"
-                    return jsonify(DICT)
+                    text = "That email is not in the system, please try again"
+                    resp = Response(text)
+                    resp.headers = HEAD
+                    return resp
                 row = c.fetchone()
                 password = row["password"]                
                 msg = Message("Account Information", sender="taurusrecognition@gmail.com", 
                               recipients=[email[0]])
                 msg.body = "Your password is " + password
                 mail.send(msg)
-                DICT["content"]["text"] = "Password has been sent to your email"
-                return jsonify(DICT)
-        
-    
+                text = "Password has been sent to your email"            
+   
     elif request.method == "POST":                
         data = request.form
         last = data["lName"]
@@ -100,8 +100,10 @@ def getUsers():
             c.execute("SELECT * FROM users WHERE lName=%s AND email=%s", (last, email))          
             rows = c.rowcount                    
             if rows != 0:
-                DICT["content"]["text"] = "User already exists" 
-                return jsonify(DICT)  
+                text = "User already exists" 
+                resp = Response(text)
+                resp.headers = HEAD
+                return resp  
                 
         user = re.sub('["@.]', '', email)
         first = data['fName']
@@ -115,25 +117,27 @@ def getUsers():
             c.execute("INSERT INTO users (fName, lName, email, password, timeCreated, signature, dept) VALUES \
             (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, user, did)) 
             c.execute("SELECT * FROM users WHERE email=%s", (email,))
-            DICT["content"]["text"] = c.fetchone() 
-            return jsonify(DICT)
-           
+            text = json.dumps(c.fetchone())           
         
     elif request.method == "DELETE":
         id = request.args.get("id")
         with conn:
             c.execute("SELECT * FROM users WHERE id=%s", (id,))
             if c.rowcount != 1:
-                return "no such user"
+                text = "no such user"
+                resp = Response(text)
+                resp.headers = HEAD
+                return resp
             row = c.fetchone()                                  #delete signature file
             user = row["email"]
             user = re.sub('["@.]', '', user)
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
             c.execute("DELETE FROM users WHERE id=%s", (id,))
-            DICT["content"]["text"] = "User successfully deleted" 
-            return jsonify(DICT)
+            text = "User successfully deleted"             
             
-                
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp    
     
             
 @app.route("/api/admins/", methods = ["GET", "POST", "DELETE", "PUT"])    
