@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request, url_for, redirect, json, jsonify
+from flask import Flask, render_template, flash, request, url_for, redirect, json, jsonify, Response
 from dbConnect import connection
 from readImage import read_image
 import datetime
@@ -40,6 +40,8 @@ DICT = {
   "headersSize": 0
 }
 
+HEAD = {"Access-Control-Allow-Origin" : "*"}
+text = ""
 
 @app.route("/", methods = ['GET', 'POST'])
 def hello():
@@ -300,14 +302,12 @@ def getAwards():
         if len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM awards WHERE aid=%s", (ids[0],))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchone())                
             
         else:
             with conn:
-                c.execute("SELECT * FROM awards")
-                DICT["content"]["text"] = c.fetchall()
-                return jsonify(DICT)
+                c.execute("SELECT * FROM awards")                
+                text = json.dumps(c.fetchall())                                
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
@@ -316,10 +316,9 @@ def getAwards():
             c.execute("INSERT INTO awards (title) VALUES (%s)", (title,))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM awards WHERE title=%s", (title,))
-                DICT["content"]["text"] = c.fetchone()
-                return jsonify(DICT)
+                text = json.dumps(c.fetchone())                
             else:
-                return "there was an error inserting into table"
+                text = "there was an error inserting into table"               
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
@@ -327,12 +326,14 @@ def getAwards():
         with conn:
             c.execute("DELETE FROM awards WHERE aid=%s", (id,))
             if c.rowcount == 1:
-                DICT["content"]["text"] = "Award successfully deleted"
-                return jsonify(DICT)
+                text = "Award successfully deleted"                
             else:
-                DICT["content"]["text"] = "problem deleting"
-                return jsonify(DICT)
-
+                text = "problem deleting"
+               
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp    
                 
 if __name__ == "__main__":
     app.run()
+
