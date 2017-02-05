@@ -7,8 +7,7 @@ Create Award
 function initializePage(){
 	//Check user is logged in
 	if (!checkLogIn('user_id')){
-		//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/index.html';
-		window.location.href = 'index.html'; //local testing
+		window.location.href = 'index.html';
 	}
 	else{
 		console.log("Logged in = true");
@@ -50,7 +49,7 @@ function addTypeOptions(){
 	
 	//Create and send request
 	var req = new XMLHttpRequest();
-	req.open('GET', "http://mockbin.org/bin/428a3a4e-7338-4619-a8cf-153e5cddb200", true);
+	req.open('GET', "http://138.197.7.194/api/awards/", true);
 	req.addEventListener('load', function(){
 		//Check for error message
 		if (req.status >= 200 && req.status < 400)
@@ -76,7 +75,7 @@ function addAmountOptions(){
 	
 	//Create and send request
 	var req = new XMLHttpRequest();
-	req.open('GET', "http://mockbin.org/bin/7e45cbeb-d369-4c92-8aa7-3cbea65efc49", true);
+	req.open('GET', "http://138.197.7.194/api/bonuses/", true);
 	req.addEventListener('load', function(){
 		//Check for error message
 		if (req.status >= 200 && req.status < 400)
@@ -112,7 +111,6 @@ function submitAward(){
 	data.recipient = document.getElementById("user").value;
 	
 	data.giver = getId('user_id');
-	//data.giver = "121";  //hardcoded, replace with actual user id ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	
 	data.awardId = document.getElementById("type").value;
 	data.bonusId = document.getElementById("amount").value;

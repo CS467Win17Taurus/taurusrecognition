@@ -44,10 +44,19 @@ body{
 
 .badStatus{
 	font-style: italic;
-	color: maroon;
+	color: red;
 	padding-top:10px;
 }
 
 #sigImg{
 	border: black 1px solid;
+}
+
+table, th{
+	text-align: center;
+}
+
+.modal{
+	max-width: 70%;
+	margin: auto;
 }

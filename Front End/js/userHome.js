@@ -3,10 +3,6 @@ General functions to support front end
 User Home Page/Login
 */
 
-function initializePage(){
-	
-}
-
 //login
 //Description: Sends login information to backend to verify
 //user information
@@ -29,8 +25,7 @@ function login()
 			console.log(response);
 			//Update depending on actual response ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			if (response.id != -1){
-				//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/userTemplate.html';
-				window.location.href = 'userTemplate.html'; //local testing
+				window.location.href = 'userAccount.html'; 
 				logIn('user', response.id);
 			}
 			else{
@@ -49,6 +44,3 @@ function login()
 
 //Event Listeners
 document.getElementById("signInBtn").addEventListener('click', login);
-
-//Initialize Page
-document.addEventListener('DOMContentLoaded', initializePage);

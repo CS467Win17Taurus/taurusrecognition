@@ -7,8 +7,7 @@ Modify User Account by User
 function initializePage(){
 	//Check user is logged in
 	if (!checkLogIn('user_id')){
-		//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/index.html';
-		window.location.href = 'index.html'; //local testing
+		window.location.href = 'index.html';
 	}
 	else{
 		console.log("Logged in = true");
@@ -22,7 +21,7 @@ function getDepts(){
 	
 	//Create and send request
 	var req = new XMLHttpRequest();
-	req.open('GET', "http://mockbin.org/bin/2059eece-cb9b-45cf-9f3e-943349bf60e5", true);
+	req.open('GET', "http://138.197.7.194/api/divisions/", true);
 	req.addEventListener('load', function(){
 		//Check for error message
 		if (req.status >= 200 && req.status < 400)
@@ -50,7 +49,7 @@ function getFormData(){
 	var id = getId('user_id');
 	//var id = 234; //hardcoded for testing locally without use of cookies
 	
-	req.open('GET', "http://mockbin.org/bin/7adbe39b-6504-41c0-9c42-4e8c88a05741?id=" + id, true);
+	req.open('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, true);
 	req.addEventListener('load', function(){
 		//Check for error message
 		if (req.status >= 200 && req.status < 400)
@@ -186,8 +185,7 @@ function sendData(){
 		{
 			var response = JSON.parse(req.responseText);
 			console.log(response);
-			//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/userTemplate.html';
-			window.location.href = 'userTemplate.html'; //local testing
+			window.location.href = 'userAccount.html';
 		}
 		else
 			console.log("Error in network request: " + req.StatusText);
@@ -197,8 +195,7 @@ function sendData(){
 
 //Cancel
 function cancel(){
-	//window.location.href = 'http://web.engr.oregonstate.edu/~broedera/CS467/userTemplate.html';
-	window.location.href = 'userTemplate.html'; //local testing
+	window.location.href = 'userAccount.html'; 
 }
 
 //Event Listeners

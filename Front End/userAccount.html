@@ -31,10 +31,10 @@
 			  <ul class="nav navbar-nav navbar-right">
 				<li><a href="createAward.html"><span class="glyphicon glyphicon-plus"></span> Create Award</a></li>
 				<li class="dropdown">
-				  <a href="userAccount.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Account<span class="caret"></span></a>
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Account<span class="caret"></span></a>
 				  <ul class="dropdown-menu">
 					<li><a href="uModifyUser.html">Modify Account</a></li>
-					<li><a href="userAccount.html">View Past Awards</a></li>
+					<li><a href="#">View Past Awards</a></li>
 					<li role="separator" class="divider"></li>
 					<li><a onclick="logOut();">Logout</a></li>
 				  </ul>
@@ -43,10 +43,51 @@
 			</div><!-- /.navbar-collapse -->
 		  </div><!-- /.container-fluid -->
 		</nav>
+		
+		<!-- Modal 1: Delete Confirmation Message-->
+			<div id="modal1" class="modal fade" role="dialog">
+				<div class="modal-content">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="panel panel-danger">
+								<div class="panel-heading">
+									<h3 class="panel-title">Confirmation</h3>
+								</div>
+								<div class="panel-body" id="ErrorPanelBody">
+									<p>Are you sure you want to delete this award?</p>
+									<br>
+									<div class="row">
+										<center>
+											<button id="submit" class="btn btn-success" data-dismiss="modal" id="modalYesBtn" onclick="deleteAward();">Yes</button>
+											<button id="cancel" class="btn btn-danger" data-dismiss="modal" id="modalNoBtn">No</button>
+										</center>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+		<h1><span id="userName"></span>'s Account</h1>
+		<div class="row">
+			<div class="col-sm-offset-1">
+				<p><a href="uModifyUser.html">Modify Account</a></p>
+				<p><a onclick="logOut();">Logout</a></p>
+			</div>
+		</div>
+		<h3>Past Awards Created</h3>
+		<div id="deleteMsg"></div>
+		<table id="awardsTbl" class="table table-hover table-bordered">
+		</table>
+		
 	</div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="js/taurus.js"></script>
+	<script src="js/userAccount.js"></script>
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
