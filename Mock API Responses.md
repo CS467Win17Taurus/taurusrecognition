@@ -20,5 +20,6 @@ Below are mock responses I created to test various endpoints. These should match
 - GET /bonuses: http://mockbin.org/bin/7e45cbeb-d369-4c92-8aa7-3cbea65efc49/view
 
 ## User Awards
+- GET /userAwards?userId= : http://mockbin.org/bin/c7b1e982-4e6c-43d7-aa4e-661b5367b981/view
 - POST /userAwards: http://mockbin.org/bin/e95fd964-aac4-4558-90d3-02dd5b070e7e/view
 

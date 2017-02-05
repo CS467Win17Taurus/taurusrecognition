@@ -22,10 +22,12 @@ The response will include a JSON object with an array of all user award objects
 
 - User award Object:
  - **uaid**: Id number from database
- - **recipient**: Id number of user receiving award (foreign key)
- - **giver**: Id number of user creating award (foreign key)
- - **awardID**: Id number of award type (foreign key)
- - **bonusID**: Id number of bonus level (foreign key)
+ - **recipientFName**: First name of user receiving award
+ - **recipientLName**: Last name of user receiving award
+ - **giverFName**: First name of user creating award
+ - **giverLName**: Last name of user creating award
+ - **awardTitle**: Title of award type (foreign key)
+ - **bonusAmount**:Amount of bonus level (foreign key)
  - **awardDate**: Date of when the award is created
 
 ### JSON Object
@@ -34,19 +36,23 @@ The response will include a JSON object with an array of all user award objects
 [
   {
     "auid": 45600,
-	"recipient": 12345,
-	"giver": 24680,
-	"awardID": 76512,
-	"bonusID": 36990,
+	"recipientFName": "Joe",
+	"recipientLName": "Black",
+	"giverFName": "Jane",
+	"giverLName": "Smith",
+	"awardTitle": "Employee of the Month",
+	"bonusAmount": 50,
     "awardDate": "Oct 22, 2016 12:24:09 AM"
   },
   {
-    "id": 89000,
-	"recipient": 34567,
-	"giver": 24680,
-	"awardId": 23490,
-	"bonusId": 75211,
-    "awardDate": "Oct 27, 2016 12:24:09 AM"
-  }
+    "auid": 45679,
+	"recipientFName": "Mike",
+	"recipientLName": "Bonney",
+	"giverFName": "Jane",
+	"giverLName": "Smith",
+	"awardTitle": "New Sales Record",
+	"bonusAmount": 100,
+    "awardDate": "Oct 22, 2016 12:24:09 AM"
+  },
 ]
 ```
