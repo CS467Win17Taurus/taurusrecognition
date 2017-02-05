@@ -35,7 +35,7 @@ The response will include a JSON object with an array of all user award objects
 ```
 [
   {
-    "auid": 45600,
+    "uaid": 45600,
 	"recipient": 12345,
 	"giver": 24680,
 	"awardID": 76512,
@@ -43,7 +43,7 @@ The response will include a JSON object with an array of all user award objects
     "awardDate": "Oct 22, 2016 12:24:09 AM"
   },
   {
-    "id": 89000,
+    "uaid": 89000,
 	"recipient": 24680,
 	"giver": 12345,
 	"awardId": 23490,

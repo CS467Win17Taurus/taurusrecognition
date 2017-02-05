@@ -18,11 +18,21 @@ http://{hostname}/api/userAwards?id=45600
 
 ## Response
 
-The response will include a text message: 
+The response will include an object with a status and response message.
 
 
 ### Message
 
 ```
-User award successfully deleted
+{
+	"status": "success",
+	"message": "User award was successfully deleted."
+}
+```
+
+```
+{
+	"status": "failed",
+	"message": "Error: User award was not deleted."
+}
 ```
