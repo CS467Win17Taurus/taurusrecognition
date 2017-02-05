@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taurus - Retrieve Password</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/taurusStyle.css" rel="stylesheet">
+  </head>
+  <body>
+
+	<div class="container">
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <a class="navbar-brand" href="index.html"><span><img class="navLogo" src="fonts/LogoNav.png"> Taurus Employee Recognition</span></a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		
+		<h1>Administrator Login</h1>
+		
+		<form class="form-horizontal">
+		  <div class="form-group">
+			<label for="username" class="col-sm-1 control-label">Username</label>
+			<div class="col-sm-5">
+			  <input type="email" required class="form-control" id="username">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="password" class="col-sm-1 control-label">Password</label>
+			<div class="col-sm-5">
+			  <input type="password" required class="form-control" id="password">
+			</div>
+		  </div>
+		</form>
+		<div id="loginStatus"></div>
+		<br>
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-6">
+			  <div class="btn-group">
+				<div class="btn-group">
+				  <button id="login" class="btn btn-primary">Login</button>
+				</div>
+				<div class="btn-group">
+				  <button id="cancel" class="btn btn-default">Cancel</button>
+				</div>
+			  </div>
+		  </div>
+		</div>
+		
+	</div>
+	
+	
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/taurus.js"></script>
+	<script src="js/adminLogin.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
