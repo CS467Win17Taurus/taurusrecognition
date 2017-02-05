@@ -25,6 +25,7 @@ This documentation describes the endpoints and provides examples of an expected 
 ### GET
 - [/admins](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/getList.md): Returns list of details for all admins
 - [/admins?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/getAdmin.md): Returns details for specified admin
+- [/admins?adminName=&password=&action=login](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/getLogin.md): Returns details for specified user
 
 ### POST
 - [/admins](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/post.md): Adds new admin to database
