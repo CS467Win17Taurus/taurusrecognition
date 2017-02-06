@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taurus Employee Recognition</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/taurusStyle.css" rel="stylesheet">
+  </head>
+  <body>
+
+	<div class="container">
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="index.html"><span><img class="navLogo" src="fonts/LogoNav.png"> Taurus Employee Recognition</span></a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  
+			  
+			  <ul class="nav navbar-nav navbar-right">
+				<li><a href="#"><span class="glyphicon glyphicon-stats"></span> Analytics</a></li>
+				<li class="dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Manage Accounts<span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li><a href="#">User Accounts</a></li>
+					<li><a href="#">Admin Accounts</a></li>
+					<li><a href="#">Company Options</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a onclick="logOut();">Logout</a></li>
+				  </ul>
+				</li>
+			  </ul>
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		
+		<h1>Company Options</h1>
+		<p>Use this page to manage the departments, award types, and bonus amounts available for your company.</p>
+		<div id="error"></div>
+		<h3>Departments</h3>
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="dept">
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="button" id="deptBtn"><span class="glyphicon glyphicon-plus"></span> Add</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-offset-2">
+				<div id="deptList" class="myList">
+				</div>
+			</div>
+		<div>
+		<hr>
+		<h3>Award Types</h3>
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="award">
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="button" id="awardBtn"><span class="glyphicon glyphicon-plus"></span> Add</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-offset-2">
+				<div id="awardList" class="myList">
+				</div>
+			</div>
+		</div>
+		<hr>
+		<h3>Bonus Amounts</h3>
+		<div class="row">
+			<div class="col-sm-offset-1 col-sm-4">
+				<div class="input-group">
+					<input type="text" class="form-control" id="bonus">
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="button" id="bonusBtn"><span class="glyphicon glyphicon-plus"></span> Add</button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-offset-2">
+				<div id="bonusList" class="myList">
+				</div>
+			</div>
+		</div>
+
+		
+	</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/taurus.js"></script>
+	<script src="js/companyOptions.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>

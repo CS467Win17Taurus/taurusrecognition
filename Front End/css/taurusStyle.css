@@ -60,3 +60,19 @@ table, th{
 	max-width: 70%;
 	margin: auto;
 }
+
+.optionItem{
+	color: black;
+}
+
+.closeBtn:link{
+	color: salmon;
+}
+
+.closeBtn:hover{
+	color: IndianRed;
+}
+
+.myList{
+	margin-top: 20px;
+}
