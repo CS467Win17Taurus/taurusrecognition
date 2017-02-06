@@ -31,7 +31,10 @@ The response will include a JSON object containing the user id and a status mess
 ```
 {
 	"id": 12345,
-    "status": "Success",
+    "status": "success",
 }
-
+{
+	"id": -1,
+    "status": "failed",
+}
 ```
