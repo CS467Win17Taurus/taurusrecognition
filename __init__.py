@@ -19,7 +19,7 @@ app.config.update(
 	)
 mail = Mail(app)
 
-HEAD = {"Access-Control-Allow-Origin" : "*"}
+HEAD = {"Access-Control-Allow-Origin" : "*", "Access-Control-Allow-Methods" : "GET, POST, PUT, DELETE"}
 text = ""
 
 @app.route("/", methods = ['GET', 'POST'])
