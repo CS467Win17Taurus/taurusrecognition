@@ -258,17 +258,10 @@ def getAwards():
     except Exception as e:        
         return json.dumps(e)
         
-    if request.method == "GET":
-        ids = request.args.getlist('id')
-        if len(ids) > 0:
-            with conn:
-                c.execute("SELECT * FROM awards WHERE aid=%s", (ids[0],))
-                text = json.dumps(c.fetchone())                
-            
-        else:
-            with conn:
-                c.execute("SELECT * FROM awards")                
-                text = json.dumps(c.fetchall())                                
+    if request.method == "GET":        
+        with conn:
+            c.execute("SELECT * FROM awards")                
+            text = json.dumps(c.fetchall())                                
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
@@ -293,7 +286,7 @@ def getAwards():
                
     resp = Response(text)
     resp.headers = HEAD
-    return resp    
+    return resp        
                 
 if __name__ == "__main__":
     app.run()
