@@ -1,6 +1,6 @@
 # Taurus Recognition API Documentation
 
-This documentation describes the endpoints and provides examples of an expected response for the Taurus Recognition API, http://http://138.197.7.194/api/.
+This documentation describes the endpoints and provides examples of an expected response for the Taurus Recognition API, http://138.197.7.194/api/.
 
 Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwGusWv5DotPvL8eJmDQ9A/edit#gid=0
 
