@@ -33,5 +33,5 @@ Below are mock responses I created to test various endpoints. These should match
 ## User Awards
 - GET /userAwards?userId= : http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d/view
 - POST /userAwards: http://mockbin.org/bin/e95fd964-aac4-4558-90d3-02dd5b070e7e/view
-- DELETE /userAwards?id= (success): http://mockbin.org/bin/8f4dfb8a-aae0-4b9e-aed1-84bc391722ad/view
-- DELETE /userAwards?id= (failed): http://mockbin.org/bin/1bb346bc-b687-470c-88d3-4fbdb1ca3e9b/view
+- DELETE /userAwards?id= (success): http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8/view
+- DELETE /userAwards?id= (failed): http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197/view
