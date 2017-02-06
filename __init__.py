@@ -86,7 +86,12 @@ def getUsers():
         elif len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM users WHERE id=%s", (ids[0],))
-                text = json.dumps(c.fetchone())              
+                text = json.dumps(c.fetchone())
+                
+        else:
+            with conn:
+                c.execute("SELECT * FROM users")
+                text = json.dumps(c.fetchall())             
    
     elif request.method == "POST":                
         data = request.form
