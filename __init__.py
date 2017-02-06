@@ -54,8 +54,10 @@ def getUsers():
     app.config['UPLOAD_FOLDER'] = '/tmp/' 
 
     if request.method == "GET":
-        email , action, password = request.args.getlist('email'), request.args.getlist('action'), request.args.getlist('password')         
-        if action[0] == 'retrieve':
+        email , action, password = request.args.getlist('email'), request.args.getlist('action'), request.args.getlist('password')
+        ids = request.args.getlist('id')
+        
+        if len(action) > 0 and action[0] == 'retrieve':
             with conn:
                 c.execute("SELECT password FROM users WHERE email=%s", (email[0],))
                 if c.rowcount == 0:
@@ -71,7 +73,7 @@ def getUsers():
                 mail.send(msg)
                 text = "Password has been sent to your email" 
                 
-        elif action[0] == 'login':
+        elif len(action) > 0 and action[0] == 'login':
             with conn:
                 c.execute("SELECT id FROM users WHERE email=%s AND password=%s", (email[0], password[0]))                
                 if c.rowcount == 1:                
@@ -79,7 +81,12 @@ def getUsers():
                     id = row["id"]
                     text = json.dumps({"id":id, "status": "Success"})                  
                 else:
-                    text = json.dumps({"id":-1, "status": "Fail"})              
+                    text = json.dumps({"id":-1, "status": "Fail"})  
+
+        elif len(ids) > 0:
+            with conn:
+                c.execute("SELECT * FROM users WHERE id=%s", (ids[0],))
+                text = json.dumps(c.fetchone())              
    
     elif request.method == "POST":                
         data = request.form
