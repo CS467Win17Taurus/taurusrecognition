@@ -79,9 +79,9 @@ def getUsers():
                 if c.rowcount == 1:                
                     row = c.fetchone()
                     id = row["id"]
-                    text = json.dumps({"id":id, "status": "Success"})                  
+                    text = json.dumps({"id":id, "status": "success"})                  
                 else:
-                    text = json.dumps({"id":-1, "status": "Fail"})  
+                    text = json.dumps({"id":-1, "status": "failed"})  
 
         elif len(ids) > 0:
             with conn:
@@ -149,9 +149,21 @@ def getAdmins():
         flash(str(e))
         return render_template("500.html", error=e)
     
-    if request.method == "GET":        
+    if request.method == "GET":  
+        name, action, password = request.args.getlist('adminName'), request.args.getlist('action'), request.args.getlist('password')
         ids = request.args.getlist('id')
-        if len(ids) > 0:
+        
+        if len(action) > 0:
+            with conn:
+                c.execute("SELECT * FROM admins WHERE adminName=%s AND password=%s", (name[0], password[0]))
+                if c.rowcount == 1:
+                    row = c.fetchone()
+                    id = row["id"]
+                    text = json.dumps({"id":id, "status": "success"})                  
+                else:
+                    text = json.dumps({"id":-1, "status": "failed"}) 
+                    
+        elif len(ids) > 0:
             with conn:
                 c.execute("SELECT * FROM admins WHERE id=%s", (ids[0],))
                 text = json.dumps(c.fetchone())            
