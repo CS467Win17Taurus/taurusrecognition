@@ -16,12 +16,19 @@ Below are mock responses I created to test various endpoints. These should match
 
 ## Divisions
 - GET /divisions: http://mockbin.org/bin/2059eece-cb9b-45cf-9f3e-943349bf60e5/view
+- POST /divisions: http://mockbin.org/bin/434800a4-2804-4286-a505-e0258ec46f0f/view
+- DELETE /divisions?id= (success): http://mockbin.org/bin/b294d061-e572-4b37-bcd1-6c46ba272ab6/view
+- DELETE /divisions?id= (failed): http://mockbin.org/bin/dffef58e-7bf9-4dd7-8f63-a3ee7d5ba0cc/view
 
 ## Awards
 - GET /awards: http://mockbin.org/bin/428a3a4e-7338-4619-a8cf-153e5cddb200/view
+- DELETE /awards?id= (success): http://mockbin.org/bin/cbfd4e07-166a-4bc5-b834-c9bd16611462/view
+- DELETE /awards?id= (failed): http://mockbin.org/bin/e91012d0-c92d-4a0b-9e54-6fe3afc632b6/view
 
 ## Bonuses
 - GET /bonuses: http://mockbin.org/bin/7e45cbeb-d369-4c92-8aa7-3cbea65efc49/view
+- DELETE /bonuses?id= (success): http://mockbin.org/bin/836cc9f0-0775-489c-a491-b1d202d02fea/view
+- DELETE /bonuses?id= (failed): http://mockbin.org/bin/6118e0e1-1eea-4689-be96-39704eb759da/view
 
 ## User Awards
 - GET /userAwards?userId= : http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d/view
