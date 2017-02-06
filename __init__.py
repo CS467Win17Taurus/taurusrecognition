@@ -54,7 +54,7 @@ def getUsers():
     app.config['UPLOAD_FOLDER'] = '/tmp/' 
 
     if request.method == "GET":
-        email , action = request.args.getlist('email'), request.args.getlist('action')
+        email , action, password = request.args.getlist('email'), request.args.getlist('action'), request.args.getlist('password')         
         if action[0] == 'retrieve':
             with conn:
                 c.execute("SELECT password FROM users WHERE email=%s", (email[0],))
@@ -69,7 +69,17 @@ def getUsers():
                               recipients=[email[0]])
                 msg.body = "Your password is " + password
                 mail.send(msg)
-                text = "Password has been sent to your email"            
+                text = "Password has been sent to your email" 
+                
+        elif action[0] == 'login':
+            with conn:
+                c.execute("SELECT id FROM users WHERE email=%s AND password=%s", (email[0], password[0]))                
+                if c.rowcount == 1:                
+                    row = c.fetchone()
+                    id = row["id"]
+                    text = json.dumps({"id":id, "status": "Success"})                  
+                else:
+                    text = json.dumps({"id":-1, "status": "Fail"})              
    
     elif request.method == "POST":                
         data = request.form
