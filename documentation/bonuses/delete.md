@@ -1,6 +1,6 @@
 # Bonuses: DELETE
 
-## /bonuses
+## /bonuses?id=
 
 Remove bonus from database
 
@@ -21,8 +21,10 @@ http://{hostname}/api/bonuses?id=36990
 The response will include a text message: 
 
 
-### Message
+```
+{"status":"success","message":"Bonus amount successfully deleted"}
+```
 
 ```
-Bonus successfully deleted
+{"status":"failed","message":"Bonus amount not deleted"}
 ```

@@ -1,6 +1,6 @@
 # Divisions: DELETE
 
-## /divisions
+## /divisions?id=
 
 Remove division from database
 
@@ -18,11 +18,13 @@ http://{hostname}/api/divisions?id=23490
 
 ## Response
 
-The response will include a text message: 
+The response will include an object with status and message: 
 
-
-### Message
 
 ```
-Division successfully deleted
+{"status":"success","message":"Division successfully deleted"}
+```
+
+```
+{"status":"failed","message":"Division not deleted"}
 ```

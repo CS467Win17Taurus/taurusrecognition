@@ -1,6 +1,6 @@
 # Awards: DELETE
 
-## /awards
+## /awards?id=
 
 Remove award from database
 
@@ -18,11 +18,13 @@ http://{hostname}/api/awards?id=23490
 
 ## Response
 
-The response will include a text message: 
+The response will include an object with status and message: 
 
-
-### Message
 
 ```
-Award successfully deleted
+{"status":"success","message":"Award type successfully deleted"}
+```
+
+```
+{"status":"failed","message":"Award type not deleted"}
 ```
