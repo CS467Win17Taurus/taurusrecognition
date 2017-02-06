@@ -185,15 +185,9 @@ def getBonus():
         return json.dumps(e)
         
     if request.method == "GET":
-        ids = request.args.getlist('id')
-        if len(ids) > 0:
-            with conn:
-                c.execute("SELECT * FROM bonus WHERE bid=%s", (ids[0],))
-                text = json.dumps(c.fetchone())            
-        else:
-            with conn:
-                c.execute("SELECT * FROM bonus")
-                text = json.dumps(c.fetchall())
+        with conn:
+            c.execute("SELECT * FROM bonus")
+            text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
