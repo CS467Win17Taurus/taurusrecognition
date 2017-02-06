@@ -17,51 +17,24 @@ function initializePage(){
 
 //Get department list
 function getDepts(){
+	makeRequest('GET', "http://138.197.7.194/api/divisions/", null, true, usersDeptResponse);
+}
+
+//Handle get depts response
+function usersDeptResponse(response){
 	var sel = document.getElementById("dept");
-	
-	//Create and send request
-	var req = new XMLHttpRequest();
-	req.open('GET', "http://138.197.7.194/api/divisions/", true);
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-			var opt = document.createElement("option");
-			response.forEach(function(type){
-				//Reference: http://stackoverflow.com/a/6194450
-				sel.add(new Option(type.name, type.did));
-			});
-			getFormData();
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
+	var opt = document.createElement("option");
+	response.forEach(function(type){
+		//Reference: http://stackoverflow.com/a/6194450
+		sel.add(new Option(type.name, type.did));
 	});
-	req.send();
+	getFormData();
 }
 
 //Get form data
 function getFormData(){
-	//Create and send request
-	var req = new XMLHttpRequest();
-	
 	var id = getId('user_id');
-	//var id = 234; //hardcoded for testing locally without use of cookies
-	
-	req.open('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, true);
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-			fillForm(response);
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	req.send();
+	makeRequest('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, null, true, fillForm);
 }
 
 //Function to fill fields of form
@@ -145,6 +118,10 @@ function validatePassword(){
 
 //Save Data
 function save(){
+	//Clear prior error messages
+	document.getElementById("formErrors").textContent = "";
+	document.getElementById("pwordErrors").textContent = "";
+	
 	if (validateForm()){
 		if (document.getElementById("newPw").value != ""){
 			if (validatePassword()){
@@ -158,8 +135,7 @@ function save(){
 
 //Send data
 function sendData(){
-	//Create and send request
-	var req = new XMLHttpRequest();
+	//Get form data
 	var data = new FormData();
 	data.append("id", userId);
 	data.append("fName", document.getElementById("fName").value);
@@ -175,22 +151,16 @@ function sendData(){
 		console.log("Filename: " + thisFile.name + ", Size: " + thisFile.size + ", Type: " + thisFile.type);
 		data.append("signature", thisFile);
 	}
+	
 	if (document.getElementById("newPw").value != "")
 		data.append("password", document.getElementById("newPw").value);
 	
-	req.open('PUT', "http://mockbin.org/bin/fbca1ddd-dc5d-4a4d-9640-bc4c0e4514e5", true); 
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-			window.location.href = 'userAccount.html';
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	req.send(data);
+	makeRequestFormData('PUT', "http://mockbin.org/bin/fbca1ddd-dc5d-4a4d-9640-bc4c0e4514e5", data, true, userSendDataResponse);
+}
+
+//Handle response after modifying user
+function userSendDataResponse(response){
+	window.location.href = 'userAccount.html';
 }
 
 //Cancel

@@ -63,5 +63,59 @@ function checkLogIn(cookieName){
 		return false;
 }
 
+//Make HTTP request
+function makeRequest(type, url, data, parse, resFunc){
+	console.log(url);
+	//Create and send request
+	var req = new XMLHttpRequest();
+	req.open(type, url, true);
+	req.addEventListener('load', function(){
+		//Check for error message
+		if (req.status >= 200 && req.status < 400)
+		{
+			if (parse){
+				var response = JSON.parse(req.responseText);
+				console.log(response);
+				resFunc(response);
+			}
+			else{
+				var response = req.responseText;
+				console.log(response);
+				resFunc(response);
+			}
+		}
+		else
+			console.log("Error in network request: " + req.StatusText);
+	});
+	if (data != null)
+		req.send(JSON.stringify(data));
+	else
+		req.send();
+}
 
-
+//Make HTTP request with form data
+function makeRequestFormData(type, url, data, parse, resFunc){
+	console.log(url);
+	//Create and send request
+	var req = new XMLHttpRequest();
+	req.open(type, url, true);
+	req.addEventListener('load', function(){
+		//Check for error message
+		if (req.status >= 200 && req.status < 400)
+		{
+			if (parse){
+				var response = JSON.parse(req.responseText);
+				console.log(response);
+				resFunc(response);
+			}
+			else{
+				var response = req.responseText;
+				console.log(response);
+				resFunc(response);
+			}
+		}
+		else
+			console.log("Error in network request: " + req.StatusText);
+	});
+	req.send(data);
+}

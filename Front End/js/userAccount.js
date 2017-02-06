@@ -20,25 +20,13 @@ function initializePage(){
 
 //Get user's name for header
 function getUserName(){
-	//Create and send request
-	var req = new XMLHttpRequest();
-	var data = new FormData();
 	var id = getId('user_id');
-	data.append("id", id);
-	
-	req.open('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, true);
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-			document.getElementById("userName").textContent = response.fName;
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	req.send(data);
+	makeRequest('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, null, true, userAcctGetNameResp);
+}
+
+//Handle get user name response
+function userAcctGetNameResp(response){
+	document.getElementById("userName").textContent = response.fName;
 }
 
 //Create table of past awards
@@ -77,32 +65,18 @@ function createTable(){
 	
 	//Create table body
 	var body = document.createElement('tbody');
+	body.id = "tblBody";
 	table.appendChild(body);
 	
-	//Create and send request
-	var req = new XMLHttpRequest();
-	var data = new FormData();
+	//Send request
 	var id = getId('user_id');
-	data.append("id", id);
-	
-	req.open('GET', "http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d?userId=" + id, true);
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-			addDataToTable(body, response);
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	req.send(data);
+	makeRequest('GET', "http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d?userId=" + id, null, true, addDataToTable);
 }
 
 //Add awards data to table
-function addDataToTable(body, response){
+function addDataToTable(response){
 	var row, cell, button;
+	var body = document.getElementById("tblBody");
 	
 	response.forEach(function(data){
 		row = document.createElement('tr');
@@ -158,36 +132,24 @@ function showModal(uaid){
 //Delete award
 function deleteAward(){
 	console.log("Award id: " + awardId);
-	//Create and send request
-	var req = new XMLHttpRequest();
-	
-	req.open('GET', "http://mockbin.org/bin/8f4dfb8a-aae0-4b9e-aed1-84bc391722ad?id=" + awardId, true); //Good
-	//req.open('GET', "http://mockbin.org/bin/1bb346bc-b687-470c-88d3-4fbdb1ca3e9b?id=" + awardId, true); //Good
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = JSON.parse(req.responseText);
-			console.log(response);
-			
-			//Delete row if successful
-			if (response.status == "success"){
-				//ref: http://stackoverflow.com/questions/4967223/delete-a-row-from-a-table-by-id
-				var row = document.getElementById(awardId);
-				row.parentNode.removeChild(row);
-				document.getElementById("deleteMsg").textContent = response.message;
-				document.getElementById("deleteMsg").className = "goodStatus";
-			}
-			else{
-				document.getElementById("deleteMsg").textContent = response.message;
-				document.getElementById("deleteMsg").className = "badStatus";
-			}
-				
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	req.send();
+	makeRequest('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + awardId, null, true, userAcctDelAwdResp); //Good
+	//makeRequest('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197?id=" + awardId, null, true, userAcctDelAwdResp); //Bad
+}
+
+//Handle response for deleting row
+function userAcctDelAwdResp(response){
+	//Delete row if successful
+	if (response.status == "success"){
+		//ref: http://stackoverflow.com/questions/4967223/delete-a-row-from-a-table-by-id
+		var row = document.getElementById(awardId);
+		row.parentNode.removeChild(row);
+		document.getElementById("deleteMsg").textContent = response.message;
+		document.getElementById("deleteMsg").className = "goodStatus";
+	}
+	else{
+		document.getElementById("deleteMsg").textContent = response.message;
+		document.getElementById("deleteMsg").className = "badStatus";
+	}
 }
 
 //Initialize Page

@@ -10,28 +10,18 @@ function cancel(){
 
 //Send request with email and update with response
 function submitEmail(){
-	//Create and send request
-	var req = new XMLHttpRequest();
 	email = document.getElementById("inputEmail").value;
-	req.open('GET', "http://138.197.7.194/api/users/?email=" + email + "&action=retrieve", true);
-	//req.open('GET', "http://mockbin.org/bin/fb1bd010-c776-4f35-8558-7060a0c98341?email=" + email + "&action=retrieve", true);
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			var response = req.responseText;
-			console.log(response);
-			document.getElementById("pwordStatus").textContent = response;
-			//May need to change depending on response message ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (response == "Password has been sent to your email")
-				document.getElementById("pwordStatus").className = "goodStatus";
-			else
-				document.getElementById("pwordStatus").className = "badStatus";
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	req.send();
+	makeRequest('GET', "http://138.197.7.194/api/users/?email=" + email + "&action=retrieve", null, false, displayMessage)
+}
+
+//Display response message
+function displayMessage(response){
+	document.getElementById("pwordStatus").textContent = response;
+	
+	if (response == "Password has been sent to your email")
+		document.getElementById("pwordStatus").className = "goodStatus";
+	else
+		document.getElementById("pwordStatus").className = "badStatus";
 }
 
 //Event Listeners
