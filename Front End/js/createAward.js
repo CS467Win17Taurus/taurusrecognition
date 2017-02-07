@@ -19,7 +19,7 @@ function initializePage(){
 
 //Add options to recipients based on values in db
 function addUserOptions(){
-	makeRequest('GET', "http://mockbin.org/bin/96211a1a-4861-4d41-90d5-048a616c6515", null, true, userOptionsResponse);
+	makeRequest('GET', "http://138.197.7.194/api/users/", null, true, userOptionsResponse);
 	event.preventDefault();
 }
 

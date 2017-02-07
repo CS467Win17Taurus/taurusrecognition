@@ -19,12 +19,15 @@ function initializePage(){
 //Get user's name for header
 function getUserName(){
 	var id = getId('user_id');
-	makeRequest('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, null, true, userAcctGetNameResp);
+	makeRequest('GET', "http://138.197.7.194/api/users/?id=" + id, null, true, userAcctGetNameResp);
 }
 
 //Handle get user name response
 function userAcctGetNameResp(response){
-	document.getElementById("userName").textContent = response.fName;
+	//Ref: http://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+	var name = response.fName;
+	var capitalName = name.charAt(0).toUpperCase() + name.slice(1);	
+	document.getElementById("userName").textContent = capitalName;
 }
 
 //Create table of past awards
@@ -66,7 +69,7 @@ function createTable(){
 	body.id = "tblBody";
 	table.appendChild(body);
 	
-	//Send request
+	//Send request to get user awards
 	var id = getId('user_id');
 	makeRequest('GET', "http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d?userId=" + id, null, true, addDataToTable);
 }

@@ -34,7 +34,7 @@ function usersDeptResponse(response){
 //Get form data
 function getFormData(){
 	var id = getId('user_id');
-	makeRequest('GET', "http://mockbin.org/bin/b7509746-76ca-43c3-aeea-8bc0ce25d9fa?id=" + id, null, true, fillForm);
+	makeRequest('GET', "http://138.197.7.194/api/users/?id=" + id, null, true, fillForm);
 }
 
 //Function to fill fields of form

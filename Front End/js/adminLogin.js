@@ -8,8 +8,7 @@ function login()
 {
 	adminName = document.getElementById("username").value;
 	password = document.getElementById("password").value;
-	makeRequest('GET', "http://mockbin.org/bin/2fe094f6-7525-4eb2-8eaf-a0f5a8f417ca?adminName=" + adminName + "&password=" + password + "&action=login", null, true, processLoginResponse) //Good
-	//makeRequest('GET', "http://mockbin.org/bin/2574bd7c-04a9-4141-81a8-23bfcb41162a?adminName=" + adminName + "&password=" + password + "&action=login", null, true, processLoginResponse) //Bad
+	makeRequest('GET', "http://138.197.7.194/api/admins/?adminName=" + adminName + "&password=" + password + "&action=login", null, true, processLoginResponse) //Good
 	event.preventDefault();
 }
 

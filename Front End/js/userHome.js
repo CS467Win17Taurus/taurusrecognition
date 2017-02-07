@@ -12,14 +12,15 @@ function login()
 {
 	email = document.getElementById("inputEmail").value;
 	password = document.getElementById("inputPassword").value;
-	makeRequest('GET', "http://mockbin.org/bin/6f8d5595-cbb2-4ad6-97ee-4f2f46cf46e8?email=" + email + "&password=" + password, null, true, userLoginResponse); //Good
-	//makeRequest('GET', "http://mockbin.org/bin/98c424e3-1bd0-4be5-9835-45d68e073164?email=" + email + "&password=" + password, null, true, userLoginResponse); //Good
+	makeRequest('GET', "http://138.197.7.194/api/users/?email=" + email + "&password=" + password + "&action=login", null, true, userLoginResponse);
 	event.preventDefault();
 }
 
 //Handle login response
 function userLoginResponse(response){
-	if (response.id != -1){
+	console.log("Login response:");
+	console.log(response);
+	if (response.status.toLowerCase() == "success"){
 		window.location.href = 'userAccount.html'; 
 		logIn('user', response.id);
 	}
