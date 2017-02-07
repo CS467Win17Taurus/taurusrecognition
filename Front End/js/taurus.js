@@ -119,3 +119,38 @@ function makeRequestFormData(type, url, data, parse, resFunc){
 	});
 	req.send(data);
 }
+
+//Make HTTP request and pass up to two extra params
+function makeRequestWithExtraParams(verb, url, data, parse, resFunc, type, id){
+	console.log(url);
+	
+	//Create and send request
+	var req = new XMLHttpRequest();
+	req.open(verb, url, true);
+	req.addEventListener('load', function(){
+		//Check for error message
+		if (req.status >= 200 && req.status < 400)
+		{
+			if (parse){
+				var response = JSON.parse(req.responseText);
+				console.log(response);
+				resFunc(response, type, id);
+			}
+			else{
+				var response = req.responseText;
+				console.log(response);
+				resFunc(response, type, id);
+			}
+		}
+		else
+			console.log("Error in network request: " + req.StatusText);
+	});
+	if (data != null){
+		req.send(data);
+		console.log("Request: data sent");
+	}
+	else{
+		req.send();
+		console.log("Request: data not sent");
+	}
+}

@@ -3,41 +3,6 @@ General functions to support front end
 Company options
 */
 
-//Make HTTP DELEE request
-function makeDeleteRequest(type, url, data, parse, resFunc, sect, id){
-	console.log(url);
-	
-	//Create and send request
-	var req = new XMLHttpRequest();
-	req.open(type, url, true);
-	req.addEventListener('load', function(){
-		//Check for error message
-		if (req.status >= 200 && req.status < 400)
-		{
-			if (parse){
-				var response = JSON.parse(req.responseText);
-				console.log(response);
-				resFunc(response, sect, id);
-			}
-			else{
-				var response = req.responseText;
-				console.log(response);
-				resFunc(response, sect, id);
-			}
-		}
-		else
-			console.log("Error in network request: " + req.StatusText);
-	});
-	if (data != null){
-		req.send(data);
-		console.log("MakeDeleteRequest: data sent");
-	}
-	else{
-		req.send();
-		console.log("MakeDeleteRequest: data not sent");
-	}
-}
-
 //Create par item for list
 function createPar(sect, id, name, deleteFunc){
 	par = document.createElement('p');
@@ -124,9 +89,9 @@ function deleteDeptReq(obj){
 		var id = parts[1];
 		console.log("id: " + id);
 		console.log(sect + " " + id);
-		//makeDeleteRequest('DELETE', "http://138.197.7.194/api/divisions/?id=" + id, null, true, deletePar, sect, id);
-		makeDeleteRequest('DELETE', "http://mockbin.org/bin/b294d061-e572-4b37-bcd1-6c46ba272ab6?id=" + id, null, true, deletePar, sect, id);
-		//makeDeleteRequest('DELETE', "http://mockbin.org/bin/dffef58e-7bf9-4dd7-8f63-a3ee7d5ba0cc?id=" + id, null, true, deletePar, sect, id);
+		//makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/divisions/?id=" + id, null, true, deletePar, sect, id);
+		makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/b294d061-e572-4b37-bcd1-6c46ba272ab6?id=" + id, null, true, deletePar, sect, id);
+		//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/dffef58e-7bf9-4dd7-8f63-a3ee7d5ba0cc?id=" + id, null, true, deletePar, sect, id);
 	}
 
 	document.getElementById("error").textContent = "";
@@ -174,9 +139,9 @@ function deleteAwardReq(obj){
 		var sect = parts[0];
 		var id = parts[1];
 		console.log(sect + " " + id);
-		//makeDeleteRequest('DELETE', "http://138.197.7.194/api/awards/?id=" + id, null, true, deletePar, sect, id);
-		makeDeleteRequest('DELETE', "http://mockbin.org/bin/cbfd4e07-166a-4bc5-b834-c9bd16611462?id=" + id, null, true, deletePar, sect, id);
-		//makeDeleteRequest('DELETE', "http://mockbin.org/bin/e91012d0-c92d-4a0b-9e54-6fe3afc632b6?id=" + id, null, true, deletePar, sect, id);
+		//makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/awards/?id=" + id, null, true, deletePar, sect, id);
+		makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/cbfd4e07-166a-4bc5-b834-c9bd16611462?id=" + id, null, true, deletePar, sect, id);
+		//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/e91012d0-c92d-4a0b-9e54-6fe3afc632b6?id=" + id, null, true, deletePar, sect, id);
 	}
 
 	document.getElementById("error").textContent = "";
@@ -225,9 +190,9 @@ function deleteBonusReq(obj){
 		var sect = parts[0];
 		var id = parts[1];
 		console.log(sect + " " + id);
-		//makeDeleteRequest('DELETE', "http://138.197.7.194/api/bonuses/?id=" + id, null, true, deletePar, sect, id);
-		makeDeleteRequest('DELETE', "http://mockbin.org/bin/836cc9f0-0775-489c-a491-b1d202d02fea?id=" + id, null, true, deletePar, sect, id);
-		//makeDeleteRequest('DELETE', "http://mockbin.org/bin/6118e0e1-1eea-4689-be96-39704eb759da?id=" + id, null, true, deletePar, sect, id);
+		//makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/bonuses/?id=" + id, null, true, deletePar, sect, id);
+		makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/836cc9f0-0775-489c-a491-b1d202d02fea?id=" + id, null, true, deletePar, sect, id);
+		//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/6118e0e1-1eea-4689-be96-39704eb759da?id=" + id, null, true, deletePar, sect, id);
 	}
 
 	document.getElementById("error").textContent = "";

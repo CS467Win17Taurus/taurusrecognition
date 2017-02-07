@@ -3,8 +3,6 @@ General functions to support front end
 User account page to view past awards and delete
 */
 
-var awardId = -1;
-
 //Initialize page
 function initializePage(){
 	//Check user is logged in
@@ -125,23 +123,24 @@ function addDataToTable(response){
 //Show confirmation modal
 function showModal(uaid){
 	$('#modal1').modal('show');
-	awardId = uaid.value;
+	var awardId = uaid.value;
+	document.getElementById("submit").addEventListener('click', function(){deleteAward(awardId)});
 	document.getElementById("deleteMsg").textContent = "";
 }
 
 //Delete award
-function deleteAward(){
+function deleteAward(awardId){
 	console.log("Award id: " + awardId);
-	makeRequest('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + awardId, null, true, userAcctDelAwdResp); //Good
-	//makeRequest('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197?id=" + awardId, null, true, userAcctDelAwdResp); //Bad
+	makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId); //Good
+	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId); //Bad
 }
 
 //Handle response for deleting row
-function userAcctDelAwdResp(response){
+function userAcctDelAwdResp(response, type, id){
 	//Delete row if successful
 	if (response.status == "success"){
 		//ref: http://stackoverflow.com/questions/4967223/delete-a-row-from-a-table-by-id
-		var row = document.getElementById(awardId);
+		var row = document.getElementById(id);
 		row.parentNode.removeChild(row);
 		document.getElementById("deleteMsg").textContent = response.message;
 		document.getElementById("deleteMsg").className = "goodStatus";
