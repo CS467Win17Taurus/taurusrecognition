@@ -43,7 +43,6 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 
 ### GET
 - [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getList.md): Returns list of details for all divisions
-- [/divisions?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getDivision.md): Returns details for specified division
 
 ### POST
 - [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/post.md): Adds new division to database
@@ -56,7 +55,6 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 
 ### GET
 - [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/getList.md): Returns list of details for all awards
-- [/awards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/getAward.md): Returns details for specified award
 
 ### POST
 - [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/post.md): Adds new award to database
@@ -69,7 +67,6 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 
 ### GET
 - [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/getList.md): Returns list of details for all bonuses
-- [/bonuses?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/getBonus.md): Returns details for specified bonus
 
 ### POST
 - [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/post.md): Adds new bonus to database
@@ -82,8 +79,6 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 
 ### GET
 - [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getList.md): Returns list of details for all userAwards
-- [/userAwards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getUserAward.md): Returns details for specified user 
-award
 - [/userAwards?userId=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getListbyUser.md): Returns list of awards created by specified user
 
 ### POST
