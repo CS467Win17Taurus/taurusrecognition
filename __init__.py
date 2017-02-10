@@ -51,7 +51,7 @@ def getUsers():
         flash(str(e))
         return render_template("500.html", error=e)     
     
-    app.config['UPLOAD_FOLDER'] = '/tmp/' 
+    app.config['UPLOAD_FOLDER'] = '/var/www/FlaskApp/FlaskApp/static/' 
 
     if request.method == "GET":
         email , action, password = request.args.getlist('email'), request.args.getlist('action'), request.args.getlist('password')
@@ -79,9 +79,9 @@ def getUsers():
                 if c.rowcount == 1:                
                     row = c.fetchone()
                     id = row["id"]
-                    text = json.dumps({"id":id, "status": "success"})                  
+                    text = json.dumps({"id":id, "status": "Success"})                  
                 else:
-                    text = json.dumps({"id":-1, "status": "failed"})  
+                    text = json.dumps({"id":-1, "status": "Fail"})  
 
         elif len(ids) > 0:
             with conn:
@@ -91,8 +91,9 @@ def getUsers():
         else:
             with conn:
                 c.execute("SELECT * FROM users")
-                text = json.dumps(c.fetchall())             
-   
+                text = json.dumps(c.fetchall())
+        
+            
     elif request.method == "POST":                
         data = request.form
         last = data["lName"]
@@ -110,13 +111,14 @@ def getUsers():
         first = data['fName']
         password = data['password']
         did = data['dept']        
-        file = request.files['sig']        
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))        
+        file = request.files['signature']        
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))  
+        sig = url_for('static', filename=user)
         ts = time.time()        
         timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')  
         with conn:
             c.execute("INSERT INTO users (fName, lName, email, password, timeCreated, signature, dept) VALUES \
-            (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, user, did)) 
+            (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, sig, did)) 
             c.execute("SELECT * FROM users WHERE email=%s", (email,))
             text = json.dumps(c.fetchone())           
         
@@ -134,79 +136,33 @@ def getUsers():
             user = re.sub('["@.]', '', user)
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
             c.execute("DELETE FROM users WHERE id=%s", (id,))
-            text = "User successfully deleted"             
-            
-    resp = Response(text)
-    resp.headers = HEAD
-    return resp    
-    
-            
-@app.route("/api/admins/", methods = ["GET", "POST", "DELETE", "PUT"])    
-def getAdmins():
-    try:
-        c, conn = connection()
-    except Exception as e:
-        flash(str(e))
-        return render_template("500.html", error=e)
-    
-    if request.method == "GET":  
-        name, action, password = request.args.getlist('adminName'), request.args.getlist('action'), request.args.getlist('password')
-        ids = request.args.getlist('id')
-        
-        if len(action) > 0:
-            with conn:
-                c.execute("SELECT * FROM admins WHERE adminName=%s AND password=%s", (name[0], password[0]))
-                if c.rowcount == 1:
-                    row = c.fetchone()
-                    id = row["id"]
-                    text = json.dumps({"id":id, "status": "success"})                  
-                else:
-                    text = json.dumps({"id":-1, "status": "failed"}) 
-                    
-        elif len(ids) > 0:
-            with conn:
-                c.execute("SELECT * FROM admins WHERE id=%s", (ids[0],))
-                text = json.dumps(c.fetchone())            
-        else:
-            with conn:
-                c.execute("SELECT * FROM admins")
-                text = json.dumps(c.fetchall())
-        
-    elif request.method == "POST":
-        query = request.get_json(force=True)
-        name = query["adminName"]
-        pwd = query["password"]
-        with conn:
-            c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
-            if c.rowcount == 1:
-                c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
-                text = json.dumps(c.fetchone())
-            else:
-                text = "There was an error inserting into table"                
-    
-    elif request.method == "DELETE":
-        ids = request.args.getlist('id')
-        id = ids[0]
-        with conn:
-            c.execute("DELETE FROM admins WHERE id=%s", (id,))
-            if c.rowcount == 1:
-                text = "Admin successfully deleted"                
-            else:
-                text = "problem deleting"
-    
+            text = "User successfully deleted"  
+
     elif request.method == "PUT":
-        query = request.get_json(force=True)
-        id = query["id"]
-        name = query["adminName"]
-        pwd = query["password"]
+        data = request.form
+        id = data['id']
+        fName = data['fName']
+        lName = data['lName']
+        email = data['email']   
+        dept = data['dept']
+        file = request.files.getlist('signature')        
         with conn:
-            c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
-            if c.rowcount == 1:
-                c.execute("SELECT * FROM admins WHERE id=%s", (id,))
-                text = json.dumps(c.fetchone())
+            c.execute("SELECT * FROM users WHERE id=%s", (id,))
+            row = c.fetchone()
+            try:
+                password = data['password']
+            except:
+                password = row['password']
+            if not file:
+                sig = row['signature']
             else:
-                text = "There was an error with PUT"                
-                
+                user = re.sub('["@.]', '', email)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))
+                sig = url_for('static', filename=user)
+            c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, sig, dept, id))
+            c.execute("SELECT * FROM users WHERE id=%s", (id,))
+            text = json.dumps(c.fetchone())
+        
     resp = Response(text)
     resp.headers = HEAD
     return resp
