@@ -166,7 +166,74 @@ def getUsers():
     resp = Response(text)
     resp.headers = HEAD
     return resp
+
+@app.route("/api/admins/", methods = ["GET", "POST", "DELETE", "PUT"])    
+def getAdmins():
+    try:
+        c, conn = connection()
+    except Exception as e:        
+        return json.dumps(e)
+    
+    if request.method == "GET":
+        name, action, password = request.args.getlist('adminName'), request.args.getlist('action'), request.args.getlist('password')
+        ids = request.args.getlist('id')
+        if len(action) > 0:            
+            with conn:                
+                c.execute("SELECT * FROM admins WHERE adminName=%s AND password=%s", (name[0], password[0]))
+                if c.rowcount == 1:
+                    row = c.fetchone()
+                    id = row["id"]
+                    text = json.dumps({"id":id, "status": "success"}) 
+                else:
+                    text = json.dumps({"id":-1, "status": "failed"}) 
+        elif len(ids) > 0:
+            with conn:
+                c.execute("SELECT * FROM admins WHERE id=%s", (ids[0],))
+                text = json.dumps(c.fetchone()) 
+        else:
+            with conn:
+                c.execute("SELECT * FROM admins")
+                text = json.dumps(c.fetchall())
+    
+    elif request.method == "POST":
+        query = request.get_json(force=True)
+        name = query["adminName"]
+        pwd = query["password"]
+        with conn:
+            c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
+            if c.rowcount == 1:
+                c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
+                text = json.dumps(c.fetchone())
+            else:
+                text = "There was an error inserting into table"
                 
+    elif request.method == "DELETE":
+        ids = request.args.getlist('id')
+        id = ids[0]
+        with conn:
+            c.execute("DELETE FROM admins WHERE id=%s", (id,))
+            if c.rowcount == 1:
+                text = "Admin successfully deleted"                
+            else:
+                text = "problem deleting"
+                
+    elif request.method == "PUT":
+        query = request.get_json(force=True)
+        id = query["id"]
+        name = query["adminName"]
+        pwd = query["password"]
+        with conn:
+            c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
+            if c.rowcount == 1:
+                c.execute("SELECT * FROM admins WHERE id=%s", (id,))
+                text = json.dumps(c.fetchone())
+            else:
+                text = "There was an error with PUT"
+                
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp    
+          
 @app.route("/api/bonuses/", methods = ["GET", "POST", "DELETE", "PUT"])    
 def getBonus():
     try:
@@ -280,4 +347,3 @@ def getAwards():
                 
 if __name__ == "__main__":
     app.run()
-
