@@ -19,7 +19,7 @@ app.config.update(
 	)
 mail = Mail(app)
 
-HEAD = {"Access-Control-Allow-Origin" : "*", "Access-Control-Allow-Methods" : "GET, POST, PUT, DELETE"}
+HEAD = {"Access-Control-Allow-Origin" : "*", "Access-Control-Allow-Methods" : "GET, POST, PUT, DELETE, OPTIONS"}
 text = ""
 
 @app.route("/", methods = ['GET', 'POST'])
@@ -43,7 +43,7 @@ def page_not_found(e):
     return("404 error!")
     
 
-@app.route("/api/users/", methods = ["GET", "POST", "DELETE", "PUT"])
+@app.route("/api/users/", methods = ["GET", "POST", "DELETE", "PUT", "OPTIONS"])
 def getUsers():
     try:
         c, conn = connection()
@@ -167,7 +167,7 @@ def getUsers():
     resp.headers = HEAD
     return resp
 
-@app.route("/api/admins/", methods = ["GET", "POST", "DELETE", "PUT"])    
+@app.route("/api/admins/", methods = ["GET", "POST", "DELETE", "PUT", "OPTIONS"])    
 def getAdmins():
     try:
         c, conn = connection()
@@ -234,7 +234,7 @@ def getAdmins():
     resp.headers = HEAD
     return resp    
           
-@app.route("/api/bonuses/", methods = ["GET", "POST", "DELETE", "PUT"])    
+@app.route("/api/bonuses/", methods = ["GET", "POST", "DELETE", "PUT", "OPTIONS"])    
 def getBonus():
     try:
         c, conn = connection()
@@ -271,7 +271,7 @@ def getBonus():
     resp.headers = HEAD
     return resp
 
-@app.route("/api/divisions/", methods = ["GET", "POST", "DELETE", "PUT"])    
+@app.route("/api/divisions/", methods = ["GET", "POST", "DELETE", "PUT", "OPTIONS"])    
 def getDivision():                
     try:
         c, conn = connection()
@@ -308,7 +308,7 @@ def getDivision():
     resp.headers = HEAD
     return resp
  
-@app.route("/api/awards/", methods = ["GET", "POST", "DELETE", "PUT"])  
+@app.route("/api/awards/", methods = ["GET", "POST", "DELETE", "PUT", "OPTIONS"])  
 def getAwards():                
     try:
         c, conn = connection()
