@@ -9,7 +9,7 @@ Returns list of details for all users
 ## URL Query Example
 
 ```
-http://{hostname}/api/users
+http://138.197.7.194/api/users
 ```
 
 ---
@@ -27,6 +27,7 @@ The response will include a JSON object with an array of all user objects
  - **timeCreated**: Date and time the user account was created
  - **signature**: File location of user's signature
  - **dept**: Id number of department corresponding to division (foreign key)
+ - **deptName**: The name of the department
 
 ### JSON Object
 
@@ -40,7 +41,8 @@ The response will include a JSON object with an array of all user objects
 	"password": "pword123",
     "timeCreated": "Oct 22, 2016 12:24:09 AM",
     "signature": "http://hostname/img/blackSig.jpg",
-    "dept": 3
+    "dept": 3,
+	"deptName": "Marketing"
   },
   {
     "id": 24680,
@@ -50,7 +52,8 @@ The response will include a JSON object with an array of all user objects
 	"password": "mypass1",
     "timeCreated": "Oct 22, 2016 12:26:09 AM",
     "signature": "http://hostname/img/smithSig.jpg",
-    "dept": 2
+    "dept": 2,
+	"deptName": "Engineering"
   }
 ]
 ```
