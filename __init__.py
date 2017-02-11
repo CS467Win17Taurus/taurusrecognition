@@ -90,7 +90,7 @@ def getUsers():
                 
         else:
             with conn:
-                c.execute("SELECT * FROM users")
+                c.execute("SELECT * FROM users INNER JOIN division ON dept=did")
                 text = json.dumps(c.fetchall())
         
             
