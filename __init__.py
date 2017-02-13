@@ -1,4 +1,5 @@
 from flask import Flask, render_template, flash, request, url_for, redirect, json, jsonify, Response
+from flask.ext.cors import CORS
 from dbConnect import connection
 from readImage import read_image
 import datetime
@@ -8,6 +9,8 @@ import os
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 app.config.update(
 	DEBUG=True,
 	#EMAIL SETTINGS
@@ -51,7 +54,7 @@ def getUsers():
         flash(str(e))
         return render_template("500.html", error=e)     
     
-    app.config['UPLOAD_FOLDER'] = '/var/www/FlaskApp/FlaskApp/static/' 
+    app.config['UPLOAD_FOLDER'] = '/var/www/FlaskApp/FlaskApp/static/'     
 
     if request.method == "GET":
         email , action, password = request.args.getlist('email'), request.args.getlist('action'), request.args.getlist('password')
@@ -161,7 +164,7 @@ def getUsers():
                 sig = url_for('static', filename=user)
             c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, sig, dept, id))
             c.execute("SELECT * FROM users WHERE id=%s", (id,))
-            text = json.dumps(c.fetchone())
+            text = json.dumps(c.fetchone())   
         
     resp = Response(text)
     resp.headers = HEAD
@@ -343,7 +346,30 @@ def getAwards():
                
     resp = Response(text)
     resp.headers = HEAD
-    return resp        
+    return resp     
+
+@app.route("/api/userAwards/", methods = ["GET", "POST", "DELETE", "PUT", "OPTIONS"])  
+def getUserAwards():                
+    try:
+        c, conn = connection()
+    except Exception as e:        
+        return json.dumps(e)
+
+    if request.method == "GET":
+        userID, aid = request.args.getlist('userID'), request.args.getlist('awardID')
+        bid, did = request.args.getlist('bonusID'), request.args.getlist('deptID')
+        if len(userID) > 0:
+            with conn:
+                c.execute("""SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
+                            t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount FROM userAwards
+                            UA join users t1 on UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on 
+                            UA.awardID=awards.aid INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
+                text = json.dumps(c.fetchall())
+                
+                
+    resp = Response(text)
+    resp.headers = HEAD
+    return resp 
                 
 if __name__ == "__main__":
     app.run()
