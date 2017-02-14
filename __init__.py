@@ -1,5 +1,6 @@
 from flask import Flask, render_template, flash, request, url_for, redirect, json, jsonify, Response
 from dbConnect import connection
+from optionsResponse import optionResponse
 import datetime
 import time
 import re
@@ -342,15 +343,8 @@ def getAwards():
             else:
                 text = json.dumps({"status":"failed","message":"Award type not deleted"}) 
     
-    elif request.method == "OPTIONS":
-        resp = Response("ok")
-        resp.status_code = 201
-        resp.headers['Access-Control-Allow-Origin'] = '*'
-        resp.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS, PUT, DELETE"
-        resp.headers['Access-Control-Allow-Domain'] = '*'
-        resp.headers['Access-Control-Allow-Credentials'] = True
-        return resp
-    
+    elif request.method == "OPTIONS":        
+        return optionResponse()    
                
     resp = Response(text)
     resp.headers = HEAD
