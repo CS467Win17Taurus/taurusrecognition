@@ -18,7 +18,7 @@ http://{hostname}/api/userAwards
 - **giver** *(required)*: Id number of user creating award (foreign key)
 - **awardId** *(required)*: Id number of award type (foreign key)
 - **bonusId** *(required)*: Id number of bonus level (foreign key)
-- **awardDate** *(required)*: Date of when the award is created
+
 
 ---
 
