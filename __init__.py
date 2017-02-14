@@ -394,8 +394,18 @@ def getUserAwards():
                 c.execute("SELECT * FROM userAwards WHERE uaid=%s", (c.lastrowid,))
                 text = json.dumps(c.fetchone())               
             else:
-                text = "Problem adding UA"     
-           
+                text = "Problem adding UA"  
+
+    elif request.method == "DELETE":
+        ids = request.args.getlist('id')
+        id = ids[0] 
+        with conn:
+            c.execute("DELETE FROM userAwards WHERE uaid=%s", (id,))
+            if c.rowcount == 1:
+                text = json.dumps({"status":"success","message":"User award was successfully deleted"})
+            else:
+                text = json.dumps({"status": "failed","message": "Error: User award was not deleted."})
+          
     elif request.method == "OPTIONS":        
         return optionResponse()
         
