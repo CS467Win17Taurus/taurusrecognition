@@ -147,10 +147,23 @@ function makeRequestWithExtraParams(verb, url, data, parse, resFunc, type, id){
 	});
 	if (data != null){
 		req.send(data);
-		console.log("Request: data sent");
+		//console.log("Request: data sent");
 	}
 	else{
 		req.send();
-		console.log("Request: data not sent");
+		//console.log("Request: data not sent");
 	}
+}
+
+//Get user's name for header
+function getUserName(id){
+	makeRequest('GET', "http://138.197.7.194/api/users/?id=" + id, null, true, userAcctGetNameResp);
+}
+
+//Handle get user name response
+function userAcctGetNameResp(response){
+	//Ref: http://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
+	var name = response.fName;
+	var capitalName = name.charAt(0).toUpperCase() + name.slice(1);	
+	document.getElementById("userName").textContent = capitalName;
 }

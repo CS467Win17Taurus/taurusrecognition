@@ -11,23 +11,10 @@ function initializePage(){
 	}
 	else{
 		console.log("Logged in = true");
-		getUserName();
+		var id = getId('user_id');
+		getUserName(id);
 		createTable();
 	}
-}
-
-//Get user's name for header
-function getUserName(){
-	var id = getId('user_id');
-	makeRequest('GET', "http://138.197.7.194/api/users/?id=" + id, null, true, userAcctGetNameResp);
-}
-
-//Handle get user name response
-function userAcctGetNameResp(response){
-	//Ref: http://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
-	var name = response.fName;
-	var capitalName = name.charAt(0).toUpperCase() + name.slice(1);	
-	document.getElementById("userName").textContent = capitalName;
 }
 
 //Create table of past awards
@@ -72,6 +59,7 @@ function createTable(){
 	//Send request to get user awards
 	var id = getId('user_id');
 	makeRequest('GET', "http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d?userId=" + id, null, true, addDataToTable);
+	//makeRequest('GET', "http://138.197.7.194/api/userAwards/?userId=" + id, null, true, addDataToTable);
 }
 
 //Add awards data to table
@@ -117,18 +105,46 @@ function addDataToTable(response){
 		button.innerHTML = '<span class="glyphicon glyphicon-trash"></span>';
 		button.className = "btn btn-danger";
 		button.value = data.uaid;
-		button.addEventListener('click', function(){showModal(this);});
+		button.addEventListener('click', function(){showConfirm(data.uaid);});
 		cell.appendChild(button);
+		
+		//Create confirmation div
+		var div = document.createElement("div");
+		div.id = "div" + data.uaid;
+		var par = document.createElement("p");
+		par.textContent = "Confirm?";
+		div.appendChild(par);
+		
+		//Create Yes Button
+		var button = document.createElement("button");
+		button.setAttribute("type","button");
+		button.innerHTML = 'Yes';
+		button.className = "btn btn-success";
+		button.addEventListener('click', function(){deleteAward(data.uaid);});
+		div.appendChild(button);
+			
+		//Create No Button
+		var button = document.createElement("button");
+		button.setAttribute("type","button");
+		button.innerHTML = 'No';
+		button.className = "btn btn-warning";
+		button.addEventListener('click', function(){hideConfirm(data.uaid);});
+		div.appendChild(button);
+		
+		div.style.display = "none";
+		cell.appendChild(div);
 		row.appendChild(cell);
 	});
 }
 
-//Show confirmation modal
-function showModal(uaid){
-	$('#modal1').modal('show');
-	var awardId = uaid.value;
-	document.getElementById("submit").addEventListener('click', function(){deleteAward(awardId)});
-	document.getElementById("deleteMsg").textContent = "";
+//Show confirmation division with buttons
+function showConfirm(uaid){
+	document.getElementById("div" + uaid).style.display = "block";
+}
+
+//Hide confirmation division with buttons
+function hideConfirm(uaid){
+	document.getElementById("div" + uaid).style.display = "none";
 }
 
 //Delete award
