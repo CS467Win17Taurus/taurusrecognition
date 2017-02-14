@@ -370,8 +370,8 @@ def getUserAwards():
         return json.dumps(e)
 
     if request.method == "GET":
-        userID, aid = request.args.getlist('userID'), request.args.getlist('awardID')
-        bid, did = request.args.getlist('bonusID'), request.args.getlist('deptID')
+        userID, aid = request.args.getlist('userId'), request.args.getlist('awardId')
+        bid, did = request.args.getlist('bonusId'), request.args.getlist('deptId')
         if len(userID) > 0:
             with conn:
                 c.execute("""SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
@@ -380,7 +380,7 @@ def getUserAwards():
                             UA.awardID=awards.aid INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
                 text = json.dumps(c.fetchall())
                 
-                
+              
     resp = Response(text)
     resp.headers = HEAD
     return resp 
