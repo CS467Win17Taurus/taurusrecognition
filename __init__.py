@@ -1,7 +1,5 @@
 from flask import Flask, render_template, flash, request, url_for, redirect, json, jsonify, Response
-from flask.ext.cors import CORS
 from dbConnect import connection
-from readImage import read_image
 import datetime
 import time
 import re
@@ -9,7 +7,7 @@ import os
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 app.config.update(
 	DEBUG=True,
@@ -340,9 +338,19 @@ def getAwards():
         with conn:
             c.execute("DELETE FROM awards WHERE aid=%s", (id,))
             if c.rowcount == 1:
-                text = "Award successfully deleted"                
+                text = json.dumps({"status":"success","message":"Award type successfully deleted"})              
             else:
-                text = "problem deleting"
+                text = json.dumps({"status":"failed","message":"Award type not deleted"}) 
+    
+    elif request.method == "OPTIONS":
+        resp = Response("ok")
+        resp.status_code = 201
+        resp.headers['Access-Control-Allow-Origin'] = '*'
+        resp.headers['Access-Control-Allow-Methods'] = "GET, POST, OPTIONS, PUT, DELETE"
+        resp.headers['Access-Control-Allow-Domain'] = '*'
+        resp.headers['Access-Control-Allow-Credentials'] = True
+        return resp
+    
                
     resp = Response(text)
     resp.headers = HEAD
