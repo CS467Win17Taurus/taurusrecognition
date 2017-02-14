@@ -305,9 +305,12 @@ def getDivision():
         with conn:
             c.execute("DELETE FROM division WHERE did=%s", (id,))
             if c.rowcount == 1:
-                text = "Division successfully deleted"                
+                text = json.dumps({"status":"success","message":"Division successfully deleted"})               
             else:
-                text = "problem deleting"                
+                text = json.dumps({"status":"failed","message":"Division not deleted"}) 
+
+    elif request.method == "OPTIONS":        
+        return optionResponse()
                 
     resp = Response(text)
     resp.headers = HEAD
