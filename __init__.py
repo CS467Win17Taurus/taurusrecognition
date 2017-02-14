@@ -379,8 +379,26 @@ def getUserAwards():
                             UA join users t1 on UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on 
                             UA.awardID=awards.aid INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
                 text = json.dumps(c.fetchall())
-                
-              
+    
+    elif request.method == "POST":
+        query = request.form
+        recipient = query["recipient"]
+        giver = query["giver"]
+        awardId = query["awardId"]
+        bonusId = query["bonusId"]
+        today = time.strftime('%Y-%m-%d')
+        with conn:
+            c.execute("INSERT INTO userAwards (recipient, giver, awardID, bonusID, awardDate) VALUES (%s, %s, %s, %s, %s)", 
+            (recipient, giver, awardId, bonusId, today))
+            if c.rowcount == 1:
+                c.execute("SELECT * FROM userAwards WHERE uaid=%s", (c.lastrowid,))
+                text = json.dumps(c.fetchone())               
+            else:
+                text = "Problem adding UA"     
+           
+    elif request.method == "OPTIONS":        
+        return optionResponse()
+        
     resp = Response(text)
     resp.headers = HEAD
     return resp 
