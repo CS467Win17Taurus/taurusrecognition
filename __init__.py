@@ -164,6 +164,9 @@ def getUsers():
             c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, sig, dept, id))
             c.execute("SELECT * FROM users WHERE id=%s", (id,))
             text = json.dumps(c.fetchone())   
+            
+    elif request.method == "OPTIONS":        
+        return optionResponse()
         
     resp = Response(text)
     resp.headers = HEAD
@@ -231,6 +234,9 @@ def getAdmins():
                 text = json.dumps(c.fetchone())
             else:
                 text = "There was an error with PUT"
+                
+    elif request.method == "OPTIONS":        
+        return optionResponse()
                 
     resp = Response(text)
     resp.headers = HEAD
