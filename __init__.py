@@ -265,9 +265,12 @@ def getBonus():
         with conn:
             c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
             if c.rowcount == 1:
-                text = "Bonus successfully deleted"                
+                text = json.dumps({"status":"success","message":"Bonus amount successfully deleted"})                
             else:
-                text = "Error deleting bonus"                
+                text = json.dumps({"status":"failed","message":"Bonus amount not deleted"})  
+
+    elif request.method == "OPTIONS":        
+        return optionResponse()
                 
     resp = Response(text)
     resp.headers = HEAD
