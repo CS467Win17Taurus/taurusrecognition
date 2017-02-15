@@ -99,7 +99,7 @@ function addDataToTable(response){
 		
 		//Department
 		cell = document.createElement('td');
-		cell.textContent = data.dept;  //-----Need to change to deptName when implemented in backend
+		cell.textContent = data.name;  //-----Need to change to deptName when implemented in backend
 		row.appendChild(cell);
 		
 		//Date Created
