@@ -149,7 +149,6 @@ function hideConfirm(uaid){
 //Delete award
 function deleteAward(awardId){
 	console.log("Award id: " + awardId);
-	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId); //Good
 	makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/userAwards/?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId);
 }
 
