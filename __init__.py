@@ -251,7 +251,7 @@ def getBonus():
         
     if request.method == "GET":
         with conn:
-            c.execute("SELECT * FROM bonus")
+            c.execute("SELECT * FROM bonus ORDER BY amount")
             text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
