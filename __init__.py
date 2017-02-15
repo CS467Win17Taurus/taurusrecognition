@@ -61,7 +61,7 @@ def getUsers():
         
         if len(action) > 0 and action[0] == 'retrieve':
             with conn:
-                c.execute("SELECT password FROM users WHERE email=%s", (email[0],))
+                c.execute("SELECT password FROM users WHERE email=%s AND active=1", (email[0],))
                 if c.rowcount == 0:
                     text = "That email is not in the system, please try again"
                     resp = Response(text)
@@ -77,7 +77,7 @@ def getUsers():
                 
         elif len(action) > 0 and action[0] == 'login':
             with conn:
-                c.execute("SELECT id FROM users WHERE email=%s AND password=%s", (email[0], password[0]))                
+                c.execute("SELECT id FROM users WHERE email=%s AND password=%s AND active=1", (email[0], password[0]))                
                 if c.rowcount == 1:                
                     row = c.fetchone()
                     id = row["id"]
@@ -87,7 +87,7 @@ def getUsers():
 
         elif len(ids) > 0:
             with conn:
-                c.execute("SELECT * FROM users WHERE id=%s", (ids[0],))
+                c.execute("SELECT * FROM users WHERE id=%s AND active=1", (ids[0],))
                 text = json.dumps(c.fetchone())
                 
         else:
@@ -252,7 +252,7 @@ def getBonus():
         
     if request.method == "GET":
         with conn:
-            c.execute("SELECT * FROM bonus ORDER BY amount")
+            c.execute("SELECT * FROM bonus WHERE active=1 ORDER BY amount")
             text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
@@ -292,7 +292,7 @@ def getDivision():
         
     if request.method == "GET":
         with conn:
-            c.execute("SELECT * FROM division")
+            c.execute("SELECT * FROM division WHERE active=1")
             text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
@@ -332,7 +332,7 @@ def getAwards():
         
     if request.method == "GET":        
         with conn:
-            c.execute("SELECT * FROM awards")                
+            c.execute("SELECT * FROM awards WHERE active=1")                
             text = json.dumps(c.fetchall())                                
                 
     elif request.method == "POST":
