@@ -58,8 +58,7 @@ function createTable(){
 	
 	//Send request to get user awards
 	var id = getId('user_id');
-	makeRequest('GET', "http://mockbin.org/bin/34d688d0-3d0b-45a2-863a-37443538bb4d?userId=" + id, null, true, addDataToTable);
-	//makeRequest('GET', "http://138.197.7.194/api/userAwards/?userId=" + id, null, true, addDataToTable);
+	makeRequest('GET', "http://138.197.7.194/api/userAwards/?userId=" + id, null, true, addDataToTable);
 }
 
 //Add awards data to table
@@ -150,8 +149,8 @@ function hideConfirm(uaid){
 //Delete award
 function deleteAward(awardId){
 	console.log("Award id: " + awardId);
-	makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId); //Good
-	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId); //Bad
+	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId); //Good
+	makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/userAwards/?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId);
 }
 
 //Handle response for deleting row

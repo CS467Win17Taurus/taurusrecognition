@@ -74,18 +74,19 @@ function clearForm(){
 
 //Submit award information to create new award in db
 function submitAward(){
-	var data = {};
-	data.recipient = document.getElementById("user").value;
-	data.giver = getId('user_id');
-	data.awardId = document.getElementById("type").value;
-	data.bonusId = document.getElementById("amount").value;
-	data.awardDate = new Date();
-	makeRequest('POST', "http://mockbin.org/bin/e95fd964-aac4-4558-90d3-02dd5b070e7e", data, true, awardResponse);
+	var data = new FormData();
+	data.append("recipient", document.getElementById("user").value);
+	data.append("giver",getId('user_id'));
+	data.append("awardId", document.getElementById("type").value);
+	data.append("bonusId", document.getElementById("amount").value);
+
+	makeRequestFormData('POST', "http://138.197.7.194/api/userAwards/", data, true, awardResponse);
 }
 
 //Handle award creation response
 function awardResponse(response){
 	clearForm();
+	window.location.href = 'userAccount.html';
 }
 
 

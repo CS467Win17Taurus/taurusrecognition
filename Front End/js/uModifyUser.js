@@ -43,7 +43,6 @@ function sendData(){
 	if (document.getElementById("newPw").value != "")
 		data.append("password", document.getElementById("newPw").value);
 	
-	//makeRequestFormData('PUT', "http://mockbin.org/bin/fbca1ddd-dc5d-4a4d-9640-bc4c0e4514e5", data, true, userSendDataResponse);
 	makeRequestFormData('PUT', "http://138.197.7.194/api/users/", data, true, userSendDataResponse);
 }
 
