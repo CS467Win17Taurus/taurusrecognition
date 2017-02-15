@@ -1,5 +1,8 @@
 from flask import Flask, request, Response
 
+#this function returns the proper response from the pre-flight request sent by the front end
+#for delete/put/post requests
+
 def optionResponse():
     resp = Response("ok")
     resp.status_code = 201
