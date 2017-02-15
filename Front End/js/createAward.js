@@ -11,6 +11,7 @@ function initializePage(){
 	}
 	else{
 		console.log("Logged in = true");
+		document.getElementById("createAwardError").style.display = "none";
 		addUserOptions();
 		addTypeOptions();
 		addAmountOptions();
@@ -74,13 +75,24 @@ function clearForm(){
 
 //Submit award information to create new award in db
 function submitAward(){
-	var data = new FormData();
-	data.append("recipient", document.getElementById("user").value);
-	data.append("giver",getId('user_id'));
-	data.append("awardId", document.getElementById("type").value);
-	data.append("bonusId", document.getElementById("amount").value);
+	var user = document.getElementById("user").value;
+	var type = document.getElementById("type").value;
+	var amount = document.getElementById("amount").value;
+	
+	//Validate all fields are filled in
+	if (user == " " || type == " " || amount == " "){
+		document.getElementById("createAwardError").textContent = "Error: Please fill in all the fields.";
+		document.getElementById("createAwardError").style.display = "block";
+	}
+	else{
+		var data = new FormData();
+		data.append("recipient", user);
+		data.append("giver",getId('user_id'));
+		data.append("awardId", type);
+		data.append("bonusId", amount);
 
-	makeRequestFormData('POST', "http://138.197.7.194/api/userAwards/", data, true, awardResponse);
+		makeRequestFormData('POST', "http://138.197.7.194/api/userAwards/", data, true, awardResponse);
+	}
 }
 
 //Handle award creation response
