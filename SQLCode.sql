@@ -23,6 +23,7 @@ INSERT INTO users (fName, lName, email, password, timeCreated, dept) VALUES
                   ("mike", "smith", "bonneym@oregonstate.edu", "msmith", current_timestamp, 1);
 INSERT INTO users (fName, lName, email, password, timeCreated, dept) VALUES 
                   ("alicia", "broederdorf", "broedera@oregonstate.edu", "aliciapass", current_timestamp, 1);
+                  
 
 
  
@@ -61,3 +62,10 @@ CREATE TABLE userAwards ( uaid INT(11) AUTO_INCREMENT PRIMARY KEY ,
                           FOREIGN KEY (giver) REFERENCES users(id),
                           FOREIGN KEY (awardID) REFERENCES awards(aid),
                           FOREIGN KEY (bonusID) REFERENCES bonus(bid));
+
+
+
+
+
+
+                    
