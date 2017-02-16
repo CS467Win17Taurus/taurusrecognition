@@ -125,47 +125,60 @@ def getUsers():
             c.execute("SELECT * FROM users WHERE email=%s", (email,))
             text = json.dumps(c.fetchone())           
         
-    elif request.method == "DELETE":
-        id = request.args.get("id")
-        with conn:
-            c.execute("SELECT * FROM users WHERE id=%s", (id,))
-            if c.rowcount != 1:
-                text = "no such user"
-                resp = Response(text)
-                resp.headers = HEAD
-                return resp
-            row = c.fetchone()                                  #delete signature file
-            user = row["email"]
-            user = re.sub('["@.]', '', user)
-            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
-            c.execute("DELETE FROM users WHERE id=%s", (id,))
-            text = "User successfully deleted"  
+    # elif request.method == "DELETE":
+        # id = request.args.get("id")
+        # with conn:
+            # c.execute("SELECT * FROM users WHERE id=%s", (id,))
+            # if c.rowcount != 1:
+                # text = "no such user"
+                # resp = Response(text)
+                # resp.headers = HEAD
+                # return resp
+            # row = c.fetchone()                                  #delete signature file
+            # user = row["email"]
+            # user = re.sub('["@.]', '', user)
+            # os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
+            # c.execute("DELETE FROM users WHERE id=%s", (id,))
+            # text = "User successfully deleted"  
 
     elif request.method == "PUT":
         data = request.form
-        id = data['id']
-        fName = data['fName']
-        lName = data['lName']
-        email = data['email']   
-        dept = data['dept']
-        file = request.files.getlist('signature')        
-        with conn:
-            c.execute("SELECT * FROM users WHERE id=%s", (id,))
-            row = c.fetchone()
-            try:
-                password = data['password']
-            except:
-                password = row['password']
-            if not file:
-                sig = row['signature']
-            else:
-                user = re.sub('["@.]', '', email)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))
-                sig = url_for('static', filename=user)
-            c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, sig, dept, id))
-            c.execute("SELECT * FROM users WHERE id=%s", (id,))
-            text = json.dumps(c.fetchone())   
-            
+        id = data['id']        
+        try:
+            active = data['active']
+        except:
+            active = 1
+        
+        if active == "0":
+            with conn:                             
+                c.execute("UPDATE users SET active=0 WHERE id=%s", (id,))
+                if c.rowcount == 1:
+                    text = json.dumps({"status" :"success"})
+                else:
+                    text = json.dumps({"status" :"failed"})
+        else: 
+            fName = data['fName']
+            lName = data['lName']
+            email = data['email']   
+            dept = data['dept']
+            file = request.files.getlist('signature')
+            with conn:
+                c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                row = c.fetchone()
+                try:
+                    password = data['password']
+                except:
+                    password = row['password']
+                if not file:
+                    sig = row['signature']
+                else:
+                    user = re.sub('["@.]', '', email)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))
+                    sig = url_for('static', filename=user)
+                c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, sig, dept, id))
+                c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                text = json.dumps(c.fetchone())   
+         
     elif request.method == "OPTIONS":        
         return optionResponse()
         
