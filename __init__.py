@@ -319,15 +319,25 @@ def getDivision():
             else:
                 text = "there was an error inserting into table"                
           
-    elif request.method == "DELETE":
-        ids = request.args.getlist('id')
-        id = ids[0]
+    # elif request.method == "DELETE":
+        # ids = request.args.getlist('id')
+        # id = ids[0]
+        # with conn:
+            # c.execute("DELETE FROM division WHERE did=%s", (id,))
+            # if c.rowcount == 1:
+                # text = json.dumps({"status":"success","message":"Division successfully deleted"})               
+            # else:
+                # text = json.dumps({"status":"failed","message":"Division not deleted"}) 
+                
+    elif request.method == "PUT":
+        data = request.form
+        id = data["id"]
         with conn:
-            c.execute("DELETE FROM division WHERE did=%s", (id,))
+            c.execute("UPDATE division SET active=0 WHERE did=%s", (id,))
             if c.rowcount == 1:
-                text = json.dumps({"status":"success","message":"Division successfully deleted"})               
+                text = json.dumps({"status":"success"})
             else:
-                text = json.dumps({"status":"failed","message":"Division not deleted"}) 
+                text = json.dumps({"status":"failed"})
 
     elif request.method == "OPTIONS":        
         return optionResponse()
