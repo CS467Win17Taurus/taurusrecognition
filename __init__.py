@@ -279,15 +279,26 @@ def getBonus():
             else:
                 text = "Error inserting bonus"                                
           
-    elif request.method == "DELETE":
-        ids = request.args.getlist('id')
-        id = ids[0]
+    # elif request.method == "DELETE":
+        # ids = request.args.getlist('id')
+        # id = ids[0]
+        # with conn:
+            # c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
+            # if c.rowcount == 1:
+                # text = json.dumps({"status":"success","message":"Bonus amount successfully deleted"})                
+            # else:
+                # text = json.dumps({"status":"failed","message":"Bonus amount not deleted"})  
+                
+    elif request.method == "PUT":
+        data = request.form
+        id = data["id"]
         with conn:
-            c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
+            c.execute("UPDATE bonus SET active=0 WHERE bid=%s", (id,))
             if c.rowcount == 1:
-                text = json.dumps({"status":"success","message":"Bonus amount successfully deleted"})                
+                text = json.dumps({"status":"success"})
             else:
-                text = json.dumps({"status":"failed","message":"Bonus amount not deleted"})  
+                text = json.dumps({"status":"failed"})          
+    
 
     elif request.method == "OPTIONS":        
         return optionResponse()
