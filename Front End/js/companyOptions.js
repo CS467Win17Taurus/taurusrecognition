@@ -79,7 +79,7 @@ function createDeptList(response){
 	}
 }
 
-//Create delete request to remove dept
+//Create put request to deactivate dept
 function deleteDeptReq(obj){
 	console.log(obj);
 	var deptId = obj.value;
@@ -87,9 +87,12 @@ function deleteDeptReq(obj){
 	if (parts.length >= 2){
 		var sect = parts[0];
 		var id = parts[1];
+		
+		var data = new FormData();
+		data.append("id", id);
 		console.log("id: " + id);
 		console.log(sect + " " + id);
-		makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/divisions/?id=" + id, null, true, deletePar, sect, id);
+		makeRequestWithExtraParams('PUT', "http://138.197.7.194/api/divisions/", data, false, true, deletePar, sect, id);
 	}
 
 	document.getElementById("error").textContent = "";
@@ -128,7 +131,7 @@ function createAwardList(response){
 	}
 }
 
-//Create delete request to remove award
+//Create put request to deactivate award
 function deleteAwardReq(obj){
 	console.log(obj);
 	var awardId = obj.value;
@@ -137,7 +140,10 @@ function deleteAwardReq(obj){
 		var sect = parts[0];
 		var id = parts[1];
 		console.log(sect + " " + id);
-		makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/awards/?id=" + id, null, true, deletePar, sect, id);
+		
+		var data = new FormData();
+		data.append("id", id);
+		makeRequestWithExtraParams('PUT', "http://138.197.7.194/api/awards/", data, false, true, deletePar, sect, id);
 	}
 
 	document.getElementById("error").textContent = "";
@@ -177,7 +183,7 @@ function createBonusList(response){
 	}
 }
 
-//Create delete request to remove bonus
+//Create put request to deactivate bonus
 function deleteBonusReq(obj){
 	console.log(obj);
 	var awardId = obj.value;
@@ -186,7 +192,10 @@ function deleteBonusReq(obj){
 		var sect = parts[0];
 		var id = parts[1];
 		console.log(sect + " " + id);
-		makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/bonuses/?id=" + id, null, true, deletePar, sect, id);
+		
+		var data = new FormData();
+		data.append("id", id);
+		makeRequestWithExtraParams('PUT', "http://138.197.7.194/api/bonuses/", data, false, true, deletePar, sect, id);
 	}
 
 	document.getElementById("error").textContent = "";

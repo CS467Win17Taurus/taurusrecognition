@@ -167,11 +167,15 @@ function hideConfirm(id){
 	document.getElementById("div" + id).style.display = "none";
 }
 
-//Delete user
+//Deactivate user
 function deleteUser(userId){
 	console.log("User id: " + userId);
-	makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8?id=" + userId, null, true, aUserAcctDelResp, null, userId); //Good
-	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197?id=" +userId, null, true, aUserAcctDelResp, null, userId); //Bad
+	
+	var data = new FormData();
+	data.append("id", userId);
+	data.append("active", 0);
+	makeRequestWithExtraParams('PUT', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8", data, false, true, aUserAcctDelResp, null, userId); //Good
+	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197", null, true, true, aUserAcctDelResp, null, userId); //Bad
 }
 
 //Handle response for deleting row
