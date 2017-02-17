@@ -9,7 +9,7 @@ Remove user from database
 ## URL Query Example
 
 ```
-http://{hostname}/api/users?id=12345
+http://138.197.7.194/api/users?id=12345
 ```
 
 - **id** *(required)*: Database id of user

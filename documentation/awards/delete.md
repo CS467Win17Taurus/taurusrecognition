@@ -9,7 +9,7 @@ Remove award from database
 ## URL Query Example
 
 ```
-http://{hostname}/api/awards?id=23490
+http://138.197.7.194/api/awards?id=23490
 ```
 
 - **id** *(required)*: Database id of award

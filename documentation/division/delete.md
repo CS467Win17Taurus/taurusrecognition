@@ -9,7 +9,7 @@ Remove division from database
 ## URL Query Example
 
 ```
-http://{hostname}/api/divisions?id=23490
+http://138.197.7.194/api/divisions?id=23490
 ```
 
 - **id** *(required)*: Database id of division

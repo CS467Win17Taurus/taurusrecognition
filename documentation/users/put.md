@@ -9,7 +9,7 @@ Modify user's account information
 ## URL Query Example
 
 ```
-http://{hostname}/api/users
+http://138.197.7.194/api/users
 ```
 
 ## Request Body

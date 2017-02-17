@@ -9,7 +9,7 @@ Returns list of details for all bonuses
 ## URL Query Example
 
 ```
-http://{hostname}/api/bonuses
+http://138.197.7.194/api/bonuses
 ```
 
 ---

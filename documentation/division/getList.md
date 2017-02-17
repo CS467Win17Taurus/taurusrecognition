@@ -9,7 +9,7 @@ Returns list of details for all divisions
 ## URL Query Example
 
 ```
-http://{hostname}/api/divisions
+http://138.197.7.194/api/divisions
 ```
 
 ---

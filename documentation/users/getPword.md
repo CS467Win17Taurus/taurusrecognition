@@ -9,7 +9,7 @@ Sends email to user of email with password and returns status in response
 ## URL Query Example
 
 ```
-http://{hostname}/api/users?email=broder@email.com&action=retrieve
+http://138.197.7.194/api/users?email=broder@email.com&action=retrieve
 ```
 
 - **email** *(required)*: Email of user

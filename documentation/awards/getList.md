@@ -9,7 +9,7 @@ Returns list of details for all awards
 ## URL Query Example
 
 ```
-http://{hostname}/api/awards
+http://138.197.7.194/api/awards
 ```
 
 ---

@@ -9,7 +9,7 @@ Adds new admin to database
 ## URL Query Example
 
 ```
-http://{hostname}/api/admins
+http://138.197.7.194/api/admins
 ```
 
 ## Request Body

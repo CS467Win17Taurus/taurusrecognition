@@ -9,7 +9,7 @@ Adds new user award to database
 ## URL Query Example
 
 ```
-http://{hostname}/api/userAwards
+http://138.197.7.194/api/userAwards
 ```
 
 ## Request Body

@@ -9,7 +9,7 @@ Returns user id and status message for login
 ## URL Query Example
 
 ```
-http://{hostname}/api/admins?adminName=admin1&password=pword1&action=login
+http://138.197.7.194/api/admins?adminName=admin1&password=pword1&action=login
 ```
 
 - **adminName** *(required)*: Name for admin account

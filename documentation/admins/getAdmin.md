@@ -9,7 +9,7 @@ Returns details for specified admin
 ## URL Query Example
 
 ```
-http://{hostname}/api/admins?id=12345
+http://138.197.7.194/api/admins?id=12345
 ```
 
 - **id** *(required)*: Database id of admin
