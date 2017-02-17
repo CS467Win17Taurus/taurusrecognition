@@ -125,21 +125,21 @@ def getUsers():
             c.execute("SELECT * FROM users WHERE email=%s", (email,))
             text = json.dumps(c.fetchone())           
         
-    # elif request.method == "DELETE":
-        # id = request.args.get("id")
-        # with conn:
-            # c.execute("SELECT * FROM users WHERE id=%s", (id,))
-            # if c.rowcount != 1:
-                # text = "no such user"
-                # resp = Response(text)
-                # resp.headers = HEAD
-                # return resp
-            # row = c.fetchone()                                  #delete signature file
-            # user = row["email"]
-            # user = re.sub('["@.]', '', user)
-            # os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
-            # c.execute("DELETE FROM users WHERE id=%s", (id,))
-            # text = "User successfully deleted"  
+    elif request.method == "DELETE":
+        id = request.args.get("id")
+        with conn:
+            c.execute("SELECT * FROM users WHERE id=%s", (id,))
+            if c.rowcount != 1:
+                text = "no such user"
+                resp = Response(text)
+                resp.headers = HEAD
+                return resp
+            row = c.fetchone()                                  #delete signature file
+            user = row["email"]
+            user = re.sub('["@.]', '', user)
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user))
+            c.execute("DELETE FROM users WHERE id=%s", (id,))
+            text = "User successfully deleted"  
 
     elif request.method == "PUT":
         data = request.form
@@ -279,15 +279,15 @@ def getBonus():
             else:
                 text = "Error inserting bonus"                                
           
-    # elif request.method == "DELETE":
-        # ids = request.args.getlist('id')
-        # id = ids[0]
-        # with conn:
-            # c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
-            # if c.rowcount == 1:
-                # text = json.dumps({"status":"success","message":"Bonus amount successfully deleted"})                
-            # else:
-                # text = json.dumps({"status":"failed","message":"Bonus amount not deleted"})  
+    elif request.method == "DELETE":
+        ids = request.args.getlist('id')
+        id = ids[0]
+        with conn:
+            c.execute("DELETE FROM bonus WHERE bid=%s", (id,))
+            if c.rowcount == 1:
+                text = json.dumps({"status":"success","message":"Bonus amount successfully deleted"})                
+            else:
+                text = json.dumps({"status":"failed","message":"Bonus amount not deleted"})  
                 
     elif request.method == "PUT":
         data = request.form
@@ -330,15 +330,15 @@ def getDivision():
             else:
                 text = "there was an error inserting into table"                
           
-    # elif request.method == "DELETE":
-        # ids = request.args.getlist('id')
-        # id = ids[0]
-        # with conn:
-            # c.execute("DELETE FROM division WHERE did=%s", (id,))
-            # if c.rowcount == 1:
-                # text = json.dumps({"status":"success","message":"Division successfully deleted"})               
-            # else:
-                # text = json.dumps({"status":"failed","message":"Division not deleted"}) 
+    elif request.method == "DELETE":
+        ids = request.args.getlist('id')
+        id = ids[0]
+        with conn:
+            c.execute("DELETE FROM division WHERE did=%s", (id,))
+            if c.rowcount == 1:
+                text = json.dumps({"status":"success","message":"Division successfully deleted"})               
+            else:
+                text = json.dumps({"status":"failed","message":"Division not deleted"}) 
                 
     elif request.method == "PUT":
         data = request.form
@@ -380,15 +380,15 @@ def getAwards():
             else:
                 text = "there was an error inserting into table"               
           
-    # elif request.method == "DELETE":
-        # ids = request.args.getlist('id')
-        # id = ids[0]
-        # with conn:
-            # c.execute("DELETE FROM awards WHERE aid=%s", (id,))
-            # if c.rowcount == 1:
-                # text = json.dumps({"status":"success","message":"Award type successfully deleted"})              
-            # else:
-                # text = json.dumps({"status":"failed","message":"Award type not deleted"}) 
+    elif request.method == "DELETE":
+        ids = request.args.getlist('id')
+        id = ids[0]
+        with conn:
+            c.execute("DELETE FROM awards WHERE aid=%s", (id,))
+            if c.rowcount == 1:
+                text = json.dumps({"status":"success","message":"Award type successfully deleted"})              
+            else:
+                text = json.dumps({"status":"failed","message":"Award type not deleted"}) 
                 
     elif request.method == "PUT":
         data = request.form
@@ -424,6 +424,11 @@ def getUserAwards():
                             UA join users t1 on UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on 
                             UA.awardID=awards.aid INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
                 text = json.dumps(c.fetchall())
+        # elif len(aid) > 0 and len(bid) > 0 and len(did) > 0:
+            # with conn:
+                # c.execute("SELECT * FROM userAwards WHERE awardID=%s, bonusID=%s, divisio", (IS NULL,))
+                # text = json.dumps(c.fetchall())
+                # return "ok"
     
     elif request.method == "POST":
         query = request.form
