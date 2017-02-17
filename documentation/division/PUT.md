@@ -2,12 +2,12 @@
 
 ## /divisions
 
-Deactivate division from database
+Deactivate division in database
 
 ## URL Query Example
 
 ```
-http://http://138.197.7.194/api/divisions/
+http://138.197.7.194/api/divisions/
 ```
 
 ## Request Body
