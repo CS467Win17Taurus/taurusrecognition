@@ -1,19 +1,24 @@
-Bonuss: PUT
+# Bonuses: PUT
 
-/bonuss/
+## /bonuses
 
-Deactivate award from database
+Deactivate bonus amount in database
 
-URL Query Example
+## URL Query Example
+```
+http://138.197.7.194/api/bonuses/
+```
 
-http://{hostname}/api/bonus/
+## Request Body
+- **id** *(required)*: Database id of bonus
 
-Request Body
-id (required): Database id of bonus
-
-Response
+## Response
 
 The response will include an object with status and message:
 
+```
 {"status":"success"}
+```
+```
 {"status":"failed"}
+```
