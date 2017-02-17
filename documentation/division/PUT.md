@@ -1,4 +1,4 @@
-# Awards: PUT
+# Divisions: PUT
 
 ## /divisions
 
