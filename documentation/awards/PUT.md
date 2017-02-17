@@ -7,7 +7,7 @@ Deactivate award from database
 ## URL Query Example
 
 ```
-http://http://138.197.7.194/api/awards/
+http://138.197.7.194/api/awards/
 ```
 
 ## Request Body
