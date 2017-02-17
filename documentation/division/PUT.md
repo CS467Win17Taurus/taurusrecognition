@@ -1,19 +1,26 @@
-Awards: PUT
+# Awards: PUT
 
-/divisions/
+## /divisions
 
 Deactivate division from database
 
-URL Query Example
+## URL Query Example
 
-http://{hostname}/api/divisions/
+```
+http://http://138.197.7.194/api/divisions/
+```
 
-Request Body
-id (required): Database id of division
+## Request Body
+- **id** *(required)*: Database id of division
 
-Response
+## Response
 
 The response will include an object with status and message:
 
+### JSON Objects
+```
 {"status":"success"}
+```
+```
 {"status":"failed"}
+```
