@@ -121,7 +121,7 @@ function makeRequestFormData(type, url, data, parse, resFunc){
 }
 
 //Make HTTP request and pass up to two extra params
-function makeRequestWithExtraParams(verb, url, data, parse, resFunc, type, id){
+function makeRequestWithExtraParams(verb, url, data, inDataJson, parse, resFunc, type, id){
 	console.log(url);
 	
 	//Create and send request
@@ -145,13 +145,14 @@ function makeRequestWithExtraParams(verb, url, data, parse, resFunc, type, id){
 		else
 			console.log("Error in network request: " + req.StatusText);
 	});
-	if (data != null){
+	if (data != null && !inDataJson){
 		req.send(data);
-		//console.log("Request: data sent");
+	}
+	else if (data != null && inDataJson){
+		req.send(JSON.stringify(data));
 	}
 	else{
 		req.send();
-		//console.log("Request: data not sent");
 	}
 }
 

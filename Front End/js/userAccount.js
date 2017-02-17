@@ -149,7 +149,7 @@ function hideConfirm(uaid){
 //Delete award
 function deleteAward(awardId){
 	console.log("Award id: " + awardId);
-	makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/userAwards/?id=" + awardId, null, true, userAcctDelAwdResp, null, awardId);
+	makeRequestWithExtraParams('DELETE', "http://138.197.7.194/api/userAwards/?id=" + awardId, null, false, true, userAcctDelAwdResp, null, awardId);
 }
 
 //Handle response for deleting row
