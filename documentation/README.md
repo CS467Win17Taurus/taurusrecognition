@@ -17,10 +17,7 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 
 ### PUT
 - [/users](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/put.md): Modify details of user
-
-### DELETE
-- [/users?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/delete.md): Remove user from database.
-
+- [/users](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/users/PUTdeactivate.md): Deactivate user in database
 
 ## Admins
 
@@ -36,8 +33,7 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 - [/admins](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/put.md): Modify details of admin
 
 ### DELETE
-- [/admins?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/delete.md): Remove admin from database.
-
+- [/admins?id=] (https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/admins/delete.md): Remove admin from database
 
 ## Divisions
 
@@ -47,8 +43,8 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ### POST
 - [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/post.md): Adds new division to database
 
-### DELETE
-- [/divisions?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/delete.md): Remove division from database.
+### PUT
+- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/PUT.md): Deactivate division in database.
 
 
 ## Awards
@@ -59,8 +55,8 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ### POST
 - [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/post.md): Adds new award to database
 
-### DELETE
-- [/awards?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/delete.md): Remove award from database.
+### PUT
+- [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/PUT.md): Deactivate award in database.
 
 
 ## Bonuses
@@ -71,8 +67,8 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ### POST
 - [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/post.md): Adds new bonus to database
 
-### DELETE
-- [/bonuses?id=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/delete.md): Remove bonus from database.
+### PUT
+- [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/PUT.md): Deactivate bonus in database.
 
 
 ## User Awards
