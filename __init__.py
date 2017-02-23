@@ -140,9 +140,9 @@ def getUsers():
             c.execute("DELETE FROM users WHERE id=%s", (id,))
             text = "User successfully deleted"  
 
-    elif request.method == "PUT":
+    elif request.method == "PUT":        
         data = request.form
-        id = data['id']        
+        id = data['id']                  
         try:
             active = data['active']
         except:
@@ -155,12 +155,12 @@ def getUsers():
                     text = json.dumps({"status" :"success"})
                 else:
                     text = json.dumps({"status" :"failed"})
-        else: 
+        else:             
             fName = data['fName']
             lName = data['lName']
             email = data['email']   
-            dept = data['dept']
-            file = request.files.getlist('signature')
+            dept = data['dept']            
+            file = request.files.getlist('signature')              
             with conn:
                 c.execute("SELECT * FROM users WHERE id=%s", (id,))
                 row = c.fetchone()
@@ -168,13 +168,12 @@ def getUsers():
                     password = data['password']
                 except:
                     password = row['password']
-                if not file:
-                    sig = row['signature']
-                else:
+                if not file:                     
+                    user = row['signature']
+                else:                    
                     user = re.sub('["@.]', '', email)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))
-                    sig = url_for('static', filename=user)
-                c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, sig, dept, id))
+                    file[0].save(os.path.join(app.config['UPLOAD_FOLDER'], user))                          
+                c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, user, dept, id))
                 c.execute("SELECT * FROM users WHERE id=%s", (id,))
                 text = json.dumps(c.fetchone())   
          
