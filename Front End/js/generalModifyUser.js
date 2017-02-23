@@ -29,7 +29,7 @@ function fillForm(data){
 	document.getElementById("lName").value = data.lName;
 	document.getElementById("email").value = data.email;
 	document.getElementById("dept").value = data.dept;
-	document.getElementById("sigImg").src = data.signature;
+	document.getElementById("sigImg").src = " http://138.197.7.194" + data.signature;
 	userPw = data.password;
 	userId = data.id;
 }
@@ -66,7 +66,7 @@ function validateForm(){
 	if (numErrors > 0){
 		document.getElementById("formErrors").innerHTML = errorHTML;
 		document.getElementById("formErrors").className = "badStatus";
-		return false
+		return false;
 	}
 	else
 		return true;
@@ -119,15 +119,4 @@ function save(){
 	}
 }
 
-//Ref: http://stackoverflow.com/a/901144
-function getParameterByName(name, url) {
-    if (!url) {
-      url = window.location.href;
-    }
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+

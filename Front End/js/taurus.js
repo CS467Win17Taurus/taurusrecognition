@@ -132,6 +132,7 @@ function makeRequestWithExtraParams(verb, url, data, inDataJson, parse, resFunc,
 		if (req.status >= 200 && req.status < 400)
 		{
 			if (parse){
+				console.log("Parsing data");
 				var response = JSON.parse(req.responseText);
 				console.log(response);
 				resFunc(response, type, id);
@@ -167,4 +168,17 @@ function userAcctGetNameResp(response){
 	var name = response.fName;
 	var capitalName = name.charAt(0).toUpperCase() + name.slice(1);	
 	document.getElementById("userName").textContent = capitalName;
+}
+
+//Ref: http://stackoverflow.com/a/901144
+function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }

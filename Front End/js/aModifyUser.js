@@ -27,7 +27,8 @@ function getFormData(){
 function sendData(){
 	//Get form data
 	var data = new FormData();
-	data.append("id", userId);
+	var id = getParameterByName('userId');
+	data.append("id", id);
 	data.append("fName", document.getElementById("fName").value);
 	data.append("lName", document.getElementById("lName").value);
 	data.append("email", document.getElementById("email").value);
