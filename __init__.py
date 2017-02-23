@@ -115,13 +115,12 @@ def getUsers():
         password = data['password']
         did = data['dept']        
         file = request.files['signature']        
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))  
-        sig = url_for('static', filename=user)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], user))          
         ts = time.time()        
         timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')  
         with conn:
             c.execute("INSERT INTO users (fName, lName, email, password, timeCreated, signature, dept) VALUES \
-            (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, sig, did)) 
+            (%s, %s, %s, %s, %s, %s, %s)", (first, last, email, password, timestamp, user, did)) 
             c.execute("SELECT * FROM users WHERE email=%s", (email,))
             text = json.dumps(c.fetchone())           
         
