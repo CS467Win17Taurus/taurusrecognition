@@ -238,7 +238,13 @@ def getAdmins():
         query = request.get_json(force=True)
         id = query["id"]
         name = query["adminName"]
-        pwd = query["password"]
+        try:
+            pwd = query["password"]
+        except:
+            with conn:
+                c.execute("SELECT * FROM admins WHERE id=%s", (id, ))
+                row = c.fetchone()
+                pwd = row['password']
         with conn:
             c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
             if c.rowcount == 1:
@@ -434,10 +440,10 @@ def getUserAwards():
         giver = query["giver"]
         awardId = query["awardId"]
         bonusId = query["bonusId"]
-        today = time.strftime('%Y-%m-%d')
+        date = query["date"]
         with conn:
             c.execute("INSERT INTO userAwards (recipient, giver, awardID, bonusID, awardDate) VALUES (%s, %s, %s, %s, %s)", 
-            (recipient, giver, awardId, bonusId, today))
+            (recipient, giver, awardId, bonusId, date))
             if c.rowcount == 1:
                 c.execute("SELECT * FROM userAwards WHERE uaid=%s", (c.lastrowid,))
                 text = json.dumps(c.fetchone())               
