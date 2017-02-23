@@ -71,6 +71,7 @@ function clearForm(){
 	document.getElementById("user").value = " ";
 	document.getElementById("type").value = " ";
 	document.getElementById("amount").value = " ";
+	$("#dateFromPicker").datepicker("clearDates");
 }
 
 //Submit award information to create new award in db
@@ -79,8 +80,23 @@ function submitAward(){
 	var type = document.getElementById("type").value;
 	var amount = document.getElementById("amount").value;
 	
+	//Get From Date
+	var date = $('#dateFromPicker').datepicker('getDate');
+	if (date != null)
+	{
+		var year = date.getFullYear();
+		var month = date.getMonth() + 1;
+		var day = date.getDate();
+	}
+	if (month < 10)
+		month = '0' + month;
+	if (day < 10)
+		day = '0' + day;
+	var awardDate = year + "-" + month + "-" + day;
+	console.log("Award date: " + awardDate);
+	
 	//Validate all fields are filled in
-	if (user == " " || type == " " || amount == " "){
+	if (user == " " || type == " " || amount == " " || date == null){
 		document.getElementById("createAwardError").textContent = "Error: Please fill in all the fields.";
 		document.getElementById("createAwardError").style.display = "block";
 	}
@@ -90,6 +106,7 @@ function submitAward(){
 		data.append("giver",getId('user_id'));
 		data.append("awardId", type);
 		data.append("bonusId", amount);
+		data.append("date", awardDate);
 
 		makeRequestFormData('POST', "http://138.197.7.194/api/userAwards/", data, true, awardResponse);
 	}

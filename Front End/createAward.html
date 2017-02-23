@@ -7,6 +7,7 @@
     <title>Taurus - Create Award</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/taurusStyle.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
   </head>
   <body>
 
@@ -81,6 +82,20 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col-sm-6 col-xs-12">
+				<div class="form-group">
+					<div class="input-group">
+						<label class="control-label input-group-addon" for="awardDate">Award Date:</label>
+						<div class="input-group date" data-provide="datepicker" id="dateFromPicker" data-date-start-date="0d" data-date-end-date="+1y">
+							<input type="text" class="form-control" placeholder="MM/DD/YYY" id="awardDate" name="awardDate">
+							<span class="input-group-btn">
+							<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="createAwardError" class="badStatus"></div>
 		<br>
 		<div class="row">
@@ -102,5 +117,16 @@
 	<script src="js/taurus.js"></script>
 	<script src="js/createAward.js"></script>
     <script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	
+	<script>
+		$('#dateFromPicker').datepicker({
+			autoclose: true
+		});
+		
+		$('#dateToPicker').datepicker({
+			autoclose: true
+		});
+		</script>
   </body>
 </html>
