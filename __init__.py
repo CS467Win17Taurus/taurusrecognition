@@ -421,32 +421,51 @@ def getUserAwards():
     if request.method == "GET":
         userID, aid = request.args.getlist('userId'), request.args.getlist('awardId')
         bid, did = request.args.getlist('bonusId'), request.args.getlist('deptId')
-        if len(userID) > 0:
-            with conn:
-                c.execute("""SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
-                            t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount, bid AS bonusId,
-                            aid AS awardId, t2.id AS giverId, t1.id AS recipientId FROM userAwards UA join users t1 on 
-                            UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
-                            INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
-                text = json.dumps(c.fetchall())
-        # elif len(aid) > 0 and len(bid) > 0 and len(did) > 0:
+        # if len(userID) == 5:
             # with conn:
-                # c.execute("SELECT * FROM userAwards WHERE awardID=%s, bonusID=%s, divisio", (IS NULL,))
-                # text = json.dumps(c.fetchall())
-                # return "ok"
-        else:
-            with conn:                
-                sql = "SELECT * FROM userAwards WHERE awardID"
-                if len(aid) == 1:
-                    sql += " =%s"
-                    aid = aid[0]
-                else:
-                    sql += " > %s"
-                    aid = -1
-                # if ()
-                c.execute(sql, (aid, ))
+                # c.execute("""SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
+                            # t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount, bid AS bonusId,
+                            # aid AS awardId, t2.id AS giverId, t1.id AS recipientId , division.name AS recipientDeptName, 
+                            # division.did as recipientDeptId FROM userAwards UA join users t1 on 
+                            # UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
+                            # INNER JOIN bonus on UA.bonusID=bonus.bid INNER JOIN division ON t2.dept=division.did WHERE UA.giver=%s""", (userID[0], ))
+                # text = json.dumps(c.fetchall())        
+    
+        with conn:                   
+            sql = """SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
+                        t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount, bid AS bonusId,
+                        aid AS awardId, t2.id AS giverId, t1.id AS recipientId , division.name AS recipientDeptName, 
+                        division.did as recipientDeptId FROM userAwards UA join users t1 on 
+                        UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
+                        INNER JOIN bonus on UA.bonusID=bonus.bid INNER JOIN division ON t2.dept=division.did WHERE UA.giver"""
+            if len(userID) == 1:
+                sql += "=%s"
+                userID = userID[0]
+            else:
+                sql += " > %s"
+                userID = -1
+            
+            if len(aid) == 1:
+                sql += " AND UA.awardID =%s"
+                aid = aid[0]
+            else:
+                sql += " AND UA.awardID > %s"
+                aid = -1
+            if len(bid) == 1:
+                sql += " AND UA.bonusID = %s"
+                bid = bid[0]
+            else:
+                sql += " AND UA.bonusID > %s"
+                bid = -1
+            if len(did) == 1:
+                sql += " AND division.did = %s"
+                did = did[0]
+            else:
+                sql += " AND division.did > %s"
+                did = -1   
                 
-                text = json.dumps(c.fetchall())
+            c.execute(sql, (userID, aid, bid, did ))            
+            text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
         query = request.form
