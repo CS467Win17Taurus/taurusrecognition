@@ -25,6 +25,7 @@ function createTable(){
 	
 	//Create table head with row
 	var head = document.createElement('thead');
+	head.className = "thead-default";
 	table.appendChild(head);
 	var row = document.createElement('tr');
 	head.appendChild(row);
@@ -99,12 +100,14 @@ function addDataToTable(response){
 		
 		//Department
 		cell = document.createElement('td');
-		cell.textContent = data.name;  //-----Need to change to deptName when implemented in backend
+		cell.textContent = data.name; 
 		row.appendChild(cell);
 		
 		//Date Created
 		cell = document.createElement('td');
-		cell.textContent = data.timeCreated;
+		var date = new Date(data.timeCreated);
+		//date.setDate(date.getDate() + 1);
+		cell.textContent = date.toLocaleDateString();
 		row.appendChild(cell);
 		
 		//Edit Button
@@ -174,8 +177,7 @@ function deleteUser(userId){
 	var data = new FormData();
 	data.append("id", userId);
 	data.append("active", 0);
-	makeRequestWithExtraParams('PUT', "http://mockbin.org/bin/12982588-4834-49f8-985e-bdcf7842cfb8", data, false, true, aUserAcctDelResp, null, userId); //Good
-	//makeRequestWithExtraParams('DELETE', "http://mockbin.org/bin/a664f0ad-eec0-4fa5-90a9-80a51738d197", null, true, true, aUserAcctDelResp, null, userId); //Bad
+	makeRequestWithExtraParams('PUT', "http://138.197.7.194/api/users/", data, false, true, aUserAcctDelResp, null, userId); 
 }
 
 //Handle response for deleting row

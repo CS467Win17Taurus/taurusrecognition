@@ -27,6 +27,7 @@ function createTable(){
 	
 	//Create table head with row
 	var head = document.createElement('thead');
+	head.className = "thead-default";
 	table.appendChild(head);
 	var row = document.createElement('tr');
 	head.appendChild(row);
@@ -79,7 +80,9 @@ function addDataToTable(response){
 		
 		//Date
 		cell = document.createElement('td');
-		cell.textContent = data.awardDate;
+		var date = new Date(data.awardDate);
+		date.setDate(date.getDate() + 1);
+		cell.textContent = date.toLocaleDateString();
 		row.appendChild(cell);
 		
 		//Recipient
