@@ -26,11 +26,13 @@ function addUserOptions(){
 
 //Handle user options response
 function userOptionsResponse(response){
+	var id = getId('user_id');
 	var sel = document.getElementById("user");
 	var opt = document.createElement("option");
 	response.forEach(function(type){
 		//Reference: http://stackoverflow.com/a/6194450
-		sel.add(new Option(type.fName + " " + type.lName, type.id));
+		if (type.id != id)
+			sel.add(new Option(type.fName + " " + type.lName, type.id));
 	});
 }
 
