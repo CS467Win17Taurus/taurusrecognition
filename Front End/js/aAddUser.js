@@ -108,9 +108,8 @@ function sendData(){
 		data.append("signature", thisFile);
 		console.log(thisFile);
 	}
-	else
-		data.append("signature", "");
 	
+	console.log(data);
 	makeRequestFormData('POST', "http://138.197.7.194/api/users/", data, true, aUserAddResponse);
 }
 
