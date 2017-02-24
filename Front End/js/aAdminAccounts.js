@@ -54,6 +54,7 @@ function createTable(){
 
 //Add admins data to table
 function addDataToTable(response){
+	var adminId = getId('admin_id');
 	var row, cell, button;
 	var body = document.getElementById("tblBody");
 	console.log("Table data:");
@@ -94,6 +95,8 @@ function addDataToTable(response){
 		button.className = "btn btn-danger";
 		button.value = data.id;
 		button.addEventListener('click', function(){showConfirm(data.id);});
+		if (adminId == data.id)
+			button.disabled = true;
 		cell.appendChild(button);
 		
 		//Create confirmation div
