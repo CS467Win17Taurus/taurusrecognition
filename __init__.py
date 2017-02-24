@@ -424,16 +424,30 @@ def getUserAwards():
         if len(userID) > 0:
             with conn:
                 c.execute("""SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
-                            t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount FROM userAwards
-                            UA join users t1 on UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on 
-                            UA.awardID=awards.aid INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
+                            t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount, bid AS bonusId,
+                            aid AS awardId, t2.id AS giverId, t1.id AS recipientId FROM userAwards UA join users t1 on 
+                            UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
+                            INNER JOIN bonus on UA.bonusID=bonus.bid WHERE UA.giver=%s""", (userID[0], ))
                 text = json.dumps(c.fetchall())
         # elif len(aid) > 0 and len(bid) > 0 and len(did) > 0:
             # with conn:
                 # c.execute("SELECT * FROM userAwards WHERE awardID=%s, bonusID=%s, divisio", (IS NULL,))
                 # text = json.dumps(c.fetchall())
                 # return "ok"
-    
+        else:
+            with conn:                
+                sql = "SELECT * FROM userAwards WHERE awardID"
+                if len(aid) == 1:
+                    sql += " =%s"
+                    aid = aid[0]
+                else:
+                    sql += " > %s"
+                    aid = -1
+                # if ()
+                c.execute(sql, (aid, ))
+                
+                text = json.dumps(c.fetchall())
+                
     elif request.method == "POST":
         query = request.form
         recipient = query["recipient"]
