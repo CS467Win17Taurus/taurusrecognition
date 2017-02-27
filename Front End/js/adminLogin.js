@@ -14,7 +14,7 @@ function login()
 
 function processLoginResponse(response){
 	if (response.status.toLowerCase() == "success"){
-		window.location.href = 'adminTemplate.html'; 
+		window.location.href = 'analytics.html'; 
 		logIn('admin', response.id);
 		document.getElementById("loginStatus").textContent = "";
 	}
