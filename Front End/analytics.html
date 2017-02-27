@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Taurus Employee Recognition</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+	<link href="css/taurusStyle.css" rel="stylesheet">
+  </head>
+  <body>
+
+	<div class="container">
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="index.html"><span><img class="navLogo" src="fonts/LogoNav.png"> Taurus Employee Recognition</span></a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			  
+			  
+			  <ul class="nav navbar-nav navbar-right">
+				<li><a href="#"><span class="glyphicon glyphicon-stats"></span> Analytics</a></li>
+				<li class="dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Manage<span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li><a href="aUserAccounts.html">User Accounts</a></li>
+					<li><a href="aAdminAccounts.html">Admin Accounts</a></li>
+					<li><a href="companyOptions.html">Company Options</a></li>
+					<li role="separator" class="divider"></li>
+					<li><a onclick="logOut();">Logout</a></li>
+				  </ul>
+				</li>
+			  </ul>
+			</div><!-- /.navbar-collapse -->
+		  </div><!-- /.container-fluid -->
+		</nav>
+		
+		<h1>Analytics Dashboard</h1>
+		
+		<div class="inset">
+		
+			<!--Top section-->
+			<div class="row">
+				<div class="col-sm-3">
+					<div id="topNum" class="totalTitle"></div>
+					<div>Number of Awards Given</div>
+				</div>
+				<div class="col-sm-3">
+					<div id="topAmt" class="totalTitle"></div>
+					<div>Total Amount Awarded</div>
+				</div>
+			</div>
+			
+			<div class="row datePickerRow">
+				<div class="col-sm-1">
+					<input type="checkbox" data-toggle="toggle" id="topToggle"  data-on="Number" data-off="Amount">
+				</div>
+				<div class="col-sm-1">
+					<button id="topRefresh" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
+				</div>
+				<div class="col-sm-offset-4 col-sm-3">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="fromDatetop">From Date:</label>
+							<div class="input-group date" data-provide="datepicker" id="dateFromPickertop" data-date-start-date="01/01/2017" data-date-end-date="+1y">
+								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="fromDatetop" name="fromDatetop">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="toDatetop">To Date:</label>
+							<div class="input-group date" data-provide="datepicker" id="dateToPickertop" data-date-start-date="01/01/2017" data-date-end-date="+1y">
+								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="toDatetop" name="toDatetop">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<canvas id="topChart" width="400" height="150"></canvas>
+			
+			<hr>
+			
+			<!--Mid section-->
+			<div class="row">
+				<div class="col-sm-3">
+					<div id="midNum" class="totalTitle">23</div>
+					<div>Number of Awards Given</div>
+				</div>
+				<div class="col-sm-3">
+					<div id="midAmt" class="totalTitle">$15,725</div>
+					<div>Total Amount Awarded</div>
+				</div>
+			</div>
+			
+			<div class="row datePickerRow">
+				<div class="col-sm-2">
+					<select class="form-control input-group" id="selectMid">
+						<option value=" "> </option>
+						<option value="award">Award Type</option>
+						<option value="bonus">Bonus Amount</option>
+						<option value="dept">Department</option>
+					</select>
+				</div>
+				<div class="col-sm-1">
+					<button id="midRefresh" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
+				</div>
+				<div class="col-sm-offset-3 col-sm-3">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="fromDatemid">From Date:</label>
+							<div class="input-group date" data-provide="datepicker" id="dateFromPickermid" data-date-start-date="01/01/2017" data-date-end-date="+1y">
+								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="fromDatemid" name="fromDatemid">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="toDatemid">To Date:</label>
+							<div class="input-group date" data-provide="datepicker" id="dateToPickermid" data-date-start-date="01/01/2017" data-date-end-date="+1y">
+								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="toDatemid" name="toDatemid">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<canvas id="midChart"></canvas>
+			
+			<hr>
+			
+			<!--Bot section-->
+			<div class="row">
+				<div class="col-sm-3">
+					<div id="botNum" class="totalTitle">23</div>
+					<div>Number of Awards Given</div>
+				</div>
+				<div class="col-sm-3">
+					<div id="botAmt" class="totalTitle">$15,725</div>
+					<div>Total Amount Awarded</div>
+				</div>
+			</div>
+			
+			<div class="row datePickerRow">
+				<div class="col-sm-2">
+					<select class="form-control input-group" id="selectBot">
+						<option value=" "> </option>
+						<option value="award">Award Type</option>
+						<option value="bonus">Bonus Amount</option>
+						<option value="dept">Department</option>
+					</select>
+				</div>
+				<div class="col-sm-1">
+					<button id="botRefresh" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
+				</div>
+				<div class="col-sm-offset-3 col-sm-3">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="fromDatebot">From Date:</label>
+							<div class="input-group date" data-provide="datepicker" id="dateFromPickerbot" data-date-start-date="01/01/2017" data-date-end-date="+1y">
+								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="fromDatebot" name="fromDatebot">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="toDatebot">To Date:</label>
+							<div class="input-group date" data-provide="datepicker" id="dateToPickerbot" data-date-start-date="01/01/2017" data-date-end-date="+1y">
+								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="toDatebot" name="toDatebot">
+								<span class="input-group-btn">
+								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<canvas id="botChart"></canvas>
+		</div>
+		
+	</div>
+	
+
+	
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="js/taurus.js"></script>
+	<script src="js/analytics.js"></script>
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+	
+		<script>
+		$('#dateFromPickertop').datepicker({
+			autoclose: true
+		})
+		
+		$('#dateToPickertop').datepicker({
+			autoclose: true
+		});
+		
+		$('#dateFromPickermid').datepicker({
+			autoclose: true
+		});
+		
+		$('#dateToPickermid').datepicker({
+			autoclose: true
+		});
+		
+		$('#dateFromPickerbot').datepicker({
+			autoclose: true
+		});
+		
+		$('#dateToPickerbot').datepicker({
+			autoclose: true
+		});
+		</script>
+  </body>
+</html>
