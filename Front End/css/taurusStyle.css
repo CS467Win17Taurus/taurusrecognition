@@ -76,3 +76,18 @@ table, th{
 .myList{
 	margin-top: 20px;
 }
+
+.inset{
+	padding-left: 30px;
+}
+
+.totalTitle{
+	font-weight: bold;
+	font-size: 150%;
+	padding-top: 30px;
+}
+
+.datePickerRow{
+	padding-top:40px;
+}
+
