@@ -16,7 +16,7 @@ http://138.197.7.194/api/bonuses
 
 ## Response
 
-The response will include a JSON object with an array of all bonus objects
+The response will include a JSON object with an array of all *active* bonus objects
 
 - Bonus Object:
  - **bid**: Id number from database
