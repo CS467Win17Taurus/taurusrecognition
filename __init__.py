@@ -368,10 +368,16 @@ def getAwards():
     except Exception as e:        
         return json.dumps(e)
         
-    if request.method == "GET":        
-        with conn:
-            c.execute("SELECT * FROM awards WHERE active=1")                
-            text = json.dumps(c.fetchall())                                
+    if request.method == "GET":          
+        action = request.args.getlist("action")        
+        if len(action) == 1:
+            with conn:
+                c.execute("SELECT * FROM awards")                
+                text = json.dumps(c.fetchall())
+        else:
+            with conn:
+                c.execute("SELECT * FROM awards WHERE active=1")                
+                text = json.dumps(c.fetchall())                                
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
