@@ -16,11 +16,12 @@ http://138.197.7.194/api/divisions
 
 ## Response
 
-The response will include a JSON object with an array of all division objects
+The response will include a JSON object with an array of all *active* division objects
 
 - Division Object:
  - **did**: Id number from database
  - **name**: Name of division/department
+ - **active**: 1 or 0
 
 ### JSON Object
 
@@ -28,11 +29,14 @@ The response will include a JSON object with an array of all division objects
 [
   {
     "did": 23490,
-    "name": "Finance"
+    "name": "Finance",
+    "active": 1
+    
   },
   {
     "did": 76512,
-	"name": "Engineering"
+	"name": "Engineering",
+	"active": 1
   }
 ]
 ```
