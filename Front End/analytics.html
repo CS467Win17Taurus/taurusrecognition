@@ -28,10 +28,14 @@
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			  
-			  
 			  <ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-stats"></span> Analytics</a></li>
+				<li class="dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-stats"></span> Analytics<span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li><a href="#">Dashboard</a></li>
+					<li><a href="#">Data In-Depth</a></li>
+				  </ul>
+				</li>
 				<li class="dropdown">
 				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Manage<span class="caret"></span></a>
 				  <ul class="dropdown-menu">
@@ -64,18 +68,18 @@
 			</div>
 			
 			<div class="row datePickerRow">
-				<div class="col-sm-1">
+				<div class="col-sm-2">
 					<input type="checkbox" data-toggle="toggle" id="topToggle"  data-on="Number" data-off="Amount">
 				</div>
 				<div class="col-sm-1">
 					<button id="topRefresh" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
 				</div>
-				<div class="col-sm-offset-4 col-sm-3">
+				<div class="col-sm-offset-3 col-sm-3">
 					<div class="form-group">
 						<div class="input-group">
 							<label class="control-label input-group-addon" for="fromDatetop">From Date:</label>
 							<div class="input-group date" data-provide="datepicker" id="dateFromPickertop" data-date-start-date="01/01/2017" data-date-end-date="+1y">
-								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="fromDatetop" name="fromDatetop">
+								<input type="text" class="form-control" id="fromDatetop" name="fromDatetop">
 								<span class="input-group-btn">
 								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
 							</div>
@@ -87,7 +91,7 @@
 						<div class="input-group">
 							<label class="control-label input-group-addon" for="toDatetop">To Date:</label>
 							<div class="input-group date" data-provide="datepicker" id="dateToPickertop" data-date-start-date="01/01/2017" data-date-end-date="+1y">
-								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="toDatetop" name="toDatetop">
+								<input type="text" class="form-control" id="toDatetop" name="toDatetop">
 								<span class="input-group-btn">
 								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
 							</div>
@@ -96,7 +100,9 @@
 				</div>
 			</div>
 			
-			<canvas id="topChart" width="400" height="150"></canvas>
+			<div id="topChartDiv">
+				<canvas id="topChart" width="400" height="150"></canvas>
+			</div>
 			
 			<hr>
 			
@@ -113,23 +119,24 @@
 			</div>
 			
 			<div class="row datePickerRow">
-				<div class="col-sm-2">
-					<select class="form-control input-group" id="selectMid">
+				<div class="col-sm-3">
+					<select class="form-control input-group" id="selectmid">
 						<option value=" "> </option>
 						<option value="award">Award Type</option>
 						<option value="bonus">Bonus Amount</option>
 						<option value="dept">Department</option>
 					</select>
+					<span id="midError" class="badStatus">Please select an option from the menu</span>
 				</div>
 				<div class="col-sm-1">
 					<button id="midRefresh" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
 				</div>
-				<div class="col-sm-offset-3 col-sm-3">
+				<div class="col-sm-offset-2 col-sm-3">
 					<div class="form-group">
 						<div class="input-group">
 							<label class="control-label input-group-addon" for="fromDatemid">From Date:</label>
 							<div class="input-group date" data-provide="datepicker" id="dateFromPickermid" data-date-start-date="01/01/2017" data-date-end-date="+1y">
-								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="fromDatemid" name="fromDatemid">
+								<input type="text" class="form-control" id="fromDatemid" name="fromDatemid">
 								<span class="input-group-btn">
 								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
 							</div>
@@ -141,7 +148,7 @@
 						<div class="input-group">
 							<label class="control-label input-group-addon" for="toDatemid">To Date:</label>
 							<div class="input-group date" data-provide="datepicker" id="dateToPickermid" data-date-start-date="01/01/2017" data-date-end-date="+1y">
-								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="toDatemid" name="toDatemid">
+								<input type="text" class="form-control" id="toDatemid" name="toDatemid">
 								<span class="input-group-btn">
 								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
 							</div>
@@ -150,7 +157,10 @@
 				</div>
 			</div>
 			
-			<canvas id="midChart"></canvas>
+			<center><h3 id="midTitle"></h3></center>
+			<div id="midChartDiv">
+				<canvas id="midChart" width="400" height="150"></canvas>
+			</div>
 			
 			<hr>
 			
@@ -167,23 +177,24 @@
 			</div>
 			
 			<div class="row datePickerRow">
-				<div class="col-sm-2">
-					<select class="form-control input-group" id="selectBot">
+				<div class="col-sm-3">
+					<select class="form-control input-group" id="selectbot">
 						<option value=" "> </option>
 						<option value="award">Award Type</option>
 						<option value="bonus">Bonus Amount</option>
 						<option value="dept">Department</option>
 					</select>
+					<span id="botError" class="badStatus">Please select an option from the menu</span>
 				</div>
 				<div class="col-sm-1">
 					<button id="botRefresh" class="btn btn-success"><span class="glyphicon glyphicon-refresh"></span></button>
 				</div>
-				<div class="col-sm-offset-3 col-sm-3">
+				<div class="col-sm-offset-2 col-sm-3">
 					<div class="form-group">
 						<div class="input-group">
 							<label class="control-label input-group-addon" for="fromDatebot">From Date:</label>
 							<div class="input-group date" data-provide="datepicker" id="dateFromPickerbot" data-date-start-date="01/01/2017" data-date-end-date="+1y">
-								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="fromDatebot" name="fromDatebot">
+								<input type="text" class="form-control" id="fromDatebot" name="fromDatebot">
 								<span class="input-group-btn">
 								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
 							</div>
@@ -195,7 +206,7 @@
 						<div class="input-group">
 							<label class="control-label input-group-addon" for="toDatebot">To Date:</label>
 							<div class="input-group date" data-provide="datepicker" id="dateToPickerbot" data-date-start-date="01/01/2017" data-date-end-date="+1y">
-								<input type="text" class="form-control" placeholder="MM/DD/YYYY" id="toDatebot" name="toDatebot">
+								<input type="text" class="form-control" id="toDatebot" name="toDatebot">
 								<span class="input-group-btn">
 								<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-calendar"></span></button>
 							</div>
@@ -204,7 +215,11 @@
 				</div>
 			</div>
 			
-			<canvas id="botChart"></canvas>
+			<center><h3 id="botTitle"></h3></center>
+			<div id="botChartDiv">
+				<canvas id="botChart" width="400" height="150"></canvas>
+			</div>
+			
 		</div>
 		
 	</div>
