@@ -319,9 +319,15 @@ def getDivision():
         return json.dumps(e)
         
     if request.method == "GET":
-        with conn:
-            c.execute("SELECT * FROM division WHERE active=1")
-            text = json.dumps(c.fetchall())
+        action = request.args.getlist("action")
+        if len(action) == 1:
+            with conn:
+                c.execute("SELECT * FROM division")                
+                text = json.dumps(c.fetchall())
+        else:        
+            with conn:
+                c.execute("SELECT * FROM division WHERE active=1")
+                text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
