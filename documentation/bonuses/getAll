@@ -6,7 +6,7 @@ Returns list of details for all bonuses
 
 URL Query Example
 
-http://138.197.7.194/api/bonuses
+http://138.197.7.194/api/bonuses/?action=get
 Response
 
 The response will include a JSON object with an array of all bonus objects
