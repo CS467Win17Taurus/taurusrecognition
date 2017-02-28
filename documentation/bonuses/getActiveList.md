@@ -21,6 +21,7 @@ The response will include a JSON object with an array of all bonus objects
 - Bonus Object:
  - **bid**: Id number from database
  - **amount**: Level of bonus
+ - **active**: 1 or 0
 
 ### JSON Object
 
@@ -28,11 +29,13 @@ The response will include a JSON object with an array of all bonus objects
 [
   {
     "bid": 36990,
-    "amount": "$25"
+    "amount": "$25",
+    "active": 1
   },
   {
     "bid": 75211,
-	"amount": "$35"
+	"amount": "$35",
+	"active": 1
   }
 ]
 ```
