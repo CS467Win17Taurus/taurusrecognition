@@ -35,11 +35,11 @@ var fillColors = ['rgba(0,0,255,0.5)', 'rgba(0,255,50,0.5)', 'rgba(255,140,0,0.5
 //initialize page
 function initializePage(){
 	//Check user is logged in
-	/*if (!checkLogIn('admin_id')){
+	if (!checkLogIn('admin_id')){
 		window.location.href = 'index.html';
 	}
 	else{
-		console.log("Logged in = true");*/
+		console.log("Logged in = true");
 		$('#topToggle').bootstrapToggle('on');
 		document.getElementById('midAmt').textContent = "$ -";
 		document.getElementById('midNum').textContent = "--";
@@ -52,7 +52,7 @@ function initializePage(){
 		updateTopChart();
 		createEmptyPieChart();
 		createEmptyBarChart();
-	//}
+	}
 }
 
 //Create array of data within specified date range
