@@ -38,7 +38,8 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ## Divisions
 
 ### GET
-- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getList.md): Returns list of details for all divisions
+- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getActiveList.md): Returns list of details for all active divisions
+- [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/getAll.md): Returns list of details for all divisions
 
 ### POST
 - [/divisions](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/division/post.md): Adds new division to database
@@ -50,7 +51,8 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ## Awards
 
 ### GET
-- [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/getList.md): Returns list of details for all awards
+- [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/getActiveList.md): Returns list of details for all active awards
+- [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/getAll.md): Returns list of details for all awards
 
 ### POST
 - [/awards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/awards/post.md): Adds new award to database
@@ -62,7 +64,8 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ## Bonuses
 
 ### GET
-- [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/getList.md): Returns list of details for all bonuses
+- [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/getActiveList.md): Returns list of details for all active bonuses
+- [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/getAll.md): Returns list of details for all bonuses
 
 ### POST
 - [/bonuses](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/bonuses/post.md): Adds new bonus to database
@@ -74,8 +77,7 @@ Status Tracker: https://docs.google.com/spreadsheets/d/1JHfhs341gMmlq9I5tzRdzTwG
 ## User Awards
 
 ### GET
-- [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getList.md): Returns list of details for all userAwards
-- [/userAwards?userId=](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getListbyUser.md): Returns list of awards created by specified user
+- [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/getList.md): Returns list of details for userAwards
 
 ### POST
 - [/userAwards](https://github.com/CS467Win17Taurus/taurusrecognition/tree/master/documentation/userAwards/post.md): Adds new user award to database

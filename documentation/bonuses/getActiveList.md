@@ -2,7 +2,7 @@
 
 ## /bonuses
 
-Returns list of details for all bonuses
+Returns list of details for all active bonuses
 
 ---
 
