@@ -23,9 +23,8 @@ function datasetObj(label, fillColor, data){
 }
 
 //Object to collect data for dataset
-function dataObj(label, fillColor, id){
+function dataObj(label, id){
 	this.label = label;
-	this.fillColor = fillColor;
 	this.id = id;
 	this.data = [];
 }
@@ -36,11 +35,11 @@ var fillColors = ['rgba(0,0,255,0.5)', 'rgba(0,255,50,0.5)', 'rgba(255,140,0,0.5
 //initialize page
 function initializePage(){
 	//Check user is logged in
-	if (!checkLogIn('admin_id')){
+	/*if (!checkLogIn('admin_id')){
 		window.location.href = 'index.html';
 	}
 	else{
-		console.log("Logged in = true");
+		console.log("Logged in = true");*/
 		$('#topToggle').bootstrapToggle('on');
 		document.getElementById('midAmt').textContent = "$ -";
 		document.getElementById('midNum').textContent = "--";
@@ -53,7 +52,7 @@ function initializePage(){
 		updateTopChart();
 		createEmptyPieChart();
 		createEmptyBarChart();
-	}
+	//}
 }
 
 //Create array of data within specified date range
@@ -73,7 +72,7 @@ function filterData(data, sect, labels){
 		var fromYear = today.getFullYear();
 		var fromMonth = 1;
 		var fromDay = 1;
-	
+		document.getElementById("fromDate" + sect).value = fromMonth + "/" + fromDay + "/" + fromYear;
 	}
 	console.log("From date: " + fromMonth + "/" + fromDay + "/" + fromYear);
 	
@@ -89,6 +88,7 @@ function filterData(data, sect, labels){
 		var toYear = today.getFullYear();
 		var toMonth = 12;
 		var toDay = 31;
+		document.getElementById("toDate" + sect).value = toMonth + "/" + toDay + "/" + toYear;
 	}
 	console.log("To date: " + toMonth + "/" + toDay + "/" + toYear);
 	
@@ -102,7 +102,7 @@ function filterData(data, sect, labels){
 			var dateDay = date.getDate();
 		}
 		
-		//Check date
+		//Check year
 		var dateFlag = true;
 		//Check year
 		if (dateYear < fromYear || dateYear > toYear){
@@ -129,10 +129,12 @@ function filterData(data, sect, labels){
 				dateFlag = false;
 		}
 		
+		//If date within range, add result object
 		if (dateFlag)
 			filteredResults.push(new awardObj(award.uaid, award.awardTitle, award.awardId, award.bonusAmount, award.bonusId, award.recipientDeptName, award.recipientDeptId, award.awardDate));
 	});
 	
+	//Send results to function for specified section
 	switch (sect){
 		case 'top':
 			createLineChart(filteredResults, sect, null);
@@ -177,7 +179,7 @@ function updateSelectChart(sect){
 		validateFlag = false;
 	}
 	
-	//If selection made, make dataset objects and get data
+	//If selection made, get data to make dataset objects
 	var queryStr = "";
 	if (validateFlag){
 		//Get data field
@@ -188,14 +190,13 @@ function updateSelectChart(sect){
 		else if (selectOpt == 'dept')
 			queryStr = "divisions/";
 	
-		makeRequestWithExtraParams('GET', "http://138.197.7.194/api/" + queryStr, null, false, true, createDatasetObjs, sect, null);
+		makeRequestWithExtraParams('GET', "http://138.197.7.194/api/" + queryStr + "?action=getall", null, false, true, createDatasetObjs, sect, null);
 	}
 }
 
 //Create dataset objects
 function createDatasetObjs(dataIn, sect, blank){
 	var labels = [];
-	var colorCount = 0;
 	var theData, theId;
 	
 	//Get selection
@@ -207,31 +208,23 @@ function createDatasetObjs(dataIn, sect, blank){
 	dataIn.forEach(function(data){
 		//Get data field
 		if (selectOpt == 'award'){
-			queryStr = "awards/";
 			theData = data.title;	
 			theId = data.aid;
 			title.textContent = "Total Number of each Award Type Given";
 		}
 		else if (selectOpt == 'bonus'){
-			queryStr = "bonuses/";
 			theData = '$' + data.amount;
 			theId = data.bid;
 			title.textContent = "Total Amount of each Bonus Amount Given";
 		}
 		else if (selectOpt == 'dept'){
-			queryStr = "divisions/";
 			theData = data.name;
 			theId = data.did;
 			title.textContent = "Total Number of Awards Received in each Department";
 		}
 		
 		//Add dataset object
-		labels.push(new dataObj(theData, fillColors[colorCount], theId));
-		colorCount++;
-		
-		//If at end of fill color array, reset to index 0
-		if (colorCount == fillColors.length)
-			colorCount = 0;
+		labels.push(new dataObj(theData, theId));
 	});
 	
 	makeRequestWithExtraParams('GET', "http://138.197.7.194/api/userAwards/", null, false, true, filterData, sect, labels);
@@ -248,7 +241,7 @@ function createLineChart(dataIn, sect, labels){
 	//Add new chart
 	var chart = document.createElement("canvas");
 	chart.id = sect + 'Chart';
-	chart.height = "150";
+	chart.height = "100";
 	chart.width = "400";
 	div.appendChild(chart);
 	
@@ -287,15 +280,13 @@ function createLineChart(dataIn, sect, labels){
 			newMonthFlag = false;
 		
 		//Sum data to add to array
-		if (newMonthFlag){
-			if (index != 1)
-				dataArr.push(tmpVal);
-			tmpVal = toggleOpt ? 1 : data.bonus;
+		if (newMonthFlag && (index != 1)){
+			dataArr.push(tmpVal);
+			tmpVal = 0;
 		}
-		//If last element in input array, push total to data array
-		else{
-			tmpVal += toggleOpt ? 1 : data.bonus;
-		}
+
+		//Increment sum with selected value
+		tmpVal += toggleOpt ? 1 : data.bonus;
 		
 		//Add last data
 		if (index == dataIn.length)
@@ -318,8 +309,8 @@ function createLineChart(dataIn, sect, labels){
 			datasets: [{
 				label: labelStr,
 				data: dataArr,
-				backgroundColor: 'rgba(0,50,255,0.4)',
-				borderColor: 'rgba(0,50,255,0.8)',
+				backgroundColor: fillColors[0],
+				borderColor: 'rgba(0,0,255,0.8)',
 				borderWidth: 1
 			}]
 		},
@@ -348,7 +339,7 @@ function createBarChart(dataIn, sect, labels){
 	//Add new chart
 	var chart = document.createElement("canvas");
 	chart.id = sect + 'Chart';
-	chart.height = "150";
+	chart.height = "100";
 	chart.width = "400";
 	div.appendChild(chart);
 	
@@ -373,10 +364,9 @@ function createBarChart(dataIn, sect, labels){
 	for (i = 0; i < labels.length; i++)
 		tmpData.push(0);
 
-	console.log(tmpData);
 	var compareDate = "Jan-1977";
 	var index = 1;
-	var newMonthFlag = false;
+	var newMonthFlag;
 	var labelArr = [];
 	
 	dataIn.forEach(function(data){
@@ -438,6 +428,7 @@ function createBarChart(dataIn, sect, labels){
 	//Create dataset from data objects
 	var datasetArr = [];
 	var sum;
+	var colorCount = 0;
 	labels.forEach(function(lbl){
 		//Sum to see if dataset contains any nonzero data
 		sum = 0;
@@ -445,8 +436,15 @@ function createBarChart(dataIn, sect, labels){
 			sum += pt;
 		});
 		
-		if (sum > 0)
-			datasetArr.push(new datasetObj(lbl.label, lbl.fillColor, lbl.data));
+		//Add dataset object
+		if (sum > 0){
+			datasetArr.push(new datasetObj(lbl.label, fillColors[colorCount], lbl.data));
+			colorCount++;
+		}
+		
+		//If at end of fill color array, reset to index 0
+		if (colorCount == fillColors.length)
+			colorCount = 0;
 	});
 	console.log("Datasets:");
 	console.log(datasetArr);
@@ -484,7 +482,7 @@ function createPieChart(dataIn, sect, labels){
 	//Add new chart
 	var chart = document.createElement("canvas");
 	chart.id = sect + 'Chart';
-	chart.height = "150";
+	chart.height = "100";
 	chart.width = "400";
 	div.appendChild(chart);
 	
@@ -498,26 +496,16 @@ function createPieChart(dataIn, sect, labels){
 	var selectOpt = document.getElementById('select' + sect).value;
 	console.log("Select Opt: " + selectOpt);
 	
-	//Data id array
+	//Create Temp label and color array, as well as id array
 	var dataIdArr = [];
-	labels.forEach(function(lbl){
-		dataIdArr.push(lbl.id);
-	});
-
-	//Temp label and color array
 	var tmpLabels = [];
-	var tmpColors = [];
+	var tmpData = [];
 	labels.forEach(function(lbl){
 		tmpLabels.push(lbl.label);
-		tmpColors.push(lbl.fillColor);
-	});
-	
-	//Initialize variables
-	var tmpData = [];
-	for (i = 0; i < labels.length; i++)
+		dataIdArr.push(lbl.id);
 		tmpData.push(0);
+	});
 
-	console.log(tmpData);
 	var index = 1;
 	dataIn.forEach(function(data){
 		//Get id
@@ -539,12 +527,18 @@ function createPieChart(dataIn, sect, labels){
 	var dataArr = [];
 	var labelArr = [];
 	var colorArr = [];
+	var colorCount = 0;
 	for (var i = 0; i < tmpData.length; i++){
 		if (tmpData[i] > 0){
 			dataArr.push(tmpData[i]);
 			labelArr.push(tmpLabels[i]);
-			colorArr.push(tmpColors[i]);
+			colorArr.push(fillColors[colorCount]);
+			colorCount++;
 		}
+		
+		//If at end of fill color array, reset to index 0
+			if (colorCount == fillColors.length)
+				colorCount = 0;
 	}
 	
 	console.log("Label array:");
@@ -571,8 +565,6 @@ function createPieChart(dataIn, sect, labels){
 function createEmptyBarChart(){
 	var midChart = document.getElementById("midChart");
 	
-	//Create chart
-	//Ref for colors: https://www.w3schools.com/CSSref/tryit.asp?filename=trycss_color_rgba
 	var myChart = new Chart(midChart, {
 		type: 'line',
 		data: {
