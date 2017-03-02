@@ -268,9 +268,15 @@ def getBonus():
         return json.dumps(e)
         
     if request.method == "GET":
-        with conn:
-            c.execute("SELECT * FROM bonus WHERE active=1 ORDER BY amount")
-            text = json.dumps(c.fetchall())
+        action = request.args.getlist("action")
+        if len(action) == 1:
+            with conn:
+                c.execute("SELECT * FROM bonus")                
+                text = json.dumps(c.fetchall())
+        else:        
+            with conn:
+                c.execute("SELECT * FROM bonus WHERE active=1 ORDER BY amount")
+                text = json.dumps(c.fetchall())
                 
     elif request.method == "POST":
         query = request.get_json(force=True)
@@ -449,7 +455,7 @@ def getUserAwards():
                         aid AS awardId, t2.id AS giverId, t1.id AS recipientId , division.name AS recipientDeptName, 
                         division.did as recipientDeptId FROM userAwards UA join users t1 on 
                         UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
-                        INNER JOIN bonus on UA.bonusID=bonus.bid INNER JOIN division ON t2.dept=division.did WHERE UA.giver"""
+                        INNER JOIN bonus on UA.bonusID=bonus.bid INNER JOIN division ON t1.dept=division.did WHERE UA.giver"""
             if len(userID) == 1:
                 sql += "=%s"
                 userID = userID[0]
