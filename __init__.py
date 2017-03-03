@@ -481,7 +481,7 @@ def getUserAwards():
             else:
                 sql += " AND division.did > %s"
                 did = -1   
-                
+            sql += " ORDER BY UA.awardDate"    
             c.execute(sql, (userID, aid, bid, did ))            
             text = json.dumps(c.fetchall())
                 
