@@ -109,8 +109,22 @@ function updateChart(){
 	makeRequestWithExtraParams('GET', "http://138.197.7.194/api/userAwards/" + queryStr, null, false, true, filterData, 'top', null);
 }
 
+//Clear filters
+function clearFilters(){
+	console.log("clear filters");
+	
+	document.getElementById("giver").value = 0;
+	document.getElementById("type").value = 0;
+	document.getElementById("amount").value = 0;
+	document.getElementById("dept").value = 0;
+	$("#dateFromPickertop").datepicker("clearDates");
+	$("#dateToPickertop").datepicker("clearDates");
+	updateChart();
+}
+
 //Event Listeners
 document.getElementById("topRefresh").addEventListener('click', updateChart);
+document.getElementById("remove").addEventListener('click', clearFilters);
 
 //Initialize Page
 document.addEventListener('DOMContentLoaded', initializePage);
