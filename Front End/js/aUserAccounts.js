@@ -85,12 +85,12 @@ function addDataToTable(response){
 		
 		//First name
 		cell = document.createElement('td');
-		cell.textContent = data.fName;
+		cell.textContent = captialize(data.fName);
 		row.appendChild(cell);
 		
 		//Last name
 		cell = document.createElement('td');
-		cell.textContent = data.lName;
+		cell.textContent = captialize(data.lName);
 		row.appendChild(cell);
 		
 		//Email
@@ -100,7 +100,7 @@ function addDataToTable(response){
 		
 		//Department
 		cell = document.createElement('td');
-		cell.textContent = data.name; 
+		cell.textContent = captialize(data.name); 
 		row.appendChild(cell);
 		
 		//Date Created
