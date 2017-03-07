@@ -63,12 +63,12 @@ function createDeptList(response){
 	
 	if (response.length > 1){
 		response.forEach(function(data){
-			par = createPar('dept', data.did, data.name, deleteDeptReq);
+			par = createPar('dept', data.did, captialize(data.name), deleteDeptReq);
 			div.appendChild(par);
 		});
 	}
 	else if (response.did){
-		par = createPar('dept', response.did, response.name, deleteDeptReq);
+		par = createPar('dept', response.did, captialize(response.name), deleteDeptReq);
 		div.appendChild(par);
 	}
 	else{
@@ -167,12 +167,12 @@ function createBonusList(response){
 	
 	if (response.length > 1){
 		response.forEach(function(data){
-			par = createPar('bonus', data.bid, data.amount, deleteBonusReq);
+			par = createPar('bonus', data.bid, "$" + data.amount, deleteBonusReq);
 			div.appendChild(par);
 		});
 	}
 	else if (response.bid){
-		par = createPar('bonus', response.bid, response.amount, deleteBonusReq);
+		par = createPar('bonus', response.bid, "$" + response.amount, deleteBonusReq);
 		div.appendChild(par);
 	}
 	else{

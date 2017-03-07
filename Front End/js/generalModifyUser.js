@@ -18,15 +18,15 @@ function usersDeptResponse(response){
 	var opt = document.createElement("option");
 	response.forEach(function(type){
 		//Reference: http://stackoverflow.com/a/6194450
-		sel.add(new Option(type.name, type.did));
+		sel.add(new Option(captialize(type.name), type.did));
 	});
 	getFormData();
 }
 
 //Function to fill fields of form
 function fillForm(data){
-	document.getElementById("fName").value = data.fName;
-	document.getElementById("lName").value = data.lName;
+	document.getElementById("fName").value = captialize(data.fName);
+	document.getElementById("lName").value = captialize(data.lName);
 	document.getElementById("email").value = data.email;
 	document.getElementById("dept").value = data.dept;
 	document.getElementById("sigImg").src = " http://138.197.7.194/static/" + data.signature;

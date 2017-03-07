@@ -32,7 +32,7 @@ function userOptionsResponse(response){
 	response.forEach(function(type){
 		//Reference: http://stackoverflow.com/a/6194450
 		if (type.id != id)
-			sel.add(new Option(type.fName + " " + type.lName, type.id));
+			sel.add(new Option(captialize(type.fName) + " " + captialize(type.lName), type.id));
 	});
 }
 

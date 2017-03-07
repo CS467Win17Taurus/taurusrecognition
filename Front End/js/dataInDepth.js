@@ -63,14 +63,11 @@ function addOptionsToMenu(response, type, blank){
 			break;
 		case 'dept':
 			id = data.did;
-			name = data.name;
-			str = name.charAt(0).toUpperCase() + name.slice(1);	
+			str = captialize(data.name);	
 			break;
 		case 'giver':
 			id = data.id;
-			name = data.fName;
-			lastName = data.lName;
-			str = name.charAt(0).toUpperCase() + name.slice(1) + ' ' + lastName.charAt(0).toUpperCase() + lastName.slice(1);
+			str = captialize(data.fName) + ' ' + captialize(data.lName);
 			break;
 	}
 		sel = document.getElementById(type);

@@ -170,6 +170,11 @@ function userAcctGetNameResp(response){
 	document.getElementById("userName").textContent = capitalName;
 }
 
+//Capitalize first letter
+function captialize(word){
+	return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 //Ref: http://stackoverflow.com/a/901144
 function getParameterByName(name, url) {
     if (!url) {
