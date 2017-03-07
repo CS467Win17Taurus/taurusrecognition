@@ -55,10 +55,10 @@ function createTable(){
 //Add admins data to table
 function addDataToTable(response){
 	var adminId = getId('admin_id');
-	document.getElementById("totalNum").textContent = response.length + " Admins";
-	
 	var row, cell, button;
 	var body = document.getElementById("tblBody");
+	console.log("Table data:");
+	console.log(response);
 	
 	response.forEach(function(data){
 		row = document.createElement('tr');

@@ -89,7 +89,7 @@ function addDataToTable(response){
 		
 		//Recipient
 		cell = document.createElement('td');
-		cell.textContent = captialize(data.recipientFName) + " " + captialize(data.recipientLName);
+		cell.textContent = data.recipientFName + " " + data.recipientLName;
 		row.appendChild(cell);
 		
 		//Type
