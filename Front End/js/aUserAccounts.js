@@ -68,9 +68,9 @@ function createTable(){
 //Add users data to table
 function addDataToTable(response){
 	var row, cell, button;
+	document.getElementById("totalNum").textContent = response.length + " Users";
+	
 	var body = document.getElementById("tblBody");
-	console.log("Table data:");
-	console.log(response);
 	
 	response.forEach(function(data){
 		row = document.createElement('tr');

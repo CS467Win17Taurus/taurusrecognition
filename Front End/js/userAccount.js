@@ -65,6 +65,8 @@ function createTable(){
 //Add awards data to table
 function addDataToTable(response){
 	var row, cell, button;
+	document.getElementById("totalNum").textContent = response.length + " Total Awards Given";
+	
 	var body = document.getElementById("tblBody");
 	
 	response.forEach(function(data){
