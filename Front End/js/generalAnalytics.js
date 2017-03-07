@@ -33,6 +33,10 @@ function dataObj(label, id){
 //Array of colors to use in chart
 var fillColors = ['rgba(0,0,255,0.5)', 'rgba(0,255,50,0.5)', 'rgba(255,140,0,0.5)', 'rgba(220,0,255,0.5)', 'rgba(210,255,0,0.5)', 'rgba(255,0,0,0.5)', 'rgba(192,192,192,0.5)'];
 
+var backgroundColors = ['rgba(0,0,255,0.2)', 'rgba(0,255,50,0.2)', 'rgba(255,140,0,0.2)', 'rgba(220,0,255,0.2)', 'rgba(210,255,0,0.2)', 'rgba(255,0,0,0.2)', 'rgba(192,192,192,0.2)'];
+
+var borderColors = ['rgba(0,0,255,1)', 'rgba(0,255,50,1)', 'rgba(255,140,0,1)', 'rgba(220,0,255,1)', 'rgba(210,255,0,1)', 'rgba(255,0,0,1)', 'rgba(192,192,192,1)'];
+
 //Create array of data within specified date range
 function filterData(data, sect, labels){
 	var filteredResults = [];
@@ -172,7 +176,9 @@ function createLineChart(dataIn, sect, labels){
 	//Create labels and data arrays from data in
 	var labelArr = [];
 	var dataArr = [];
+	var cumDataArr = [];
 	var tmpVal = 0;
+	var total = 0;
 	var compareDate = "Jan-1977";
 	var index = 1;
 	var newMonthFlag = false;
@@ -193,15 +199,19 @@ function createLineChart(dataIn, sect, labels){
 		//Sum data to add to array
 		if (newMonthFlag && (index != 1)){
 			dataArr.push(tmpVal);
+			cumDataArr.push(total);
 			tmpVal = 0;
 		}
 
 		//Increment sum with selected value
 		tmpVal += toggleOpt ? 1 : data.bonus;
+		total += toggleOpt ? 1 : data.bonus;
 		
 		//Add last data
-		if (index == dataIn.length)
+		if (index == dataIn.length){
 			dataArr.push(tmpVal);
+			cumDataArr.push(total);
+		}
 		
 		compareDate = dateLbl;
 		index++;
@@ -210,6 +220,8 @@ function createLineChart(dataIn, sect, labels){
 	console.log(labelArr);
 	console.log("Data array:");
 	console.log(dataArr);
+	console.log("Cumulative data array:");
+	console.log(cumDataArr);
 	
 	//Create chart
 	//Ref for colors: https://www.w3schools.com/CSSref/tryit.asp?filename=trycss_color_rgba
@@ -220,8 +232,15 @@ function createLineChart(dataIn, sect, labels){
 			datasets: [{
 				label: labelStr,
 				data: dataArr,
-				backgroundColor: fillColors[0],
-				borderColor: 'rgba(0,0,255,0.8)',
+				borderColor: borderColors[0],
+				backgroundColor: backgroundColors[0],
+				borderWidth: 1
+			},
+			{
+				label: "Cumulative " + labelStr,
+				data: cumDataArr,
+				borderColor: borderColors[1],
+				backgroundColor: backgroundColors[1],
 				borderWidth: 1
 			}]
 		},
