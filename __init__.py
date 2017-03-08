@@ -395,12 +395,21 @@ def getAwards():
         query = request.get_json(force=True)
         title = query["title"]        
         with conn:
-            c.execute("INSERT INTO awards (title) VALUES (%s)", (title,))
+            c.execute("SELECT * FROM awards WHERE title=%s", (title,))
             if c.rowcount == 1:
-                c.execute("SELECT * FROM awards WHERE title=%s", (title,))
-                text = json.dumps(c.fetchone())                
+                row = c.fetchone()
+                if row['active'] == 1:
+                    text = json.dumps({"status": "failed", "message":"Error: Award type already exists"})
+                else:
+                    c.execute("UPDATE awards SET active=1 WHERE title=%s", (title,))
+                    text = json.dumps({"status":"success","message":"Award type now active"})
             else:
-                text = "there was an error inserting into table"               
+                c.execute("INSERT INTO awards (title) VALUES (%s)", (title,))
+                if c.rowcount == 1:
+                    c.execute("SELECT * FROM awards WHERE title=%s", (title,))
+                    text = json.dumps(c.fetchone())                
+                else:
+                    text = "there was an error inserting into table"               
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
