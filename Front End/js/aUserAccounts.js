@@ -62,11 +62,23 @@ function createTable(){
 	table.appendChild(body);
 	
 	//Send request to get list of users
-	makeRequest('GET', "http://138.197.7.194/api/users/", null, true, addDataToTable);
+	makeRequest('GET', "http://138.197.7.194/api/users/", null, true, getActiveDepts);
+}
+
+//Get active departments
+function getActiveDepts(response){
+	//Send request to get list of users
+	makeRequestWithExtraParams('GET', "http://138.197.7.194/api/divisions/", null, false, true, addDataToTable, response, null);
 }
 
 //Add users data to table
-function addDataToTable(response){
+function addDataToTable(deptData, response, blank){
+	//Create dept array
+	var depts = [];
+	deptData.forEach(function(data){
+		depts.push(data.did);
+	});
+	
 	var row, cell, button;
 	document.getElementById("totalNum").textContent = response.length + " Users";
 	
@@ -100,7 +112,8 @@ function addDataToTable(response){
 		
 		//Department
 		cell = document.createElement('td');
-		cell.textContent = captialize(data.name); 
+		if (depts.includes(data.dept))
+			cell.textContent = captialize(data.name); 
 		row.appendChild(cell);
 		
 		//Date Created
