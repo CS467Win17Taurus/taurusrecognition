@@ -74,6 +74,7 @@ function clearForm(){
 	document.getElementById("type").value = " ";
 	document.getElementById("amount").value = " ";
 	$("#dateFromPicker").datepicker("clearDates");
+	document.getElementById("createAwardError").style.display = "none";
 }
 
 //Submit award information to create new award in db
