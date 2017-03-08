@@ -51,6 +51,7 @@ function initializePage(){
 		makeRequest('GET', "http://138.197.7.194/api/divisions/", null, true, createDeptList);
 		makeRequest('GET', "http://138.197.7.194/api/awards/", null, true, createAwardList);
 		makeRequest('GET', "http://138.197.7.194/api/bonuses/", null, true, createBonusList);
+		clearErrors();
 	}
 }
 
@@ -82,6 +83,7 @@ function createDeptList(response){
 //Create put request to deactivate dept
 function deleteDeptReq(obj){
 	console.log(obj);
+	clearErrors();
 	var deptId = obj.value;
 	var parts = deptId.split("-");
 	if (parts.length >= 2){
@@ -105,6 +107,7 @@ function addDept(){
 	makeRequest('POST', "http://138.197.7.194/api/divisions/", data, true, createDeptList);
 	document.getElementById("error").textContent = "";
 	document.getElementById("dept").value = "";
+	clearErrors();
 }
 
 //Awards----------------------------------------------------------
@@ -134,6 +137,7 @@ function createAwardList(response){
 //Create put request to deactivate award
 function deleteAwardReq(obj){
 	console.log(obj);
+	clearErrors();
 	var awardId = obj.value;
 	var parts = awardId.split("-");
 	if (parts.length >= 2){
@@ -156,6 +160,7 @@ function addAward(){
 	makeRequest('POST', "http://138.197.7.194/api/awards/", data, true, createAwardList);
 	document.getElementById("error").textContent = "";
 	document.getElementById("award").value = "";
+	clearErrors();
 }
 
 
@@ -186,6 +191,7 @@ function createBonusList(response){
 //Create put request to deactivate bonus
 function deleteBonusReq(obj){
 	console.log(obj);
+	clearErrors();
 	var awardId = obj.value;
 	var parts = awardId.split("-");
 	if (parts.length >= 2){
@@ -203,11 +209,23 @@ function deleteBonusReq(obj){
 
 //Add new bonus to list
 function addBonus(){
+	clearErrors();
 	var data = {}
 	data.amount = document.getElementById("bonus").value;
-	makeRequest('POST', "http://138.197.7.194/api/bonuses/", data, true, createBonusList);
-	document.getElementById("error").textContent = "";
-	document.getElementById("bonus").value = "";
+	
+	if (data.amount > 0){
+		makeRequest('POST', "http://138.197.7.194/api/bonuses/", data, true, createBonusList);
+		document.getElementById("error").textContent = "";
+		document.getElementById("bonus").value = "";
+	}
+	else
+		document.getElementById("bonusError").style.display = "block";
+	
+}
+
+//Clear errors
+function clearErrors(){
+	document.getElementById("bonusError").style.display = "none";
 }
 
 
