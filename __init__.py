@@ -282,12 +282,21 @@ def getBonus():
         query = request.get_json(force=True)
         amt = query["amount"]        
         with conn:
-            c.execute("INSERT INTO bonus (amount) VALUES (%s)", (amt,))
+            c.execute("SELECT * FROM bonus WHERE amount=%s", (amt,))
             if c.rowcount == 1:
-                c.execute("SELECT * FROM bonus WHERE amount=%s", (amt,))                
-                text = json.dumps(c.fetchone())
+                row = c.fetchone()
+                if row['active'] == 1:
+                    text = json.dumps({"status": "failed", "message": "Error: Bonus amount already exists"})
+                else:
+                    c.execute("UPDATE bonus SET active=1 WHERE amount=%s", (amt,))
+                    text = json.dumps({"status":"success","message":"Bonus amount now active"})
             else:
-                text = "Error inserting bonus"                                
+                c.execute("INSERT INTO bonus (amount) VALUES (%s)", (amt,))            
+                if c.rowcount == 1:
+                    c.execute("SELECT * FROM bonus WHERE amount=%s", (amt,))                
+                    text = json.dumps(c.fetchone())
+                else:
+                    text = "Error inserting bonus"                                
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
