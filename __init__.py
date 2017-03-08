@@ -161,21 +161,27 @@ def getUsers():
             email = data['email']   
             dept = data['dept']            
             file = request.files.getlist('signature')              
-            with conn:
-                c.execute("SELECT * FROM users WHERE id=%s", (id,))
-                row = c.fetchone()
-                try:
-                    password = data['password']
-                except:
-                    password = row['password']
-                if not file:                     
-                    user = row['signature']
-                else:                    
-                    user = re.sub('["@.]', '', email)
-                    file[0].save(os.path.join(app.config['UPLOAD_FOLDER'], user))                          
-                c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, user, dept, id))
-                c.execute("SELECT * FROM users WHERE id=%s", (id,))
-                text = json.dumps(c.fetchone())   
+            with conn:                
+                c.execute("SELECT * FROM users WHERE fName=%s AND lName=%s AND email=%s", (fName, lName, email))                
+                if c.rowcount == 1:
+                    row = c.fetchone()
+                    if row['id'] != id:
+                        text = json.dumps({"status": "failed", "message": "Error: user already exists"})                
+                else:
+                    c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                    row = c.fetchone()
+                    try:
+                        password = data['password']
+                    except:
+                        password = row['password']
+                    if not file:                     
+                        user = row['signature']
+                    else:                    
+                        user = re.sub('["@.]', '', email)
+                        file[0].save(os.path.join(app.config['UPLOAD_FOLDER'], user))                          
+                    c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, user, dept, id))
+                    c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                    text = json.dumps(c.fetchone())   
          
     elif request.method == "OPTIONS":        
         return optionResponse()
