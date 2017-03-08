@@ -202,7 +202,7 @@ function createBarChart(dataIn, sect, labels){
 		});
 		
 		//Add dataset object
-		if (sum > 0){
+		if (sum != 0){
 			datasetArr.push(new datasetObj(lbl.label, fillColors[colorCount], lbl.data));
 			colorCount++;
 		}
@@ -294,7 +294,7 @@ function createPieChart(dataIn, sect, labels){
 	var colorArr = [];
 	var colorCount = 0;
 	for (var i = 0; i < tmpData.length; i++){
-		if (tmpData[i] > 0){
+		if (tmpData[i] != 0){
 			dataArr.push(tmpData[i]);
 			labelArr.push(tmpLabels[i]);
 			colorArr.push(fillColors[colorCount]);
