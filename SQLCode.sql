@@ -16,18 +16,18 @@ CREATE TABLE users (id INT(11) AUTO_INCREMENT PRIMARY KEY,
                     lName VARCHAR(30) NOT NULL,
                     email VARCHAR(70) NOT NULL,
                     password VARCHAR(70) NOT NULL,
-                    timeCreated TIMESTAMP, 
-                    signature VARCHAR(30), 
-                    dept INT(11),
+                    timeCreated DATE NOT NULL, 
+                    signature VARCHAR(30) NOT NULL, 
+                    dept INT(11) NOT NULL,
                     active INT(7) DEFAULT 1,                    
                     FOREIGN KEY (dept) REFERENCES division(did));
                     
 INSERT INTO users (fName, lName, email, password, timeCreated, dept) VALUES 
-                  ("mike", "smith", "bonneym@oregonstate.edu", "msmith", current_timestamp, 1);
+                  ("mike", "smith", "bonneym@oregonstate.edu", "msmith", curdate(), 1);
 INSERT INTO users (fName, lName, email, password, timeCreated, dept) VALUES 
-                  ("alicia", "broederdorf", "broedera@oregonstate.edu", "aliciapass", current_timestamp, 2);
+                  ("alicia", "broederdorf", "broedera@oregonstate.edu", "aliciapass", curdate(), 2);
 INSERT INTO users (fName, lName, email, password, timeCreated, dept, active) VALUES 
-                  ("fred", "garvin", "garvin@hotmail", "freddy", current_timestamp, 2, 0);
+                  ("fred", "garvin", "garvin@hotmail", "freddy", curdate(), 2, 0);
                   
                   
 
