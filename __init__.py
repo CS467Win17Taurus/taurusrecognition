@@ -339,12 +339,21 @@ def getDivision():
         query = request.get_json(force=True)
         name = query["name"]        
         with conn:
-            c.execute("INSERT INTO division (name) VALUES (%s)", (name,))
+            c.execute("SELECT * FROM division WHERE name=%s", (name,))
             if c.rowcount == 1:
-                c.execute("SELECT * FROM division WHERE name=%s", (name,))
-                text = json.dumps(c.fetchone()) 
+                row = c.fetchone()
+                if row['active'] == 1:
+                    text = json.dumps({"status": "failed", "message": "Error: Department already exists"})
+                else:
+                    c.execute("UPDATE division SET active=1 WHERE name=%s", (name,))
+                    text = json.dumps({"status":"success","message":"Division now active"})
             else:
-                text = "there was an error inserting into table"                
+                c.execute("INSERT INTO division (name) VALUES (%s)", (name,))
+                if c.rowcount == 1:
+                    c.execute("SELECT * FROM division WHERE name=%s", (name,))
+                    text = json.dumps(c.fetchone()) 
+                else:
+                    text = "there was an error inserting into table"                
           
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
