@@ -474,17 +474,7 @@ def getUserAwards():
 
     if request.method == "GET":
         userID, aid = request.args.getlist('userId'), request.args.getlist('awardId')
-        bid, did = request.args.getlist('bonusId'), request.args.getlist('deptId')
-        # if len(userID) == 5:
-            # with conn:
-                # c.execute("""SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
-                            # t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount, bid AS bonusId,
-                            # aid AS awardId, t2.id AS giverId, t1.id AS recipientId , division.name AS recipientDeptName, 
-                            # division.did as recipientDeptId FROM userAwards UA join users t1 on 
-                            # UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
-                            # INNER JOIN bonus on UA.bonusID=bonus.bid INNER JOIN division ON t2.dept=division.did WHERE UA.giver=%s""", (userID[0], ))
-                # text = json.dumps(c.fetchall())        
-    
+        bid, did = request.args.getlist('bonusId'), request.args.getlist('deptId')    
         with conn:                   
             sql = """SELECT UA.uaid, t1.fName AS recipientFName, t1.lName AS recipientLName, t2.fName AS giverFName,
                         t2.lName AS giverLName, UA.awardDate, title AS awardTitle, amount AS bonusAmount, bid AS bonusId,
@@ -529,13 +519,17 @@ def getUserAwards():
         bonusId = query["bonusId"]
         date = query["date"]
         with conn:
-            c.execute("INSERT INTO userAwards (recipient, giver, awardID, bonusID, awardDate) VALUES (%s, %s, %s, %s, %s)", 
-            (recipient, giver, awardId, bonusId, date))
+            c.execute("SELECT * FROM userAwards WHERE recipient=%s AND giver=%s AND awardID=%s AND bonusID=%s and awardDate=%s", (recipient, giver, awardId, bonusId, date))
             if c.rowcount == 1:
-                c.execute("SELECT * FROM userAwards WHERE uaid=%s", (c.lastrowid,))
-                text = json.dumps(c.fetchone())               
+                text = json.dumps({"status": "failed", "message": "Error, award already exists"})
             else:
-                text = "Problem adding UA"  
+                c.execute("INSERT INTO userAwards (recipient, giver, awardID, bonusID, awardDate) VALUES (%s, %s, %s, %s, %s)", 
+                (recipient, giver, awardId, bonusId, date))
+                if c.rowcount == 1:
+                    c.execute("SELECT * FROM userAwards WHERE uaid=%s", (c.lastrowid,))
+                    text = json.dumps(c.fetchone())               
+                else:
+                    text = "Problem adding UA"  
 
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
