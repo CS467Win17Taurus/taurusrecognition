@@ -16,7 +16,9 @@ function initializePage(){
 
 //Validate form data
 function validate(){
-	//Ceheck that each field is filled in and passwords match
+	document.getElementById("errors").innerHTML = "";
+	
+	//Check that each field is filled in and passwords match
 	var errorHTML = "";
 	var numErrors = 0;
 	
