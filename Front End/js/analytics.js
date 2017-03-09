@@ -81,7 +81,7 @@ function createDatasetObjs(dataIn, sect, blank){
 			title.textContent = "Total Amount of each Bonus Amount Given";
 		}
 		else if (selectOpt == 'dept'){
-			theData = data.name;
+			theData = captialize(data.name);
 			theId = data.did;
 			title.textContent = "Total Number of Awards Received in each Department";
 		}
