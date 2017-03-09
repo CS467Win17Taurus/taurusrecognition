@@ -84,8 +84,8 @@ function validate(){
 	}
 	
 	if (numErrors > 0){
-		document.getElementById("errors").innerHTML = errorHTML;
-		document.getElementById("errors").className = "badStatus";
+		document.getElementById("addError").innerHTML = errorHTML;
+		document.getElementById("addError").className = "badStatus";
 	}
 	else
 		sendData();
@@ -110,12 +110,17 @@ function sendData(){
 	}
 	
 	console.log(data);
-	makeRequestFormData('POST', "http://138.197.7.194/api/users/", data, true, aUserAddResponse);
+	makeRequestFormData('POST', "http://138.197.7.194/api/users/", data, false, aUserAddResponse);
 }
 
 //Handle response after adding user
 function aUserAddResponse(response){
-	window.location.href = 'aUserAccounts.html';
+	if (response == "User already exists"){
+		document.getElementById("addError").textContent = "Error: " + response;
+		document.getElementById("addError").style.display = "block";
+	}
+	else
+		window.location.href = 'aUserAccounts.html';
 }
 
 //Clear form input to blank
@@ -127,7 +132,7 @@ function clear(){
 	document.getElementById("confPw").value = "";
 	document.getElementById("dept").value = " ";
 	document.getElementById("sig").value = "";
-	document.getElementById("errors").innerHTML = "";
+	document.getElementById("addError").innerHTML = "";
 }	
 
 //Event Listeners
