@@ -67,6 +67,15 @@ function validate(){
 		numErrors++;
 	}
 	
+	//Signature check
+	var file = document.getElementById("sig");
+	if (file.files.length < 1){
+		if (numErrors > 0)
+			errorHTML += "<br>";
+		errorHTML += "***Please select a signature image file.";
+		numErrors++;
+	}
+	
 	//Password check
 	if (document.getElementById('pword').value == ""){
 		if (numErrors > 0)
