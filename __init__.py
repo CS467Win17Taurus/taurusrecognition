@@ -28,18 +28,6 @@ text = ""
 def hello():
     return render_template("main.html")
 
-# @app.route("/sendmail/", methods = ['GET', 'POST'])
-# def send_mail():
-    # try:
-        # msg = Message("This is a test", sender="taurusrecognition@gmail.com", 
-        # recipients=["mjbonney78@gmail.com"])
-        # msg.body = "This is the body"
-        # mail.send(msg)
-        # return "ok"
-    # except Exception as e:  
-        # flash(e)        
-        # return render_template("500.html", error=e)
-    
 @app.errorhandler(404)
 def page_not_found(e):
     return("404 error!")
@@ -162,31 +150,27 @@ def getUsers():
             dept = data['dept']            
             file = request.files.getlist('signature')              
             with conn:                
-                c.execute("SELECT * FROM users WHERE fName=%s AND lName=%s AND email=%s", (fName, lName, email))                
-                if c.rowcount == 1:                    
-                    row = c.fetchone()                    
-                    if str(row['id']) == id:
-                        c.execute("SELECT * FROM users WHERE id=%s", (id,))
-                        row = c.fetchone()
-                        try:
-                            password = data['password']
-                        except:
-                            password = row['password']
-                        if len(file) == 0:  
-                            # return "no file"
-                            user = row['signature']
-                        else:     
-                            return "im here"
-                            user = re.sub('["@.]', '', email)
-                            # os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user)
-                            file[0].save(os.path.join(app.config['UPLOAD_FOLDER'], user))                          
-                        c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, user, dept, id))
-                        # c.execute("SELECT * FROM users WHERE id=%s", (id,))
-                        text = json.dumps({"status": "success", "message": "User successfully updated"})                
-                    else:
-                        text = json.dumps({"status": "failed", "message": "Error: user already exists"})
+                c.execute("SELECT * FROM users WHERE fName=%s AND lName=%s AND email=%s AND id!=%s", (fName, lName, email, id))   #check to see if another user already has this name/email combination             
+                if c.rowcount == 0:                   
+                    c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                    row = c.fetchone()
+                    try:
+                        password = data['password']
+                    except:
+                        password = row['password']
+                    if len(file) == 0:  
+                        # return "no file"
+                        user = row['signature']
+                    else:     
+                        return "im here"
+                        user = re.sub('["@.]', '', email)
+                        # os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user)
+                        file[0].save(os.path.join(app.config['UPLOAD_FOLDER'], user))                          
+                    c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, user, dept, id))
+                    # c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                    text = json.dumps({"status": "success", "message": "User successfully updated"})                
                 else:
-                    text = json.dumps("user does not exist")
+                    text = json.dumps({"status": "failed", "message": "Error: user already exists"})                
                            
          
     elif request.method == "OPTIONS":        
@@ -490,7 +474,7 @@ def getUserAwards():
                         division.did as recipientDeptId FROM userAwards UA join users t1 on 
                         UA.recipient=t1.id join users t2 on UA.giver=t2.id INNER JOIN awards on UA.awardID=awards.aid 
                         INNER JOIN bonus on UA.bonusID=bonus.bid INNER JOIN division ON t1.dept=division.did WHERE UA.giver"""
-            if len(userID) == 1:
+            if len(userID) == 1:                    #build sql statement piece by piece based on field present in query or not
                 sql += "=%s"
                 userID = userID[0]
             else:
