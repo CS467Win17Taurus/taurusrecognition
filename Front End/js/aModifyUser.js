@@ -52,7 +52,12 @@ function sendData(){
 
 //Handle response after modifying user
 function aUserModResponse(response){
-	window.location.href = 'aUserAccounts.html';
+	if (response.status == "failed"){
+		document.getElementById("editError").textContent = response.message;
+		document.getElementById("editError").style.display = "block";
+	}
+	else
+		window.location.href = 'aUserAccounts.html';
 }
 
 //Cancel

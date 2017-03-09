@@ -48,7 +48,12 @@ function sendData(){
 
 //Handle response after modifying user
 function userSendDataResponse(response){
-	window.location.href = 'userAccount.html';
+	if (response.status == "failed"){
+		document.getElementById("editError").textContent = response.message;
+		document.getElementById("editError").style.display = "block"
+	}
+	else
+		window.location.href = 'userAccount.html';
 }
 
 //Cancel

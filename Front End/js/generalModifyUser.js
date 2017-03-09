@@ -36,6 +36,9 @@ function fillForm(data){
 
 //Validate form
 function validateForm(){
+	//Clear other potential errors
+	document.getElementById("editError").style.display = "none";
+	
 	var errorHTML = "";
 	var numErrors = 0;
 	
