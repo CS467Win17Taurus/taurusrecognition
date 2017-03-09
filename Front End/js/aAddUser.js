@@ -27,7 +27,7 @@ function usersDeptResponse(response){
 	var opt = document.createElement("option");
 	response.forEach(function(type){
 		//Reference: http://stackoverflow.com/a/6194450
-		sel.add(new Option(type.name, type.did));
+		sel.add(new Option(captialize(type.name), type.did));
 	});
 }
 
