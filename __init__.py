@@ -172,14 +172,17 @@ def getUsers():
                             password = data['password']
                         except:
                             password = row['password']
-                        if not file:                     
+                        if len(file) == 0:  
+                            # return "no file"
                             user = row['signature']
-                        else:                    
+                        else:     
+                            return "im here"
                             user = re.sub('["@.]', '', email)
+                            # os.remove(os.path.join(app.config['UPLOAD_FOLDER'], user)
                             file[0].save(os.path.join(app.config['UPLOAD_FOLDER'], user))                          
                         c.execute("UPDATE users SET fName=%s, lName=%s, email=%s, password=%s, signature=%s, dept=%s WHERE id=%s", (fName, lName, email, password, user, dept, id))
-                        c.execute("SELECT * FROM users WHERE id=%s", (id,))
-                        text = json.dumps(c.fetchone())                
+                        # c.execute("SELECT * FROM users WHERE id=%s", (id,))
+                        text = json.dumps({"status": "success", "message": "User successfully updated"})                
                     else:
                         text = json.dumps({"status": "failed", "message": "Error: user already exists"})
                 else:
@@ -255,12 +258,17 @@ def getAdmins():
                 row = c.fetchone()
                 pwd = row['password']
         with conn:
-            c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
-            if c.rowcount == 1:
-                c.execute("SELECT * FROM admins WHERE id=%s", (id,))
-                text = json.dumps(c.fetchone())
+            c.execute("SELECT * FROM admins WHERE adminName=%s AND id!=%s", (name, id))
+            if c.rowcount == 1:                
+                text = json.dumps({"status": "failed", "message":"Error: admin already exists"})
             else:
-                text = "There was an error with PUT"
+                c.execute("UPDATE admins SET adminName=%s, password=%s WHERE id=%s", (name, pwd, id))
+                if c.rowcount == 1:
+                    # c.execute("SELECT * FROM admins WHERE id=%s", (id,))
+                    # text = json.dumps(c.fetchone())
+                    text = json.dumps({"status": "success", "message": "User successfully updated"})
+                else:
+                    text = json.dumps("There was an error with PUT")
                 
     elif request.method == "OPTIONS":        
         return optionResponse()
@@ -519,7 +527,7 @@ def getUserAwards():
         bonusId = query["bonusId"]
         date = query["date"]
         with conn:
-            c.execute("SELECT * FROM userAwards WHERE recipient=%s AND giver=%s AND awardID=%s AND bonusID=%s and awardDate=%s", (recipient, giver, awardId, bonusId, date))
+            c.execute("SELECT * FROM userAwards WHERE recipient=%s AND awardID=%s AND bonusID=%s and awardDate=%s", (recipient, awardId, bonusId, date))
             if c.rowcount == 1:
                 text = json.dumps({"status": "failed", "message": "Error, award already exists"})
             else:
