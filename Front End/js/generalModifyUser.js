@@ -112,7 +112,8 @@ function save(){
 	document.getElementById("pwordErrors").textContent = "";
 	
 	if (validateForm()){
-		if (document.getElementById("newPw").value != ""){
+		if (document.getElementById("newPw").value != "" || document.getElementById("newPw2").value != "" ||
+		document.getElementById("oldPw").value != ""){
 			if (validatePassword()){
 				sendData();
 			}
