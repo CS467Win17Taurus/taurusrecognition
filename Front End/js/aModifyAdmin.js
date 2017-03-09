@@ -63,10 +63,8 @@ function validate(){
 			numErrors++;
 		}
 	}
-		if (numErrors > 0){
+		if (numErrors > 0)
 			document.getElementById("errors").innerHTML = errorHTML;
-			document.getElementById("errors").className = "badStatus";
-		}
 		else
 			sendData();
 }
@@ -86,7 +84,10 @@ function sendData(){
 
 //Handle response after adding user
 function adminAddResponse(response){
-	window.location.href = 'aAdminAccounts.html';
+	if (response.status == "failed")
+		document.getElementById("errors").textContent = response.message;
+	else
+		window.location.href = 'aAdminAccounts.html';
 }
 
 //Clear form input to blank
