@@ -117,8 +117,14 @@ function submitAward(){
 
 //Handle award creation response
 function awardResponse(response){
-	clearForm();
-	window.location.href = 'userAccount.html';
+	if (response.status == "failed"){
+		document.getElementById("createAwardError").textContent = response.message;
+		document.getElementById("createAwardError").style.display = "block";
+	}
+	else{
+		window.location.href = 'userAccount.html';
+		clearForm();
+	}
 }
 
 
