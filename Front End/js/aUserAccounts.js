@@ -12,11 +12,14 @@ function initializePage(){
 	else{
 		console.log("Logged in = true");
 		createTable();
+		clearErrors();
 	}
 }
 
 //Create table of users
 function createTable(){
+	clearErrors();
+	
 	var table = document.getElementById("usersTbl");
 	
 	//Delete rows from table body
@@ -73,6 +76,8 @@ function getActiveDepts(response){
 
 //Add users data to table
 function addDataToTable(deptData, response, blank){
+	clearErrors();
+	
 	//Create dept array
 	var depts = [];
 	deptData.forEach(function(data){
@@ -176,17 +181,19 @@ function addDataToTable(deptData, response, blank){
 //Show confirmation division with buttons
 function showConfirm(id){
 	document.getElementById("div" + id).style.display = "block";
+	clearErrors();
 }
 
 //Hide confirmation division with buttons
 function hideConfirm(id){
 	document.getElementById("div" + id).style.display = "none";
+	clearErrors();
 }
 
 //Deactivate user
 function deleteUser(userId){
 	console.log("User id: " + userId);
-	
+	clearErrors();
 	var data = new FormData();
 	data.append("id", userId);
 	data.append("active", 0);
@@ -211,7 +218,13 @@ function aUserAcctDelResp(response, type, id){
 
 //Edit user
 function editUser(id){
+	clearErrors();
 	window.location.href = 'aModifyUser.html?userId=' + id;
+}
+
+//Clear error messages
+function clearErrors(){
+	document.getElementById("deleteMsg").style.display = "none";
 }
 
 //Initialize Page
