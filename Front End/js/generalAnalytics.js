@@ -5,7 +5,7 @@ dashboard and data in depth page
 */
 
 //User Awards Result Object Constructor
-function awardObj(id, award, awardId, bonus, bonusId, dept, deptId, date){
+function awardObj(id, award, awardId, bonus, bonusId, dept, deptId, date, giverId, receiverId){
 	this.id = id;
 	this.award = award;
 	this.awardId = awardId;
@@ -14,6 +14,8 @@ function awardObj(id, award, awardId, bonus, bonusId, dept, deptId, date){
 	this.dept = dept;
 	this.deptId = deptId;
 	this.date = date;
+	this.giverId = giverId;
+	this.receiverId = receiverId;
 }
 
 //Chart Object for label and data array
@@ -28,6 +30,14 @@ function dataObj(label, id){
 	this.label = label;
 	this.id = id;
 	this.data = [];
+}
+
+//Object to collect data for userAgent
+function userObj(id, name, num, amount){
+	this.id = id;
+	this.name = name;
+	this.num = num;
+	this.amount = amount;
 }
 
 //Array of colors to use in chart
@@ -113,7 +123,7 @@ function filterData(data, sect, labels){
 		
 		//If date within range, add result object
 		if (dateFlag)
-			filteredResults.push(new awardObj(award.uaid, award.awardTitle, award.awardId, award.bonusAmount, award.bonusId, award.recipientDeptName, award.recipientDeptId, award.awardDate));
+			filteredResults.push(new awardObj(award.uaid, award.awardTitle, award.awardId, award.bonusAmount, award.bonusId, award.recipientDeptName, award.recipientDeptId, award.awardDate, award.giverId, award.recipientId));
 	});
 	
 	//Send results to function for specified section
@@ -141,8 +151,38 @@ function calculateTotals(dataIn, sect){
 		 totalAmount += data.bonus;
 	 });
 	 
-	document.getElementById(sect + 'Num').textContent = totalNum;
-	document.getElementById(sect + 'Amt').textContent = '$' + totalAmount;
+	//Determine page to display stats
+	var url = window.location.href;
+	console.log("Url: " + url); 
+	var page = url.split("CS467/");
+	console.log(page);
+	if (page.length == 2){
+		if (page[1] == "analytics.html")
+			var flag = true;
+		else
+			var flag = false;
+	}
+	
+	//Get toggle value for data in-depth page
+	if (sect == "top")
+		var toggleOpt = document.getElementById(sect + 'Toggle').checked;
+	
+	//Update numbers on analytics page
+	if (flag){
+		document.getElementById(sect + 'Num').textContent = totalNum;
+		document.getElementById(sect + 'Amt').textContent = '$' + totalAmount;
+	}
+	//Update numbers on data in-depth page
+	else{
+		if (toggleOpt)
+			document.getElementById(sect + 'Num').textContent = totalNum + " awards";
+		else
+			document.getElementById(sect + 'Num').textContent = '$' + totalAmount;
+		
+		//Get people stats
+		makeRequestWithExtraParams('GET', "http://138.197.7.194/api/users/", null, false, true, getUserStats, dataIn, null);
+	}
+	
 }
 
 //Create line Chart

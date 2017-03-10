@@ -109,6 +109,130 @@ function updateChart(){
 	makeRequestWithExtraParams('GET', "http://138.197.7.194/api/userAwards/" + queryStr, null, false, true, filterData, 'top', null);
 }
 
+//Get user stats
+function getUserStats(userData, awardData, blank){
+	//Create user arrays to sum totals
+	var userNames = [];
+	var userIds = [];
+	var giversNum = [];
+	var giversAmount = []
+	var receiversNum = [];
+	var receiversAmount = [];
+	
+	userData.forEach(function(data){
+		//Get user data arrays
+		userNames.push(captialize(data.fName) + " " + captialize(data.lName));
+		userIds.push(data.id);
+		
+		//Initialize counter arrays
+		giversNum.push(0);
+		giversAmount.push(0);
+		receiversNum.push(0);
+		receiversAmount.push(0);
+	});
+	
+	//Calculate totals
+	var giverIndex, receiverIndex;
+	awardData.forEach(function(aData){
+		giverIndex = userIds.indexOf(aData.giverId);
+		receiverIndex = userIds.indexOf(aData.receiverId);
+		if (giverIndex != -1){
+			giversNum[giverIndex] += 1;
+			giversAmount[giverIndex] += aData.bonus;
+		}
+		if (receiverIndex != -1){
+			receiversNum[receiverIndex] += 1;
+			receiversAmount[receiverIndex] += aData.bonus;
+		}
+	});
+	/*console.log("User array data");
+	console.log(userNames);
+	console.log(userIds);
+	console.log(giversNum);
+	console.log(giversAmount);
+	console.log(receiversNum);
+	console.log(receiversAmount);*/
+	
+	//Get toggle value for data in-depth page
+	var toggleOpt = document.getElementById('topToggle').checked;
+
+	//Find max and display
+	if (toggleOpt){
+		//Find max
+		var maxGiver = giversNum[0], giverIndex = 0;
+		var maxReceiver = receiversNum[0], receiverIndex = 0;
+		for (var i = 1; i < userIds.length; i++){
+			if (giversNum[i] > maxGiver){
+				maxGiver = giversNum[i];
+				giverIndex = i;
+			}
+			if (receiversNum[i] > maxReceiver){
+				maxReceiver = receiversNum[i];
+				receiverIndex = i;
+			}
+		}
+		
+		//Get Names
+		var countGiver = 0, countReceiver = 0;
+		var giverStr = "", receiverStr = "";
+		for (var i = 0; i < userIds.length; i++){
+			if (giversNum[i] == maxGiver){
+				if (countGiver > 0)
+					giverStr += "<br>";
+				giverStr += userNames[i] + " (" + maxGiver + ")";
+				countGiver++;
+			}
+			
+			if (receiversNum[i] == maxReceiver){
+				if (countReceiver > 0)
+					receiverStr += "<br>";
+				receiverStr += userNames[i] + " (" + maxReceiver + ")";
+				countReceiver++;
+			}
+		}
+		
+		document.getElementById("topGiver").innerHTML = giverStr;
+		document.getElementById("topReceiver").innerHTML = receiverStr;
+	}
+	else{
+		//Find max
+		var maxGiver = giversAmount[0], giverIndex = 0;
+		var maxReceiver = receiversAmount[0], receiverIndex = 0;
+		for (var i = 1; i < userIds.length; i++){
+			if (giversAmount[i] > maxGiver){
+				maxGiver = giversAmount[i];
+				giverIndex = i;
+			}
+			if (receiversAmount[i] > maxReceiver){
+				maxReceiver = receiversAmount[i];
+				receiverIndex = i;
+			}
+		}
+		
+		//Get Names
+		var countGiver = 0, countReceiver = 0;
+		var giverStr = "", receiverStr = "";
+		for (var i = 0; i < userIds.length; i++){
+			if (giversAmount[i] == maxGiver){
+				if (countGiver > 0)
+					giverStr += "<br>";
+				giverStr += userNames[i] + " ($" + maxGiver + ")";
+				countGiver++;
+			}
+			if (receiversAmount[i] == maxReceiver){
+				if (countReceiver > 0)
+					receiverStr += "<br>";
+				receiverStr += userNames[i] + " ($" + maxReceiver + ")";
+				countReceiver++;
+			}
+		}
+		
+		document.getElementById("topGiver").innerHTML = giverStr;
+		document.getElementById("topReceiver").innerHTML = receiverStr;
+	}
+	
+}
+
 //Clear filters
 function clearFilters(){
 	console.log("clear filters");
@@ -119,6 +243,7 @@ function clearFilters(){
 	document.getElementById("dept").value = 0;
 	$("#dateFromPickertop").datepicker("clearDates");
 	$("#dateToPickertop").datepicker("clearDates");
+	$('#topToggle').bootstrapToggle('on');
 	updateChart();
 }
 
