@@ -89,8 +89,9 @@ def getUsers():
         data = request.form
         last = data["lName"]
         email = data["email"] 
+        first = data['fName']
         with conn:            
-            c.execute("SELECT * FROM users WHERE lName=%s AND email=%s", (last, email))          
+            c.execute("SELECT * FROM users WHERE fName=%s AND lName=%s AND email=%s", (first, last, email))          
             rows = c.rowcount                    
             if rows != 0:
                 text = "User already exists" 
@@ -98,8 +99,7 @@ def getUsers():
                 resp.headers = HEAD
                 return resp  
                 
-        user = re.sub('["@.]', '', email)
-        first = data['fName']
+        user = re.sub('["@.]', '', email)        
         password = data['password']
         did = data['dept']        
         file = request.files['signature']        
@@ -213,12 +213,16 @@ def getAdmins():
         name = query["adminName"]
         pwd = query["password"]
         with conn:
-            c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
+            c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
             if c.rowcount == 1:
-                c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
-                text = json.dumps(c.fetchone())
+                text = json.dumps({"status": "failed", "message":"Error: admin already exists"})
             else:
-                text = "There was an error inserting into table"
+                c.execute("INSERT INTO admins (adminName, password) VALUES (%s, %s)", (name, pwd))
+                if c.rowcount == 1:
+                    c.execute("SELECT * FROM admins WHERE adminName=%s", (name,))
+                    text = json.dumps({"status": "success", "message": "Admin successfully updated"})
+                else:
+                    text = "There was an error inserting into table"
                 
     elif request.method == "DELETE":
         ids = request.args.getlist('id')
