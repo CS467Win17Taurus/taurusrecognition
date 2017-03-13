@@ -73,7 +73,7 @@
 			
 			<!--Selection Menus-->
 			
-			<div class="row datePickerRow">
+			<div class="row">
 				<h4>Filter By:</h4>
 				<div class="col-sm-4 col-xs-12">
 					<div class="form-group">
@@ -160,7 +160,26 @@
 			
 			<div id="topChartDiv">
 				<canvas id="topChart" width="400" height="100"></canvas>
-			</div>			
+			</div>	
+
+			<hr>
+			<h4>Awards Given by User</h4>
+			<div class="row datePickerRow">
+				<div class="col-sm-4 col-xs-12">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="control-label input-group-addon" for="user">Select User:</label>
+							<select class="form-control input-group" id="user" name="user">
+								<option value=" "> </option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-offset-6 col-sm-2" id="downloadDiv"></div>
+			</div>
+			<div id="totalTblNum" class="totalTable"></div>
+			<table id="awardsTbl" class="table table-hover table-bordered">
+			</table>
 			
 		</div>
 		

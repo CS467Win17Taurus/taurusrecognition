@@ -20,6 +20,7 @@ function initializePage(){
 		getOptionData('amount');
 		getOptionData('dept');
 		getOptionData('giver');
+		getOptionData('user');
 	}
 }
 
@@ -39,6 +40,7 @@ function getOptionData(type){
 			queryStr = "divisions/";
 			break;
 		case 'giver':
+		case 'user':
 			queryStr = "users/";
 			break;
 	}
@@ -66,6 +68,7 @@ function addOptionsToMenu(response, type, blank){
 			str = captialize(data.name);	
 			break;
 		case 'giver':
+		case 'user':
 			id = data.id;
 			str = captialize(data.fName) + ' ' + captialize(data.lName);
 			break;
@@ -247,9 +250,130 @@ function clearFilters(){
 	updateChart();
 }
 
+//Create table of past awards
+function createTable(){
+	var table = document.getElementById("awardsTbl");
+	
+	//Delete rows from table body
+	while (table.hasChildNodes())
+		table.removeChild(table.firstChild);
+	
+	//Create table head with row
+	var head = document.createElement('thead');
+	head.className = "thead-default";
+	table.appendChild(head);
+	var row = document.createElement('tr');
+	head.appendChild(row);
+	
+	//Create header cells
+	var headCell = document.createElement('th');
+	headCell.textContent = 'Id';
+	row.appendChild(headCell);
+	headCell = document.createElement('th');
+	headCell.textContent = 'Date';
+	row.appendChild(headCell);
+	headCell = document.createElement('th');
+	headCell.textContent = 'Recipient';
+	row.appendChild(headCell);
+	headCell = document.createElement('th');
+	headCell.textContent = 'Type';
+	row.appendChild(headCell);
+	headCell = document.createElement('th');
+	headCell.textContent = 'Amount';
+	row.appendChild(headCell);
+	
+	//Create table body
+	var body = document.createElement('tbody');
+	body.id = "tblBody";
+	table.appendChild(body);
+	
+	//Send request to get user awards
+	var id = document.getElementById("user").value;
+	makeRequest('GET', "http://138.197.7.194/api/userAwards/?userId=" + id, null, true, addDataToTable);
+}
+
+//Add awards data to table
+function addDataToTable(response){
+	var row, cell, button;
+	document.getElementById("totalTblNum").textContent = response.length + " Total Awards Given";
+	
+	var body = document.getElementById("tblBody");
+	
+	//Create start of data array for csv file
+	var dataArr = [["Id", "Date", "Recipient", "Type", "Amount"]];
+	var dataTmpArr = [];
+	
+	response.forEach(function(data){
+		row = document.createElement('tr');
+		row.id = data.uaid;
+		body.appendChild(row);
+		
+		//Add cells
+		//Id
+		cell = document.createElement('td');
+		cell.textContent = data.uaid;
+		dataTmpArr.push(data.uaid);
+		row.appendChild(cell);
+		
+		//Date
+		cell = document.createElement('td');
+		var date = new Date(data.awardDate);
+		date.setDate(date.getDate() + 1);
+		cell.textContent = date.toLocaleDateString();
+		dataTmpArr.push(date.toLocaleDateString());
+		row.appendChild(cell);
+		
+		//Recipient
+		cell = document.createElement('td');
+		cell.textContent = captialize(data.recipientFName) + " " + captialize(data.recipientLName);
+		dataTmpArr.push(captialize(data.recipientFName) + " " + captialize(data.recipientLName));
+		row.appendChild(cell);
+		
+		//Type
+		cell = document.createElement('td');
+		cell.textContent = data.awardTitle;
+		dataTmpArr.push(data.awardTitle);
+		row.appendChild(cell);
+		
+		//Amount
+		cell = document.createElement('td');
+		cell.textContent = "$" + data.bonusAmount;
+		dataTmpArr.push("$" + data.bonusAmount);
+		row.appendChild(cell);
+		
+		dataArr.push(dataTmpArr);
+		dataTmpArr = [];
+	});
+	
+	//Create csv data
+	//Ref: http://stackoverflow.com/questions/17836273/export-javascript-data-to-csv-file-without-server-interaction
+	var csvData = [];
+	console.log("Data arr for csv");
+	console.log(dataArr);
+	for (var i = 0; i < dataArr.length; i++)
+		csvData.push(dataArr[i] + ',');
+	var csvText = csvData.join("\r\n");
+	console.log("CSV text:");
+	console.log(csvText);
+	
+	//Delete prior button from div
+	var downloadDiv = document.getElementById("downloadDiv");
+	while (downloadDiv.hasChildNodes())
+		downloadDiv.removeChild(downloadDiv.firstChild);
+	
+	//Create download button
+	var btn = document.createElement('a');
+	btn.innerHTML = '<button id="download" class="btn btn-info"><span class="glyphicon glyphicon-download"></span> Download</button>';
+	btn.href = 'data:application/csv;charset=utf-8,' + encodeURIComponent(csvText);
+	btn.target = '_blank';
+	btn.download = "awardsData.csv";
+	downloadDiv.append(btn);
+}
+
 //Event Listeners
 document.getElementById("topRefresh").addEventListener('click', updateChart);
 document.getElementById("remove").addEventListener('click', clearFilters);
+document.getElementById("user").addEventListener('change', createTable);
 
 //Initialize Page
 document.addEventListener('DOMContentLoaded', initializePage);
