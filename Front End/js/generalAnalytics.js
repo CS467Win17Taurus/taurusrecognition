@@ -157,7 +157,7 @@ function calculateTotals(dataIn, sect){
 	var page = url.split("CS467/");
 	console.log(page);
 	if (page.length == 2){
-		if (page[1] == "analytics.html")
+		if (page[1] == "analytics.html" || page[1] == "analytics.html#")
 			var flag = true;
 		else
 			var flag = false;
