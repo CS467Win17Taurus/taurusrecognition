@@ -31,15 +31,6 @@ function sendData(){
 	data.append("email", document.getElementById("email").value);
 	data.append("dept", document.getElementById("dept").value);
 	
-	var file = document.getElementById("sig");
-	if (file.files.length > 0){
-		//Ref: http://www.w3schools.com/jsref/prop_fileupload_files.asp
-		var thisFile = file.files[0];
-		console.log("Num files: " + file.files.length);
-		console.log("Filename: " + thisFile.name + ", Size: " + thisFile.size + ", Type: " + thisFile.type);
-		data.append("signature", thisFile);
-	}
-	
 	if (document.getElementById("newPw").value != "")
 		data.append("password", document.getElementById("newPw").value);
 	

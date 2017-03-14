@@ -47,6 +47,9 @@ function createTable(){
 	headCell.textContent = 'Email';
 	row.appendChild(headCell);
 	headCell = document.createElement('th');
+	headCell.textContent = 'Signature';
+	row.appendChild(headCell);
+	headCell = document.createElement('th');
 	headCell.textContent = 'Department';
 	row.appendChild(headCell);
 	headCell = document.createElement('th');
@@ -84,7 +87,7 @@ function addDataToTable(deptData, response, blank){
 		depts.push(data.did);
 	});
 	
-	var row, cell, button;
+	var row, cell, img, button;
 	document.getElementById("totalNum").textContent = response.length + " Users";
 	
 	var body = document.getElementById("tblBody");
@@ -113,6 +116,14 @@ function addDataToTable(deptData, response, blank){
 		//Email
 		cell = document.createElement('td');
 		cell.textContent = data.email;
+		row.appendChild(cell);
+		
+		//Signature
+		cell = document.createElement('td');
+		img = document.createElement('img');
+		img.src = "http://138.197.7.194/static/" + data.signature;
+		img.className = "tablePic";
+		cell.appendChild(img);
 		row.appendChild(cell);
 		
 		//Department

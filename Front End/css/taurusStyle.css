@@ -48,7 +48,7 @@ body{
 	padding-top:10px;
 }
 
-#sigImg{
+.sigImg{
 	border: black 1px solid;
 	max-width:40%;
 	max-height: 20%;
@@ -104,4 +104,9 @@ hr{
 	font-weight: bold;
 	font-size: 120%;
 	padding-top: 15px;
+}
+
+.tablePic{
+	max-width: 150px;
+	max-height: 150px;
 }

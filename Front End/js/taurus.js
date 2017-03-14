@@ -157,20 +157,8 @@ function makeRequestWithExtraParams(verb, url, data, inDataJson, parse, resFunc,
 	}
 }
 
-//Get user's name for header
-function getUserName(id){
-	makeRequest('GET', "http://138.197.7.194/api/users/?id=" + id, null, true, userAcctGetNameResp);
-}
-
-//Handle get user name response
-function userAcctGetNameResp(response){
-	//Ref: http://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
-	var name = response.fName;
-	var capitalName = name.charAt(0).toUpperCase() + name.slice(1);	
-	document.getElementById("userName").textContent = capitalName;
-}
-
 //Capitalize first letter
+//Ref: http://stackoverflow.com/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript
 function captialize(word){
 	return word.charAt(0).toUpperCase() + word.slice(1);
 }

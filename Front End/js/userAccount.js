@@ -12,9 +12,15 @@ function initializePage(){
 	else{
 		console.log("Logged in = true");
 		var id = getId('user_id');
-		getUserName(id);
+		makeRequest('GET', "http://138.197.7.194/api/users/?id=" + id, null, true, userAcctInfoResp);
 		createTable();
 	}
+}
+
+//Handle response for user info
+function userAcctInfoResp(response){
+	document.getElementById("userName").textContent = captialize(response.fName);
+	document.getElementById("signature").src = "http://138.197.7.194/static/" + response.signature;
 }
 
 //Create table of past awards

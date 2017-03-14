@@ -29,7 +29,6 @@ function fillForm(data){
 	document.getElementById("lName").value = captialize(data.lName);
 	document.getElementById("email").value = data.email;
 	document.getElementById("dept").value = data.dept;
-	document.getElementById("sigImg").src = " http://138.197.7.194/static/" + data.signature;
 	userPw = data.password;
 	userId = data.id;
 }
