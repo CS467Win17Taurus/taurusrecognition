@@ -148,92 +148,89 @@ function getUserStats(userData, awardData, blank){
 			receiversAmount[receiverIndex] += aData.bonus;
 		}
 	});
-	/*console.log("User array data");
-	console.log(userNames);
-	console.log(userIds);
-	console.log(giversNum);
-	console.log(giversAmount);
-	console.log(receiversNum);
-	console.log(receiversAmount);*/
 	
 	//Get toggle value for data in-depth page
 	var toggleOpt = document.getElementById('topToggle').checked;
 
+	var giverStr = "", receiverStr = "";
+	var countGiver = 0, countReceiver = 0, giverIndex = 0, receiverIndex = 0;
+	//If no awards returned, print blanks for summary
+	console.log("Award data");
+	console.log(awardData);
+	if (awardData.length == 0){
+		giverStr = "--";
+		receiverStr = "--";
+	}
 	//Find max and display
-	if (toggleOpt){
-		//Find max
-		var maxGiver = giversNum[0], giverIndex = 0;
-		var maxReceiver = receiversNum[0], receiverIndex = 0;
-		for (var i = 1; i < userIds.length; i++){
-			if (giversNum[i] > maxGiver){
-				maxGiver = giversNum[i];
-				giverIndex = i;
-			}
-			if (receiversNum[i] > maxReceiver){
-				maxReceiver = receiversNum[i];
-				receiverIndex = i;
-			}
-		}
-		
-		//Get Names
-		var countGiver = 0, countReceiver = 0;
-		var giverStr = "", receiverStr = "";
-		for (var i = 0; i < userIds.length; i++){
-			if (giversNum[i] == maxGiver){
-				if (countGiver > 0)
-					giverStr += "<br>";
-				giverStr += userNames[i] + " (" + maxGiver + ")";
-				countGiver++;
+	else{
+		if (toggleOpt){
+			//Find max for number
+			var maxGiver = giversNum[0];
+			var maxReceiver = receiversNum[0];
+			for (var i = 1; i < userIds.length; i++){
+				if (giversNum[i] > maxGiver){
+					maxGiver = giversNum[i];
+					giverIndex = i;
+				}
+				if (receiversNum[i] > maxReceiver){
+					maxReceiver = receiversNum[i];
+					receiverIndex = i;
+				}
 			}
 			
-			if (receiversNum[i] == maxReceiver){
-				if (countReceiver > 0)
-					receiverStr += "<br>";
-				receiverStr += userNames[i] + " (" + maxReceiver + ")";
-				countReceiver++;
+			//Get Names for number
+			for (var i = 0; i < userIds.length; i++){
+				
+				if (giversNum[i] == maxGiver){
+					if (countGiver > 0)
+						giverStr += "<br>";
+					giverStr += userNames[i] + " (" + maxGiver + ")";
+					countGiver++;
+				}
+				
+				if (receiversNum[i] == maxReceiver){
+					if (countReceiver > 0)
+						receiverStr += "<br>";
+					receiverStr += userNames[i] + " (" + maxReceiver + ")";
+					countReceiver++;
+				}
+			}		
+		}
+		else{
+			//Find max for amount
+			var maxGiver = giversAmount[0];
+			var maxReceiver = receiversAmount[0];
+			for (var i = 1; i < userIds.length; i++){
+				if (giversAmount[i] > maxGiver){
+					maxGiver = giversAmount[i];
+					giverIndex = i;
+				}
+				if (receiversAmount[i] > maxReceiver){
+					maxReceiver = receiversAmount[i];
+					receiverIndex = i;
+				}
+			}
+			
+			//Get Names for amount
+			for (var i = 0; i < userIds.length; i++){
+				if (giversAmount[i] == maxGiver){
+					if (countGiver > 0)
+						giverStr += "<br>";
+					giverStr += userNames[i] + " ($" + maxGiver + ")";
+					countGiver++;
+				}
+				if (receiversAmount[i] == maxReceiver){
+					if (countReceiver > 0)
+						receiverStr += "<br>";
+					receiverStr += userNames[i] + " ($" + maxReceiver + ")";
+					countReceiver++;
+				}
 			}
 		}
-		
-		document.getElementById("topGiver").innerHTML = giverStr;
-		document.getElementById("topReceiver").innerHTML = receiverStr;
-	}
-	else{
-		//Find max
-		var maxGiver = giversAmount[0], giverIndex = 0;
-		var maxReceiver = receiversAmount[0], receiverIndex = 0;
-		for (var i = 1; i < userIds.length; i++){
-			if (giversAmount[i] > maxGiver){
-				maxGiver = giversAmount[i];
-				giverIndex = i;
-			}
-			if (receiversAmount[i] > maxReceiver){
-				maxReceiver = receiversAmount[i];
-				receiverIndex = i;
-			}
-		}
-		
-		//Get Names
-		var countGiver = 0, countReceiver = 0;
-		var giverStr = "", receiverStr = "";
-		for (var i = 0; i < userIds.length; i++){
-			if (giversAmount[i] == maxGiver){
-				if (countGiver > 0)
-					giverStr += "<br>";
-				giverStr += userNames[i] + " ($" + maxGiver + ")";
-				countGiver++;
-			}
-			if (receiversAmount[i] == maxReceiver){
-				if (countReceiver > 0)
-					receiverStr += "<br>";
-				receiverStr += userNames[i] + " ($" + maxReceiver + ")";
-				countReceiver++;
-			}
-		}
-		
-		document.getElementById("topGiver").innerHTML = giverStr;
-		document.getElementById("topReceiver").innerHTML = receiverStr;
 	}
 	
+	document.getElementById("topGiver").innerHTML = giverStr;
+	document.getElementById("topReceiver").innerHTML = receiverStr;
 }
 
 //Clear filters
